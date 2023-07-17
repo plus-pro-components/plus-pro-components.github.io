@@ -1,0 +1,1 @@
+import{_ as s,o as n,c as a,V as l}from"./chunks/framework.c44586f4.js";const A=JSON.parse('{"title":"本地开发指南","description":"","frontmatter":{},"headers":[],"relativePath":"guide/dev.md","filePath":"guide/dev.md"}'),p={name:"guide/dev.md"},e=l("",34),o=[e];function t(r,c,i,y,C,d){return n(),a("div",null,o)}const b=s(p,[["render",t]]);export{A as __pageData,b as default};
