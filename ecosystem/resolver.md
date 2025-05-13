@@ -1,0 +1,46 @@
+---
+url: /ecosystem/resolver.md
+---
+# @plus-pro-components/resolver
+
+[![@plus-pro-components/resolver version badge](https://img.shields.io/npm/v/@plus-pro-components/resolver.svg?style=flat-square)](https://www.npmjs.org/package/@plus-pro-components/resolver)
+
+## 简介
+
+`@plus-pro-components/resolver` 是[plus-pro-components](https://plus-pro-components.com/)为 [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) 提供的官方解析器，可以按需自动导入`plus-pro-components`的组件及其样式文件。
+
+## 使用
+
+* 安装
+
+  ```sh
+  pnpm i @plus-pro-components/resolver
+  ```
+
+* 配置
+
+  ```ts {5,11}
+  // vite.config.ts
+  import { defineConfig } from 'vite'
+  import Components from 'unplugin-vue-components/vite'
+
+  import { PlusProComponentsResolver } from '@plus-pro-components/resolver'
+
+  export default defineConfig({
+    // ...
+    plugins: [
+      Components({
+        resolvers: [PlusProComponentsResolver({ importStyle: 'css' })]
+      })
+    ]
+  })
+  ```
+
+## 配置参数说明
+
+| 参数名称             | 说明                     | 类型                                                  | 默认值  | 是否必须 |
+| -------------------- | ------------------------ | ----------------------------------------------------- | ------- | -------- |
+| `ssr`                | 是否是 ssr               | `boolean`                                             | `false` | 否       |
+| `importStyle`        | 导入的样式文件类型       | `string`  | `css`   | 否       |
+| `exclude`            | 不需要加载的组件名称正则 | `RegExp`                                              |         | 否       |
+| `noStylesComponents` | 不需要加载样式的组件名称 | `array`       |         | 否       |
