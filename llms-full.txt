@@ -5918,7 +5918,7 @@ el-table 的其他属性写法示例 如 `stripe`,`border`,`fit`等
 | `formChange`                                | 表格中有可以编辑的表单项目改变时触发                                                                                              | `function`  [FormChangeCallBackParams](/components/type.html#formchangecallbackparams) |
 | `edited`v0.1.4             | 表格中点击编辑单元格退出时触发                                                                                                    | `function`                                                                                                          |
 | `filterTableHeader`v0.1.22 | 表格表头列设置改变时触发，eventType 参数解释： check：表头单个 check； allCheck：全选/取消全选 check； drag：拖拽； reset：重置； | `function`                                         |
-| `radioChange`v0.1.23       | 单选栏改变时触发                                                                                                                  | `function`                                                                             |
+| `radioChange`v0.1.23       | 单选栏改变时触发                                                                                                                  | `function`  `value`（是否选中）参数为 v0.1.24 新增    |
 | ...                                         | ...                                                                                                                               | ...                                                                                                                                                           |
 
 **`...`表示同时支持所有[ElTable 事件](https://element-plus.org/zh-CN/component/table.html#table-%E4%BA%8B%E4%BB%B6)**
@@ -5987,6 +5987,435 @@ el-table 的其他插槽 如 `append`,`empty`。 **v0.1.7 开始支持 `default`
 ::: tip 提示
 如 `clearSelection`,`getSelectionRows`等
 :::
+
+---
+
+---
+url: /api\utils/validate.md
+---
+## validateRegexUrl
+
+校验链接地址
+
+```ts
+/**
+ * @desc 校验链接地址
+ * @param url
+ * @returns
+ */
+declare function validateRegexUrl(url: string): boolean
+```
+
+使用示例
+
+```ts
+import { validateRegexUrl } from '@plus-pro-components/utils'
+
+validateRegexUrl('https://www.api.com') // true
+```
+
+## validatePhone
+
+检验电话
+
+```ts
+/**
+ * @desc 检验电话
+ * @param phone
+ * @returns
+ */
+declare const validatePhone: (phone: string) => boolean
+```
+
+使用示例
+
+```ts
+import { validatePhone } from '@plus-pro-components/utils'
+
+validatePhone('18888888888') // true
+```
+
+## validateLocalPhone
+
+检验固定电话
+
+```ts
+/**
+ * @desc 检验固定电话
+ * @param localPhone
+ * @returns
+ */
+declare const validateLocalPhone: (localPhone: string) => boolean
+```
+
+使用示例
+
+```ts
+import { validateLocalPhone } from '@plus-pro-components/utils'
+
+validateLocalPhone('010-88568888-6603') // true
+```
+
+## validateEmail
+
+检验邮箱
+
+```ts
+/**
+ * @desc 检验邮箱
+ * @param mail
+ * @returns
+ */
+declare const validateEmail: (mail: string) => boolean
+```
+
+使用示例
+
+```ts
+import { validateEmail } from '@plus-pro-components/utils'
+
+validateEmail('8888@qq.com') // true
+```
+
+## validateExternal
+
+判断是否是可跳转 URL
+
+```ts
+/**
+ * @desc 判断是否是可跳转URL
+ * @param {string} path
+ * @returns
+ */
+declare const validateExternal: (path: string) => boolean
+```
+
+使用示例
+
+```ts
+import { validateExternal } from '@plus-pro-components/utils'
+
+validateExternal('http://www.api.com') // true
+```
+
+---
+
+---
+url: /api\utils/other.md
+---
+## getBigLetter
+
+生成大写字母
+
+```ts
+/**
+ * @desc 生成大写字母
+ * @returns
+ */
+declare const getBigLetter: () => string[]
+```
+
+使用示例
+
+```ts
+import { getBigLetter } from '@plus-pro-components/utils'
+
+getBigLetter() // ["A","B","C", "D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+```
+
+## getSmallLetter
+
+生成小写字母
+
+```ts
+/**
+ * @desc 生成小写字母
+ * @returns
+ */
+declare const getSmallLetter: () => string[]
+```
+
+使用示例
+
+```ts
+import { getSmallLetter } from '@plus-pro-components/utils'
+
+getSmallLetter() // ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+```
+
+## WS
+
+WebSocket 支持自动重连，心跳检测
+
+```ts
+/**
+ * setTimeout 类型
+ */
+type Timeout = ReturnType<typeof setTimeout>
+/**
+ * setInterval 类型
+ */
+type Interval = ReturnType<typeof setInterval>
+/**
+ * 允许null的泛型
+ */
+type Nullable<T> = T | null
+type AutoReconnect = {
+  /**
+   *重连尝试次数 默认 3
+   */
+  reconnectMaxCount?: number
+}
+type Heartbeat = {
+  /**
+   * 心跳信息 默认`ping`
+   */
+  message: string
+  /**
+   * 心跳间隔时间 默认 `3000` 毫秒
+   */
+  interval: number
+}
+interface WSOptions {
+  /**
+   * 是否自动重连 默认`true`
+   */
+  autoReconnect: boolean | AutoReconnect
+  /**
+   * 心跳 默认`false`
+   */
+  heartbeat: boolean | Heartbeat
+  /**
+   * url 携带的参数
+   */
+  query: Record<string, string>
+}
+declare class WS {
+  url: string
+  socket: WebSocket | null
+  reconnectCount: number
+  delay: Nullable<Timeout>
+  timer: Nullable<Interval>
+  autoReconnect: WSOptions['autoReconnect']
+  heartbeat: WSOptions['heartbeat']
+  query: WSOptions['query']
+  constructor(url?: string, options?: WSOptions)
+  /**
+   * 连接
+   */
+  connect(): void
+  /**
+   * 监听连接
+   */
+  onOpen(): void
+  /**
+   * 开启心跳
+   */
+  startHeartbeat(): void
+  /**
+   * 监听错误
+   */
+  onError(): void
+  /**
+   * 关闭连接
+   */
+  close(): void
+  /**
+   *  监听消息
+   * @param callback
+   */
+  onMessage(callback: (...data: any[]) => any): void
+  /**
+   * 发送消息
+   * @param data
+   */
+  send(data: string | ArrayBufferLike | Blob | ArrayBufferView): void
+}
+```
+
+使用示例
+
+```ts
+import { WS } from '@plus-pro-components/utils'
+
+const ws = new WS('ws://domain.com')
+ws.onMessage(data => {
+  console.log(data)
+})
+```
+
+## openExe
+
+打开电脑本地软件
+
+```ts
+/**
+ * @description 打开电脑本地软件
+ * @param protocol  本地软件协议， 如 vscode 的协议 `vscode://`
+ * @param event  点击按钮事件， `el-button` 或者原生 `button`
+ * @param timeout 默认`1000`ms，没响应则认为打开失败
+ */
+declare const openExe: (protocol: string, event: Event, timeout?: number) => Promise<FocusEvent>
+```
+
+使用示例
+
+```html
+<button @click="handleClick">打开vscode</button>
+```
+
+```ts
+import { openExe } from '@plus-pro-components/utils'
+
+const url = 'vscode://'
+
+const handleClick = async (event: MouseEvent) => {
+  await openExe(url, event)
+}
+```
+
+## isIOS
+
+是否是 ios
+
+```ts
+/**
+ * 是否是ios
+ * @returns {boolean}
+ */
+declare function isIOS(): boolean
+```
+
+使用示例
+
+```ts
+import { isIOS } from '@plus-pro-components/utils'
+
+isIOS() // false
+```
+
+---
+
+---
+url: /api\utils/storage.md
+---
+## setStorage
+
+设置 `localStorage`
+
+```ts
+/**
+ * 设置 localStorage
+ * @returns storage
+ */
+declare function setToken(key: string, token: string): string
+```
+
+使用示例
+
+```ts
+import { setStorage } from '@plus-pro-components/utils'
+
+setStorage('key', { data: { username: 'name' } })
+```
+
+## getStorage
+
+获取 `localStorage`
+
+```ts
+/**
+ * 获取 localStorage
+ * @returns storage
+ */
+declare function getToken(key: string): string
+```
+
+使用示例
+
+```ts
+import { getStorage } from '@plus-pro-components/utils'
+
+getStorage('key') // { data: { username: "name" } }
+```
+
+## removeStorage
+
+移除 `localStorage`
+
+```ts
+/**
+ * 移除storage
+ */
+declare function removeToken(key: string): void
+```
+
+使用示例
+
+```ts
+import { removeStorage } from '@plus-pro-components/utils'
+
+removeStorage('key')
+```
+
+## setToken
+
+设置 token 带 AES 加密 （存储在 `localStorage`）
+
+```ts
+/**
+ * 设置token 带AES加密
+ * @returns token
+ */
+declare function setToken(key: string, token: string): string
+```
+
+使用示例
+
+```ts
+import { setToken } from '@plus-pro-components/utils'
+
+setToken('tokenKey', 'token')
+```
+
+## getToken
+
+获取 token 带 AES 解密 （获取的是 `localStorage` 的值）
+
+```ts
+/**
+ * 获取token  带AES解密
+ * @returns token
+ */
+declare function getToken(key: string): string
+```
+
+使用示例
+
+```ts
+import { getToken } from '@plus-pro-components/utils'
+
+getToken('tokenKey') //  'token'
+```
+
+## removeToken
+
+移除 token （移除的是 `localStorage` 的值）
+
+```ts
+/**
+ * 移除token
+ */
+declare function removeToken(key: string): void
+```
+
+使用示例
+
+```ts
+import { removeToken } from '@plus-pro-components/utils'
+
+removeToken('tokenKey')
+```
 
 ---
 
@@ -6204,435 +6633,6 @@ const handleIsLegalResolutionRatio = async () => {
 }
 
 handleIsLegalResolutionRatio()
-```
-
----
-
----
-url: /api\utils/validate.md
----
-## validateRegexUrl
-
-校验链接地址
-
-```ts
-/**
- * @desc 校验链接地址
- * @param url
- * @returns
- */
-declare function validateRegexUrl(url: string): boolean
-```
-
-使用示例
-
-```ts
-import { validateRegexUrl } from '@plus-pro-components/utils'
-
-validateRegexUrl('https://www.api.com') // true
-```
-
-## validatePhone
-
-检验电话
-
-```ts
-/**
- * @desc 检验电话
- * @param phone
- * @returns
- */
-declare const validatePhone: (phone: string) => boolean
-```
-
-使用示例
-
-```ts
-import { validatePhone } from '@plus-pro-components/utils'
-
-validatePhone('18888888888') // true
-```
-
-## validateLocalPhone
-
-检验固定电话
-
-```ts
-/**
- * @desc 检验固定电话
- * @param localPhone
- * @returns
- */
-declare const validateLocalPhone: (localPhone: string) => boolean
-```
-
-使用示例
-
-```ts
-import { validateLocalPhone } from '@plus-pro-components/utils'
-
-validateLocalPhone('010-88568888-6603') // true
-```
-
-## validateEmail
-
-检验邮箱
-
-```ts
-/**
- * @desc 检验邮箱
- * @param mail
- * @returns
- */
-declare const validateEmail: (mail: string) => boolean
-```
-
-使用示例
-
-```ts
-import { validateEmail } from '@plus-pro-components/utils'
-
-validateEmail('8888@qq.com') // true
-```
-
-## validateExternal
-
-判断是否是可跳转 URL
-
-```ts
-/**
- * @desc 判断是否是可跳转URL
- * @param {string} path
- * @returns
- */
-declare const validateExternal: (path: string) => boolean
-```
-
-使用示例
-
-```ts
-import { validateExternal } from '@plus-pro-components/utils'
-
-validateExternal('http://www.api.com') // true
-```
-
----
-
----
-url: /api\utils/storage.md
----
-## setStorage
-
-设置 `localStorage`
-
-```ts
-/**
- * 设置 localStorage
- * @returns storage
- */
-declare function setToken(key: string, token: string): string
-```
-
-使用示例
-
-```ts
-import { setStorage } from '@plus-pro-components/utils'
-
-setStorage('key', { data: { username: 'name' } })
-```
-
-## getStorage
-
-获取 `localStorage`
-
-```ts
-/**
- * 获取 localStorage
- * @returns storage
- */
-declare function getToken(key: string): string
-```
-
-使用示例
-
-```ts
-import { getStorage } from '@plus-pro-components/utils'
-
-getStorage('key') // { data: { username: "name" } }
-```
-
-## removeStorage
-
-移除 `localStorage`
-
-```ts
-/**
- * 移除storage
- */
-declare function removeToken(key: string): void
-```
-
-使用示例
-
-```ts
-import { removeStorage } from '@plus-pro-components/utils'
-
-removeStorage('key')
-```
-
-## setToken
-
-设置 token 带 AES 加密 （存储在 `localStorage`）
-
-```ts
-/**
- * 设置token 带AES加密
- * @returns token
- */
-declare function setToken(key: string, token: string): string
-```
-
-使用示例
-
-```ts
-import { setToken } from '@plus-pro-components/utils'
-
-setToken('tokenKey', 'token')
-```
-
-## getToken
-
-获取 token 带 AES 解密 （获取的是 `localStorage` 的值）
-
-```ts
-/**
- * 获取token  带AES解密
- * @returns token
- */
-declare function getToken(key: string): string
-```
-
-使用示例
-
-```ts
-import { getToken } from '@plus-pro-components/utils'
-
-getToken('tokenKey') //  'token'
-```
-
-## removeToken
-
-移除 token （移除的是 `localStorage` 的值）
-
-```ts
-/**
- * 移除token
- */
-declare function removeToken(key: string): void
-```
-
-使用示例
-
-```ts
-import { removeToken } from '@plus-pro-components/utils'
-
-removeToken('tokenKey')
-```
-
----
-
----
-url: /api\utils/other.md
----
-## getBigLetter
-
-生成大写字母
-
-```ts
-/**
- * @desc 生成大写字母
- * @returns
- */
-declare const getBigLetter: () => string[]
-```
-
-使用示例
-
-```ts
-import { getBigLetter } from '@plus-pro-components/utils'
-
-getBigLetter() // ["A","B","C", "D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-```
-
-## getSmallLetter
-
-生成小写字母
-
-```ts
-/**
- * @desc 生成小写字母
- * @returns
- */
-declare const getSmallLetter: () => string[]
-```
-
-使用示例
-
-```ts
-import { getSmallLetter } from '@plus-pro-components/utils'
-
-getSmallLetter() // ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-```
-
-## WS
-
-WebSocket 支持自动重连，心跳检测
-
-```ts
-/**
- * setTimeout 类型
- */
-type Timeout = ReturnType<typeof setTimeout>
-/**
- * setInterval 类型
- */
-type Interval = ReturnType<typeof setInterval>
-/**
- * 允许null的泛型
- */
-type Nullable<T> = T | null
-type AutoReconnect = {
-  /**
-   *重连尝试次数 默认 3
-   */
-  reconnectMaxCount?: number
-}
-type Heartbeat = {
-  /**
-   * 心跳信息 默认`ping`
-   */
-  message: string
-  /**
-   * 心跳间隔时间 默认 `3000` 毫秒
-   */
-  interval: number
-}
-interface WSOptions {
-  /**
-   * 是否自动重连 默认`true`
-   */
-  autoReconnect: boolean | AutoReconnect
-  /**
-   * 心跳 默认`false`
-   */
-  heartbeat: boolean | Heartbeat
-  /**
-   * url 携带的参数
-   */
-  query: Record<string, string>
-}
-declare class WS {
-  url: string
-  socket: WebSocket | null
-  reconnectCount: number
-  delay: Nullable<Timeout>
-  timer: Nullable<Interval>
-  autoReconnect: WSOptions['autoReconnect']
-  heartbeat: WSOptions['heartbeat']
-  query: WSOptions['query']
-  constructor(url?: string, options?: WSOptions)
-  /**
-   * 连接
-   */
-  connect(): void
-  /**
-   * 监听连接
-   */
-  onOpen(): void
-  /**
-   * 开启心跳
-   */
-  startHeartbeat(): void
-  /**
-   * 监听错误
-   */
-  onError(): void
-  /**
-   * 关闭连接
-   */
-  close(): void
-  /**
-   *  监听消息
-   * @param callback
-   */
-  onMessage(callback: (...data: any[]) => any): void
-  /**
-   * 发送消息
-   * @param data
-   */
-  send(data: string | ArrayBufferLike | Blob | ArrayBufferView): void
-}
-```
-
-使用示例
-
-```ts
-import { WS } from '@plus-pro-components/utils'
-
-const ws = new WS('ws://domain.com')
-ws.onMessage(data => {
-  console.log(data)
-})
-```
-
-## openExe
-
-打开电脑本地软件
-
-```ts
-/**
- * @description 打开电脑本地软件
- * @param protocol  本地软件协议， 如 vscode 的协议 `vscode://`
- * @param event  点击按钮事件， `el-button` 或者原生 `button`
- * @param timeout 默认`1000`ms，没响应则认为打开失败
- */
-declare const openExe: (protocol: string, event: Event, timeout?: number) => Promise<FocusEvent>
-```
-
-使用示例
-
-```html
-<button @click="handleClick">打开vscode</button>
-```
-
-```ts
-import { openExe } from '@plus-pro-components/utils'
-
-const url = 'vscode://'
-
-const handleClick = async (event: MouseEvent) => {
-  await openExe(url, event)
-}
-```
-
-## isIOS
-
-是否是 ios
-
-```ts
-/**
- * 是否是ios
- * @returns {boolean}
- */
-declare function isIOS(): boolean
-```
-
-使用示例
-
-```ts
-import { isIOS } from '@plus-pro-components/utils'
-
-isIOS() // false
 ```
 
 ---
@@ -6974,129 +6974,6 @@ formatNumberFixed('100.12555') // 100.12
 ---
 
 ---
-url: /api\utils/encrypt.md
----
-## encrypt
-
-AES 加密
-
-```ts
-import CryptoJS from 'crypto-js'
-
-/**
- * AES加密
- * @param key
- * @param data
- * @returns
- */
-declare function encrypt(
-  key: string | CryptoJS.lib.WordArray,
-  data: string | CryptoJS.lib.WordArray
-): string
-```
-
-使用示例
-
-```ts
-import { encrypt } from '@plus-pro-components/utils'
-
-encrypt('key', 'message') // U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=
-```
-
-## decrypt
-
-AES 解密
-
-```ts
-import CryptoJS from 'crypto-js'
-
-/**
- * AES 解密
- * @param key
- * @param encrypted
- * @returns
- */
-declare function decrypt(
-  key: string | CryptoJS.lib.WordArray,
-  encrypted: string | CryptoJS.lib.CipherParams
-): string
-```
-
-使用示例
-
-```ts
-import { decrypt } from '@plus-pro-components/utils'
-
-decrypt('key', 'U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=') // message
-```
-
----
-
----
-url: /api\utils/cookie.md
----
-## setCookie
-
-设置 cookie
-
-```ts
-/**
- * 设置 cookie
- * @returns
- */
-declare function setCookie(key: string, data: any): string | undefined
-```
-
-使用示例
-
-```ts
-import { setCookie } from '@plus-pro-components/utils'
-
-setCookie('username', 'name')
-```
-
-## getCookie
-
-获取 cookie
-
-```ts
-/**
- * 获取 cookie
- * @returns
- */
-declare function getCookie(key: string): string | undefined
-```
-
-使用示例
-
-```ts
-import { getCookie } from '@plus-pro-components/utils'
-
-getCookie('username') // name
-```
-
-## removeCookie
-
-移除 cookie
-
-```ts
-/**
- * 移除 cookie
- */
-declare function removeCookie(key: string): void
-```
-
-使用示例
-
-```ts
-import { removeCookie } from '@plus-pro-components/utils'
-
-removeCookie('username')
-```
-
----
-
----
 url: /api\utils/day.md
 ---
 ## formatDate
@@ -7213,6 +7090,129 @@ declare function diffDateFromCurrent(date: number): string
 import { diffDateFromCurrent } from '@plus-pro-components/utils'
 
 diffDateFromCurrent(61) // 1秒前
+```
+
+---
+
+---
+url: /api\utils/cookie.md
+---
+## setCookie
+
+设置 cookie
+
+```ts
+/**
+ * 设置 cookie
+ * @returns
+ */
+declare function setCookie(key: string, data: any): string | undefined
+```
+
+使用示例
+
+```ts
+import { setCookie } from '@plus-pro-components/utils'
+
+setCookie('username', 'name')
+```
+
+## getCookie
+
+获取 cookie
+
+```ts
+/**
+ * 获取 cookie
+ * @returns
+ */
+declare function getCookie(key: string): string | undefined
+```
+
+使用示例
+
+```ts
+import { getCookie } from '@plus-pro-components/utils'
+
+getCookie('username') // name
+```
+
+## removeCookie
+
+移除 cookie
+
+```ts
+/**
+ * 移除 cookie
+ */
+declare function removeCookie(key: string): void
+```
+
+使用示例
+
+```ts
+import { removeCookie } from '@plus-pro-components/utils'
+
+removeCookie('username')
+```
+
+---
+
+---
+url: /api\utils/encrypt.md
+---
+## encrypt
+
+AES 加密
+
+```ts
+import CryptoJS from 'crypto-js'
+
+/**
+ * AES加密
+ * @param key
+ * @param data
+ * @returns
+ */
+declare function encrypt(
+  key: string | CryptoJS.lib.WordArray,
+  data: string | CryptoJS.lib.WordArray
+): string
+```
+
+使用示例
+
+```ts
+import { encrypt } from '@plus-pro-components/utils'
+
+encrypt('key', 'message') // U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=
+```
+
+## decrypt
+
+AES 解密
+
+```ts
+import CryptoJS from 'crypto-js'
+
+/**
+ * AES 解密
+ * @param key
+ * @param encrypted
+ * @returns
+ */
+declare function decrypt(
+  key: string | CryptoJS.lib.WordArray,
+  encrypted: string | CryptoJS.lib.CipherParams
+): string
+```
+
+使用示例
+
+```ts
+import { decrypt } from '@plus-pro-components/utils'
+
+decrypt('key', 'U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=') // message
 ```
 
 ---

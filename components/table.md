@@ -699,7 +699,7 @@ el-table 的其他属性写法示例 如 `stripe`,`border`,`fit`等
 | `formChange`                                | 表格中有可以编辑的表单项目改变时触发                                                                                              | `function`  [FormChangeCallBackParams](/components/type.html#formchangecallbackparams) |
 | `edited`v0.1.4             | 表格中点击编辑单元格退出时触发                                                                                                    | `function`                                                                                                          |
 | `filterTableHeader`v0.1.22 | 表格表头列设置改变时触发，eventType 参数解释： check：表头单个 check； allCheck：全选/取消全选 check； drag：拖拽； reset：重置； | `function`                                         |
-| `radioChange`v0.1.23       | 单选栏改变时触发                                                                                                                  | `function`                                                                             |
+| `radioChange`v0.1.23       | 单选栏改变时触发                                                                                                                  | `function`  `value`（是否选中）参数为 v0.1.24 新增    |
 | ...                                         | ...                                                                                                                               | ...                                                                                                                                                           |
 
 **`...`表示同时支持所有[ElTable 事件](https://element-plus.org/zh-CN/component/table.html#table-%E4%BA%8B%E4%BB%B6)**
