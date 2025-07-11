@@ -634,8 +634,9 @@ export interface OptionsRow<T = undefined> {
   type?: Exclude<ButtonType, 'default' | 'text' | ''>
   /**
    * 表单子项的props  如 el-checkbox-group下的el-checkbox的props
+   * @version v0.1.25 新增函数类型支持 ((item: OptionsRow) => RecordType)
    */
-  fieldItemProps?: RecordType
+  fieldItemProps?: RecordType | ((item: OptionsRow) => RecordType)
   /**
    * el-checkbox-group下的，每一项el-checkbox的各自插槽(即el-checkbox的default插槽)。
    * el-radio-group下的，每一项el-checkbox的内容各自插槽(即el-radio的default插槽)。
@@ -683,22 +684,24 @@ import type { CardProps } from  from 'element-plus'
  */
 export interface PlusFormGroupRow {
   /**
-   * 分组标题
    * @version v0.1.17  新增 ComputedRef<string> 类型
    */
   title: string | ComputedRef<string>
+  /**
+   * @version v0.1.25 新增，用于自动生成分步内容插槽
+   */
+  name?: string
   icon?: Component
   /**
    * @desc 分组表单el-card的props，优先级高于整体的cardProps
    * @version v0.1.1
    */
   cardProps?: Partial<Mutable<CardProps>>
-  /**
-   * @desc 分组表单隐藏显示Group, 默认值 false(显示状态)
-   * @version v0.1.4
-   */
   hideInGroup?: boolean | ComputedRef<boolean>
-  columns: PlusColumn[]
+  /**
+   * @version v0.1.25 调整为可选
+   */
+  columns?: PlusColumn[]
 }
 ```
 

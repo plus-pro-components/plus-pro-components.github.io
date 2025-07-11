@@ -65,6 +65,22 @@ page/search-footer
 
 :::
 
+## 自定义搜索表单插槽的使用
+
+v0.1.25
+当 [PlusPage](/components/page.html) 组件的`search-slot`属性为`true`时，表单相关的
+`plus-field-*`、
+`plus-label-*`（只对搜索表单生效）、
+`plus-extra-*`、
+`plus-previous-*`、
+插槽会作用于 到 [PlusSearch](/components/search.html) 组件，默认插槽都是作用于 [PlusTable](/components/table.html) 组件的（表格开启编辑时）。
+
+:::demo
+
+page/search-slot
+
+:::
+
 ## 搜索和表格展示顺序控制
 
 v0.1.4
@@ -109,6 +125,7 @@ page/crud
 | `tableCardProps`                      | 表格外层的 [el-card](https://element-plus.org/zh-CN/component/card.html#attributes) 的 props ，当 isCard 为 true 时生效                                                                                                                    | `object`[ElCardProps](https://element-plus.org/zh-CN/component/card.html#attributes)                                           | `{}`                                            | 否       |
 | `immediate`v0.0.9    | 是否立即执行`request`获取表格数据,如为`false`,组件渲染完成后将不会主动调用`request`                                                                                                                                                        | `boolean`                                                                                                                      | `true`                                          | 否       |
 | `pageInfoMap`v0.1.0  | request 默认分页参数字段是 `page`, `pageSize`,可以使用此参数自定义分页参数                                                                                                                                                                 | `object`                                                   | `{page:'page',pageSize:'pageSize'}`             | 否       |
+| `searchSlot`v0.1.25  | 自定义的表单插槽默认作用于 [PlusTable](/components/table.html)， 当`searchSlot`位`true`时， 自定义的表单插槽作用于 [PlusSearch](/components/search.html) 组件 。                                                                           | `boo `                                                                                                                         | `false`                                         | 否       |
 
 ## Page Events
 
@@ -122,7 +139,7 @@ page/crud
 
 ::: tip 提示
 支持 [PlusSearch](/components/search.html) 和
-[PlusTable](/components/table.html) 的所有事件，如 [PlusSearch](/components/search.html) 的`search`, PlusTable 的`row-click`等，如下示例
+[PlusTable](/components/table.html) 的所有事件，如 [PlusSearch](/components/search.html) 的`search`, [PlusTable](/components/table.html) 的`row-click`等，如下示例
 :::
 
 示例：
@@ -133,38 +150,41 @@ page/crud
 
 ## Page Slots
 
-| 插槽名                                        | 说明                                                                                                                                                                     | 作用域插槽参数                                                                              |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
-| `table-title`                                 | [PlusTable](/components/table.html) 表格标题                                                                                                                             |                                                                                             |
-| `table-toolbar`                               | [PlusTable](/components/table.html) 工具栏左侧                                                                                                                           |                                                                                             |
-| `table-expand`                                | [PlusTable](/components/table.html) 展开行                                                                                                                               |                                                                                             |
-| `table-append`                                | [PlusTable](/components/table.html)（el-table） 最后一行                                                                                                                 |                                                                                             |
-| `table-empty`                                 | [PlusTable](/components/table.html) （el-table）空状态                                                                                                                   |                                                                                             |
-| `search-footer`                               | [PlusSearch](/components/search.html) 的 footer                                                                                                                          |                                                                                             |
-| `pagination-left`v0.0.3      | [PlusTable](/components/table.html)分页器左侧内容 （默认生效，`align` 属性默认是 `right`）                                                                               |                                                                                             |
-| `pagination-right`v0.0.3     | [PlusTable](/components/table.html) 分页器右侧内容 （`align` 属性是 `left`时生效）                                                                                       |                                                                                             |
-| `action-bar-more-icon`v0.0.3 | [PlusTable](/components/table.html)操作栏更多傍边的 icon                                                                                                                 |                                                                                             |
-| `tooltip-icon`v0.0.3         | [PlusTable](/components/table.html) 表格表头 tooltip icon                                                                                                                |                                                                                             |
-| `drag-sort-icon`v0.0.3       | [PlusTable](/components/table.html)表格拖拽行 和 列设置里拖拽 icon                                                                                                       |                                                                                             |
-| `column-settings-icon`v0.0.3 | [PlusTable](/components/table.html)表格表头 列设置 icon                                                                                                                  |                                                                                             |
-| `density-icon`v0.0.3         | [PlusTable](/components/table.html)表格表头 密度 icon                                                                                                                    |                                                                                             |
-| `edit-icon`v0.1.4            | [PlusTable](/components/table.html) 表格处于编辑状态时的 icon                                                                                                            |                                                                                             |
-| `extra`v0.1.5                | 表格和搜索中间位置的插槽                                                                                                                                                 |                                                                                             |
-| `plus-cell-*`                                 | 自定义表格项，组件会自动根据配置项的 prop 生成对应的插槽                                                                                                                 | `object`  |
-| `plus-header-*`                               | 自定义表格项 header，组件会自动根据配置项的 prop 生成对应的插槽                                                                                                          | `object`            |
-| `plus-field-*`                                | [PlusForm](/components/form.html#form-slots) 的自定义表单项，组件会自动根据配置项的 prop 生成对应的插槽 ，需要开启属性 [PlusColumn\['editable'\]](/components/config.html) | `object`        |
+| 插槽名                                        | 说明                                                                                                                                                                                                                                                        | 作用域插槽参数                                                                              |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `table-title`                                 | [PlusTable](/components/table.html) 表格标题                                                                                                                                                                                                                |                                                                                             |
+| `table-toolbar`                               | [PlusTable](/components/table.html) 工具栏左侧                                                                                                                                                                                                              |                                                                                             |
+| `table-expand`                                | [PlusTable](/components/table.html) 展开行                                                                                                                                                                                                                  |                                                                                             |
+| `table-append`                                | [PlusTable](/components/table.html)（el-table） 最后一行                                                                                                                                                                                                    |                                                                                             |
+| `table-empty`                                 | [PlusTable](/components/table.html) （el-table）空状态                                                                                                                                                                                                      |                                                                                             |
+| `search-footer`                               | [PlusSearch](/components/search.html) 的 footer                                                                                                                                                                                                             |                                                                                             |
+| `pagination-left`v0.0.3      | [PlusTable](/components/table.html)分页器左侧内容 （默认生效，`align` 属性默认是 `right`）                                                                                                                                                                  |                                                                                             |
+| `pagination-right`v0.0.3     | [PlusTable](/components/table.html) 分页器右侧内容 （`align` 属性是 `left`时生效）                                                                                                                                                                          |                                                                                             |
+| `action-bar-more-icon`v0.0.3 | [PlusTable](/components/table.html)操作栏更多傍边的 icon                                                                                                                                                                                                    |                                                                                             |
+| `tooltip-icon`v0.0.3         | [PlusTable](/components/table.html) 表格表头 tooltip icon                                                                                                                                                                                                   |                                                                                             |
+| `drag-sort-icon`v0.0.3       | [PlusTable](/components/table.html)表格拖拽行 和 列设置里拖拽 icon                                                                                                                                                                                          |                                                                                             |
+| `column-settings-icon`v0.0.3 | [PlusTable](/components/table.html)表格表头 列设置 icon                                                                                                                                                                                                     |                                                                                             |
+| `density-icon`v0.0.3         | [PlusTable](/components/table.html)表格表头 密度 icon                                                                                                                                                                                                       |                                                                                             |
+| `edit-icon`v0.1.4            | [PlusTable](/components/table.html) 表格处于编辑状态时的 icon                                                                                                                                                                                               |                                                                                             |
+| `extra`v0.1.5                | 表格和搜索中间位置的插槽                                                                                                                                                                                                                                    |                                                                                             |
+| `plus-cell-*`                                 | 自定义表格项，组件会自动根据配置项的 prop 生成对应的插槽                                                                                                                                                                                                    | `object`  |
+| `plus-header-*`                               | 自定义表格项 header，组件会自动根据配置项的 prop 生成对应的插槽                                                                                                                                                                                             | `object`            |
+| `plus-field-*`                                | [PlusForm](/components/form.html#form-slots) 的自定义表单项，组件会自动根据配置项的 prop 生成对应的插槽 ，表格需要开启属性 [PlusColumn\['editable'\]](/components/config.html)，搜索需要开启`searchSlot`                                                      | `object`        |
 |                                               |
+| `plus-label-*` v0.1.25       | 自定义**搜索**表单项 `label`，组件会自动根据配置项的 `prop` 生成对应的插槽 ，**此插槽只对搜索表单生效，搜索需要开启`searchSlot`**                                                                                                                           | `{prop,label,fieldProps,valueType,column}`                                                  |
+| `plus-extra-*` v0.1.25       | 自定义表单渲染[el-form-item](https://element-plus.org/zh-CN/component/form.html#formitem-api) 下一行额外的内容，组件会自动根据配置项的 `prop` 生成对应的插槽 ，表格需要开启属性 [PlusColumn\['editable'\]](/components/config.html)，搜索需要开启`searchSlot` | `{column}`                                                                                  |
+| `plus-previous-*` v0.1.25    | 自定义表单渲染[el-form-item](https://element-plus.org/zh-CN/component/form.html#formitem-api) 上一行额外的内容，组件会自动根据配置项的 `prop` 生成对应的插槽 ，表格需要开启属性 [PlusColumn\['editable'\]](/components/config.html)，搜索需要开启`searchSlot` | `{column}`                                                                                  |
 
 ## Page Exposes
 
-| 名称                                                                                          | 说明                                                                              | 类型                                                                                         |
-| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| `plusSearchInstance`                                                                          | [PlusSearch](/components/table.html)的实例                                        | `object`  |
-| `plusTableInstance`                                                                           | [PlusTable](/components/table.html)的实例                                         | `object`   |
-| `getList`                                                                                     | 获取数据方法，可以用来重新加载数据                                                | `function`                                         |
-|  `handleRest`  deprecated v0.1.14 | 重置搜索数据，并将 page 置为 1 ，然后重新加载 getList                             | `function`                                         |
-| `handleReset`v0.1.14                                                         | 重置搜索数据，并将 page 置为 1 ，然后重新加载 getList                             | `function`                                         |
-| `setSearchFieldsValue`v0.1.17                                                | 手动设置搜索值 ，传入一个对象参数，只会修改对象参数中对应值。                     | `function`                         |
+| 名称                                                                                          | 说明                                                                            | 类型                                                                                         |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `plusSearchInstance`                                                                          | [PlusSearch](/components/table.html)的实例                                      | `object`  |
+| `plusTableInstance`                                                                           | [PlusTable](/components/table.html)的实例                                       | `object`   |
+| `getList`                                                                                     | 获取数据方法，可以用来重新加载数据                                              | `function`                                         |
+|  `handleRest`  deprecated v0.1.14 | 重置搜索数据，并将 page 置为 1 ，然后重新加载 getList                           | `function`                                         |
+| `handleReset`v0.1.14                                                         | 重置搜索数据，并将 page 置为 1 ，然后重新加载 getList                           | `function`                                         |
+| `setSearchFieldsValue`v0.1.17                                                | 手动设置搜索值 ，传入一个对象参数，只会修改对象参数中对应值。                   | `function`                         |
 | `getSearchFieldsValue`v0.1.17                                                | 手动获取搜索值 ，传入一个字段`key`则获取的是字段`key`对应的值，默认返回所有值。 | `function`  |
-| `clearSearchFieldsValue`v0.1.17                                              | 手动清空搜索值                                                                    | `function`                                         |
-| `setTableData`v0.1.23                                                        | 手动设置表格数据和分页总数。不给参数会清空表格数据。                              | `function`      |
+| `clearSearchFieldsValue`v0.1.17                                              | 手动清空搜索值                                                                  | `function`                                         |
+| `setTableData`v0.1.23                                                        | 手动设置表格数据和分页总数。不给参数会清空表格数据。                            | `function`      |

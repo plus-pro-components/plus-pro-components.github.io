@@ -1610,8 +1610,9 @@ export interface OptionsRow<T = undefined> {
   type?: Exclude<ButtonType, 'default' | 'text' | ''>
   /**
    * 表单子项的props  如 el-checkbox-group下的el-checkbox的props
+   * @version v0.1.25 新增函数类型支持 ((item: OptionsRow) => RecordType)
    */
-  fieldItemProps?: RecordType
+  fieldItemProps?: RecordType | ((item: OptionsRow) => RecordType)
   /**
    * el-checkbox-group下的，每一项el-checkbox的各自插槽(即el-checkbox的default插槽)。
    * el-radio-group下的，每一项el-checkbox的内容各自插槽(即el-radio的default插槽)。
@@ -1659,22 +1660,24 @@ import type { CardProps } from  from 'element-plus'
  */
 export interface PlusFormGroupRow {
   /**
-   * 分组标题
    * @version v0.1.17  新增 ComputedRef<string> 类型
    */
   title: string | ComputedRef<string>
+  /**
+   * @version v0.1.25 新增，用于自动生成分步内容插槽
+   */
+  name?: string
   icon?: Component
   /**
    * @desc 分组表单el-card的props，优先级高于整体的cardProps
    * @version v0.1.1
    */
   cardProps?: Partial<Mutable<CardProps>>
-  /**
-   * @desc 分组表单隐藏显示Group, 默认值 false(显示状态)
-   * @version v0.1.4
-   */
   hideInGroup?: boolean | ComputedRef<boolean>
-  columns: PlusColumn[]
+  /**
+   * @version v0.1.25 调整为可选
+   */
+  columns?: PlusColumn[]
 }
 ```
 
@@ -2426,6 +2429,7 @@ TS 类型 `PlusColumn`
 | `renderLabel`                                                                                | 自定义渲染 [ el-form-item](https://element-plus.org/zh-CN/component/form.html#formitem-attributes) 的 label 显示内容                                                                                                                                                                                  | `function`                                                                     |                                    | 否                                       |
 | `hasLabel`                                                                                   | 表单中单个项目是否需要 label，默认 undefined，优先级高于表单的整体的 hasLabel                                                                                                                                                                                                                         | `boolean`                                                                                                                  | `undefined`                        | 否                                       |
 | `renderExtra`                                                                                | 自定义渲染 [ el-form-item](https://element-plus.org/zh-CN/component/form.html#formitem-attributes) 下一行额外的内容                                                                                                                                                                                   | `function`                                                                                                                       |                                    | 否                                       |
+| `renderPrevious`v0.1.25                                                     | 自定义渲染 [ el-form-item](https://element-plus.org/zh-CN/component/form.html#formitem-attributes) 上一行的内容                                                                                                                                                                                       | `function`                                                                                                                       |                                    | 否                                       |
 | `renderErrorMessage` v0.1.23                                                | 自定义渲染 [ el-form-item ](https://element-plus.org/zh-CN/component/form.html#formitem-slots) `error`插槽的内容                                                                                                                                                                                      | `function`                                                        |                                    | 否                                       |
 | `colProps`                                                                                   | [ el-col](https://element-plus.org/zh-CN/component/layout.html#col-attributes) 的 props。[支持事件透传](/components/attrs.html)                                                                                                                                                                       | `object` [ColProps](https://element-plus.org/zh-CN/component/layout.html#col-attributes)                                                                                                                   |                                    | 否                                       |
 | `order` v0.1.4                                                              | [PlusSearch](/components/search.html) 查询表单中的权重，权重大排序靠前，在 [PlusPage](/components/page.html) 组件中非常有用                                                                                                                                                                           | `number`                                                                                                                                     | `0`                                | 否                                       |
@@ -3206,20 +3210,20 @@ dialog/slot
 
 ## Dialog Attributes
 
-| 名称                    | 说明               | 类型                                                                  | 默认值  | 是否必须 |
-| ----------------------- | ------------------ | --------------------------------------------------------------------- | ------- | -------- |
-| `model-value / v-model` | 弹窗是否显示绑定值 | `boolean`                                                             | `false` | 否       |
-| `confirmText`           | 确认按钮文字       | `string`                                                              | `确认`  | 否       |
-| `cancelText`            | 取消按钮文字       | `string`                                                              | `取消`  | 否       |
-| `confirmLoading`        | 确认按钮 loading   | `boolean`                                                             | `false` | 否       |
-| `hasFooter`             | 是否需要底部按钮   | `boolean`                                                             | `true`  | 否       |
-| `top`                   | 弹窗距离顶部的距离 | `string`                                                              | `15vh`  | 否       |
-| `width`                 | 弹窗宽             | `string`                                                              | `460px` | 否       |
-| `title`                 | 弹窗标题           | `string`                                                              | `弹窗`  | 否       |
-| `footerAlign`           | 弹窗底部对齐方式   | `string`  | `right` | 否       |
-| `closeOnClickModal`                                                                    | [el-dialog](https://element-plus.org/zh-CN/component/dialog.html#attributes) 的 `closeOnClickModal`                              | `boolean`                                                                                       | `false`                                                                | 否       |
-| `closeOnPressEscape`                                                                   | [el-dialog](https://element-plus.org/zh-CN/component/dialog.html#attributes) 的 `closeOnPressEscape`                             | `boolean`                                                                                       | `false`                                                                | 否       |
-| ...                     | ...                | ...                                                                   | ...     | ...      |
+| 名称                    | 说明                                                                                                 | 类型                                                                  | 默认值  | 是否必须 |
+| ----------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------- | -------- |
+| `model-value / v-model` | 弹窗是否显示绑定值                                                                                   | `boolean`                                                             | `false` | 否       |
+| `confirmText`           | 确认按钮文字                                                                                         | `string`                                                              | `确认`  | 否       |
+| `cancelText`            | 取消按钮文字                                                                                         | `string`                                                              | `取消`  | 否       |
+| `confirmLoading`        | 确认按钮 loading                                                                                     | `boolean`                                                             | `false` | 否       |
+| `hasFooter`             | 是否需要底部按钮                                                                                     | `boolean`                                                             | `true`  | 否       |
+| `top`                   | 弹窗距离顶部的距离                                                                                   | `string`                                                              | `15vh`  | 否       |
+| `width`                 | 弹窗宽                                                                                               | `string`                                                              | `460px` | 否       |
+| `title`                 | 弹窗标题                                                                                             | `string`                                                              | `弹窗`  | 否       |
+| `footerAlign`           | 弹窗底部对齐方式                                                                                     | `string`  | `right` | 否       |
+| `closeOnClickModal`     | [el-dialog](https://element-plus.org/zh-CN/component/dialog.html#attributes) 的 `closeOnClickModal`  | `boolean`                                                             | `false` | 否       |
+| `closeOnPressEscape`    | [el-dialog](https://element-plus.org/zh-CN/component/dialog.html#attributes) 的 `closeOnPressEscape` | `boolean`                                                             | `false` | 否       |
+| ...                     | ...                                                                                                  | ...                                                                   | ...     | ...      |
 
 :::tip 提示
 **`...`表示同时支持所有 [el-dialog](https://element-plus.org/zh-CN/component/dialog.html#attributes) Attributes**
@@ -3231,6 +3235,11 @@ dialog/slot
 | --------- | ---------------- | ----------------------------------------------------- |
 | `confirm` | 点击确认按钮触发 | `function`  |
 | `cancel`  | 点击取消按钮触发 | `function`  |
+| ...       | ...              | ...                                                   |
+
+:::tip 提示
+**`...`表示同时支持所有 [el-dialog](https://element-plus.org/zh-CN/component/dialog.html#%E4%BA%8B%E4%BB%B6) Events**
+:::
 
 ## Dialog Slots
 
@@ -3304,25 +3313,27 @@ dialog-form/custom-footer
 
 ## DialogForm Events
 
-| 名称                                  | 说明                             | 类型                                                                                        |
-| ------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------- |
-| `confirm`                             | 点击确定按钮触发的事件           | `function`                     |
-| `change`                              | 表单变化触发的事件               | `function`  |
-| `cancel`                              | 点击取消按钮触发的事件           | `function`                                        |
-| `submitError`v0.0.10 | 点击提交按钮校验不通过触发的事件 | `function`                               |
+| 名称                                  | 说明                                                                                       | 类型                                                                                        |
+| ------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| `confirm`                             | 点击确定按钮触发的事件                                                                     | `function`                     |
+| `change`                              | 表单变化触发的事件                                                                         | `function`  |
+| `cancel`                              | 点击取消按钮触发的事件                                                                     | `function`                                        |
+| `close` v0.1.25      | [el-dialog](https://element-plus.org/zh-CN/component/dialog.html#attributes) 的`close`事件 | `function`                                        |
+| `submitError`v0.0.10 | 点击提交按钮校验不通过触发的事件                                                           | `function`                               |
 
 ## DialogForm Slots
 
-| 插槽名                                | 说明                                                                                                                               | 作用域插槽参数                                                     |
-| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| `dialog-header`                       | [PlusDialog](/components/dialog.html#dialog-slots) 的 header slot                                                                  |                                                                    |
-| `dialog-footer`                       | [PlusDialog](/components/dialog.html#dialog-slots) 的 header slot                                                                  | `{handleConfirm,handleCancel}` 弹窗表单默认的**确定**,**取消**方法 |
-| `form-footer`                         | [PlusForm](/components/form.html#form-slots) 的 footer slot， 配置属性 `:form="{hasFooter:true}"` 生效                             | `{handleSubmit,handleReset} ` 表单默认的**提交**，**重置**方法     |
-| `tooltip-icon`v0.0.3 | [PlusForm](/components/form.html#form-slots) 的 tooltip icon                                                                       |                                                                    |
-| `form-group-header`                   | [PlusForm](/components/form.html#form-slots) 的 group-header slot                                                                  | `{title,columns,icon}`                                             |
-| `plus-field-*`                        | [PlusForm](/components/form.html#form-slots) 的自定义表单项，组件会自动根据配置项的 prop 生成对应的插槽                            | `{prop,label,fieldProps,valueType,column}`                         |
-| `plus-label-*`                        | [PlusForm](/components/form.html#form-slots) 的自定义表单项 label，组件会自动根据配置项的 prop 生成对应的插槽                      | `{prop,label,fieldProps,valueType,column}`                         |
-| `plus-extra-*`                        | [PlusForm](/components/form.html#form-slots)的自定义渲染 el-form-item 下一行额外的内容，组件会自动根据配置项的 prop 生成对应的插槽 | `{column}`                                                         |
+| 插槽名                                     | 说明                                                                                                                                                     | 作用域插槽参数                                                     |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `dialog-header`                            | [PlusDialog](/components/dialog.html#dialog-slots) 的 header slot                                                                                        |                                                                    |
+| `dialog-footer`                            | [PlusDialog](/components/dialog.html#dialog-slots) 的 header slot                                                                                        | `{handleConfirm,handleCancel}` 弹窗表单默认的**确定**,**取消**方法 |
+| `form-footer`                              | [PlusForm](/components/form.html#form-slots) 的 footer slot， 配置属性 `:form="{hasFooter:true}"` 生效                                                   | `{handleSubmit,handleReset} ` 表单默认的**提交**，**重置**方法     |
+| `tooltip-icon`v0.0.3      | [PlusForm](/components/form.html#form-slots) 的 tooltip icon                                                                                             |                                                                    |
+| `form-group-header`                        | [PlusForm](/components/form.html#form-slots) 的 group-header slot                                                                                        | `{title,columns,icon}`                                             |
+| `plus-field-*`                             | [PlusForm](/components/form.html#form-slots) 的自定义表单项，组件会自动根据配置项的 prop 生成对应的插槽                                                  | `{prop,label,fieldProps,valueType,column}`                         |
+| `plus-label-*`                             | [PlusForm](/components/form.html#form-slots) 的自定义表单项 label，组件会自动根据配置项的 prop 生成对应的插槽                                            | `{prop,label,fieldProps,valueType,column}`                         |
+| `plus-extra-*`                             | [PlusForm](/components/form.html#form-slots)的自定义渲染 el-form-item 下一行额外的内容，组件会自动根据配置项的 prop 生成对应的插槽                       | `{column}`                                                         |
+| `plus-previous-*` v0.1.25 | 自定义渲染[el-form-item](https://element-plus.org/zh-CN/component/form.html#formitem-api) 上一行额外的内容，组件会自动根据配置项的 `prop` 生成对应的插槽 | `{column}`                                                         |
 
 ## Exposes
 
@@ -3432,9 +3443,9 @@ drawer-form/slot-label
 | `title`                                                                                | title                                                                                                                | `string`                                                                                        | `抽屉表单`                                                             | 否       |
 | `size`                                                                                 | Drawer 窗体的大小, 当使用 number 类型时, 以像素为单位, 当使用 string 类型时, 请传入 'x%', 否则便会以 number 类型解释 | `string`/`number`                                                                               | `540px`                                                                | 否       |
 | `hasFooter`                                                                            | 是否需要底部按钮                                                                                                     | `boolean`                                                                                       | `true`                                                                 | 否       |
-| `cancelText`                                                                           | `取消`按钮文本                                                                                                         | `string`                                                                                        | `取消`                                                                 | 否       |
-| `confirmText`                                                                          | `确认`按钮文本                                                                                                         | `string`                                                                                        | `确认`                                                                 | 否       |
-| `confirmLoading`                                                                       | `确认`按钮 loading                                                                                                    | `boolean`                                                                                       | `false`                                                                | 否       |
+| `cancelText`                                                                           | `取消`按钮文本                                                                                                       | `string`                                                                                        | `取消`                                                                 | 否       |
+| `confirmText`                                                                          | `确认`按钮文本                                                                                                       | `string`                                                                                        | `确认`                                                                 | 否       |
+| `confirmLoading`                                                                       | `确认`按钮 loading                                                                                                   | `boolean`                                                                                       | `false`                                                                | 否       |
 | `form`                                                                                 | [PlusForm](/components/form.html) 的 props                                                                           | `object`[PlusFormProps](/components/form.html#form-attributes)                                  | `{hasFooter:false}`                                                    | 否       |
 | `drawer` deprecated v0.1.6 | [ElDrawer](https://element-plus.org/zh-CN/component/drawer.html) 的 props                                            | `object`[ElDrawerProps](https://element-plus.org/zh-CN/component/drawer.html#drawer-attributes) | `{closeOnClickModal:false,closeOnPressEscape:false, title:"抽屉表单"}` | 否       |
 | `hasErrorTip`v0.0.10                                                  | 是否需要校验 message 提示                                                                                            | `boolean`                                                                                       | `true`                                                                 | 否       |
@@ -3454,16 +3465,17 @@ drawer-form/slot-label
 
 ## DrawerForm Slots
 
-| 插槽名                                | 说明                                                                                                                               | 作用域插槽参数                             |
-| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| `drawer-header`                       | [ElDrawer](https://element-plus.org/zh-CN/component/drawer.html#插槽) 的 header slot                                               |                                            |
-| `drawer-footer`                       | [ElDrawer](https://element-plus.org/zh-CN/component/drawer.html#插槽) 的 footer slot                                               |                                            |
-| `form-footer`                         | [PlusForm](/components/form.html#form-slots) 的 footer slot                                                                        | `{handleReset,handleSubmit}`               |
-| `tooltip-icon`v0.0.3 | [PlusForm](/components/form.html#form-slots) 的 tooltip icon                                                                       |                                            |
-| `form-group-header`                   | [PlusForm](/components/form.html#form-slots) 的 group-header slot                                                                  | `{title,columns,icon}`                     |
-| `plus-field-*`                        | [PlusForm](/components/form.html#form-slots) 的自定义表单项，组件会自动根据配置项的 prop 生成对应的插槽                            | `{prop,label,fieldProps,valueType,column}` |
-| `plus-label-*`                        | [PlusForm](/components/form.html#form-slots) 的自定义表单项 label，组件会自动根据配置项的 prop 生成对应的插槽                      | `{prop,label,fieldProps,valueType,column}` |
-| `plus-extra-*`                        | [PlusForm](/components/form.html#form-slots)的自定义渲染 el-form-item 下一行额外的内容，组件会自动根据配置项的 prop 生成对应的插槽 | `{column}`                                 |
+| 插槽名                                     | 说明                                                                                                                                                     | 作用域插槽参数                             |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| `drawer-header`                            | [ElDrawer](https://element-plus.org/zh-CN/component/drawer.html#插槽) 的 header slot                                                                     |                                            |
+| `drawer-footer`                            | [ElDrawer](https://element-plus.org/zh-CN/component/drawer.html#插槽) 的 footer slot                                                                     |                                            |
+| `form-footer`                              | [PlusForm](/components/form.html#form-slots) 的 footer slot                                                                                              | `{handleReset,handleSubmit}`               |
+| `tooltip-icon`v0.0.3      | [PlusForm](/components/form.html#form-slots) 的 tooltip icon                                                                                             |                                            |
+| `form-group-header`                        | [PlusForm](/components/form.html#form-slots) 的 group-header slot                                                                                        | `{title,columns,icon}`                     |
+| `plus-field-*`                             | [PlusForm](/components/form.html#form-slots) 的自定义表单项，组件会自动根据配置项的 prop 生成对应的插槽                                                  | `{prop,label,fieldProps,valueType,column}` |
+| `plus-label-*`                             | [PlusForm](/components/form.html#form-slots) 的自定义表单项 label，组件会自动根据配置项的 prop 生成对应的插槽                                            | `{prop,label,fieldProps,valueType,column}` |
+| `plus-extra-*`                             | [PlusForm](/components/form.html#form-slots)的自定义渲染 el-form-item 下一行额外的内容，组件会自动根据配置项的 prop 生成对应的插槽                       | `{column}`                                 |
+| `plus-previous-*` v0.1.25 | 自定义渲染[el-form-item](https://element-plus.org/zh-CN/component/form.html#formitem-api) 上一行额外的内容，组件会自动根据配置项的 `prop` 生成对应的插槽 | `{column}`                                 |
 
 ## Exposes
 
@@ -3588,7 +3600,7 @@ form/group
 
 :::
 
-## 动态分组表单
+## 分组表单动态隐藏
 
 v0.1.4
 
@@ -3610,13 +3622,15 @@ form/group-header
 
 :::
 
-## 自定义表单底部按钮
+## 分组表单自定义每一步内容
 
-组件提供 `footer` 插槽可以自定义表单底部，并提供默认的 **提交**方法、**重置**方法 的作用域插槽参数 `{handleSubmit,handleReset}`。
+v0.1.25
+
+[PlusFormGroupRow](/components/type.html#plusformgrouprow) 新增`value`属性，`PlusForm` 组件会自动根据 `group` 配置项的 `name` 生成对应的插槽，例如下面的配置项，则会自动生成名称叫做 \[ **plus-group-`one`** ]的个插槽，插槽的生成规则就是 固定 key 值 \[ **plus-group-** ] 然后加上`group`配置项的 `name`。
 
 :::demo
 
-form/custom-footer
+form/form-group-slot
 
 :::
 
@@ -3644,6 +3658,16 @@ valueType 的值对应的组件本身没有插槽时，`fieldSlots`不生效。
 :::demo
 
 form/field-slots
+
+:::
+
+## 自定义表单底部按钮
+
+组件提供 `footer` 插槽可以自定义表单底部，并提供默认的 **提交**方法、**重置**方法 的作用域插槽参数 `{handleSubmit,handleReset}`。
+
+:::demo
+
+form/custom-footer
 
 :::
 
@@ -3792,6 +3816,18 @@ form/extra
 
 :::
 
+## 自定义表单上一行的内容
+
+v0.1.25
+
+支持 [renderPrevious](/components/config.html) 渲染函数，支持 jsx/tsx，支持插槽，插槽的生成规则就是 固定 key 值 \[ **plus-previous-** ] 然后加上 配置项的 `prop`。
+
+:::demo
+
+form/previous
+
+:::
+
 ## 自定义表单每一项子项的内容
 
 v0.0.7
@@ -3906,15 +3942,17 @@ const handleValidate = (prop: FormItemProp, isValid: boolean, message: string) =
 
 ## Form Slots
 
-| 插槽名                                | 说明                                                                                 | 作用域插槽参数                                                    |
-| ------------------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
-| `default`                             | 表单的内容 默认是 `PlusFormItem` 组件                                                |                                                                   |
-| `footer`                              | 表单底部按钮                                                                         | `{handleReset,handleSubmit}`                                      |
-| `tooltip-icon`v0.0.3 | tooltip icon                                                                         |                                                                   |
-| `group-header`                        | 分组表单头部，配置 group 字段时生效。                                                | `{title,columns,icon,index}` v0.1.17 新增`index` |
-| `plus-field-*`                        | 自定义表单项，组件会自动根据配置项的 prop 生成对应的插槽                             | `{prop,label,fieldProps,valueType,column}`                        |
-| `plus-label-*`                        | 自定义表单项 label，组件会自动根据配置项的 prop 生成对应的插槽                       | `{prop,label,fieldProps,valueType,column}`                        |
-| `plus-extra-*`                        | 自定义渲染 el-form-item 下一行额外的内容，组件会自动根据配置项的 prop 生成对应的插槽 | `{column}`                                                        |
+| 插槽名                                     | 说明                                                                                                                                                     | 作用域插槽参数                                                    |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `default`                                  | 表单的内容 默认是 `PlusFormItem` 组件                                                                                                                    |                                                                   |
+| `footer`                                   | 表单底部按钮                                                                                                                                             | `{handleReset,handleSubmit}`                                      |
+| `tooltip-icon`v0.0.3      | tooltip icon                                                                                                                                             |                                                                   |
+| `group-header`                             | 分组表单头部，配置 `group` 字段时生效。                                                                                                                  | `{title,columns,icon,index}` v0.1.17 新增`index` |
+| `plus-field-*`                             | 自定义表单项，组件会自动根据配置项的 `prop` 生成对应的插槽                                                                                               | `{prop,label,fieldProps,valueType,column}`                        |
+| `plus-label-*`                             | 自定义表单项 `label`，组件会自动根据配置项的 `prop` 生成对应的插槽                                                                                       | `{prop,label,fieldProps,valueType,column}`                        |
+| `plus-extra-*`                             | 自定义渲染[el-form-item](https://element-plus.org/zh-CN/component/form.html#formitem-api) 下一行额外的内容，组件会自动根据配置项的 `prop` 生成对应的插槽 | `{column}`                                                        |
+| `plus-previous-*` v0.1.25 | 自定义渲染[el-form-item](https://element-plus.org/zh-CN/component/form.html#formitem-api) 上一行额外的内容，组件会自动根据配置项的 `prop` 生成对应的插槽 | `{column}`                                                        |
+| `plus-group-*` v0.1.25    | 分组表单自定义每一步内容，组件会自动根据分组表单`group`配置项的 `name` 生成对应的插槽                                                                    | `{title,columns,icon,index,name}`                                 |
 
 ## Exposes
 
@@ -4438,6 +4476,22 @@ page/search-footer
 
 :::
 
+## 自定义搜索表单插槽的使用
+
+v0.1.25
+当 [PlusPage](/components/page.html) 组件的`search-slot`属性为`true`时，表单相关的
+`plus-field-*`、
+`plus-label-*`（只对搜索表单生效）、
+`plus-extra-*`、
+`plus-previous-*`、
+插槽会作用于 到 [PlusSearch](/components/search.html) 组件，默认插槽都是作用于 [PlusTable](/components/table.html) 组件的（表格开启编辑时）。
+
+:::demo
+
+page/search-slot
+
+:::
+
 ## 搜索和表格展示顺序控制
 
 v0.1.4
@@ -4482,6 +4536,7 @@ page/crud
 | `tableCardProps`                      | 表格外层的 [el-card](https://element-plus.org/zh-CN/component/card.html#attributes) 的 props ，当 isCard 为 true 时生效                                                                                                                    | `object`[ElCardProps](https://element-plus.org/zh-CN/component/card.html#attributes)                                           | `{}`                                            | 否       |
 | `immediate`v0.0.9    | 是否立即执行`request`获取表格数据,如为`false`,组件渲染完成后将不会主动调用`request`                                                                                                                                                        | `boolean`                                                                                                                      | `true`                                          | 否       |
 | `pageInfoMap`v0.1.0  | request 默认分页参数字段是 `page`, `pageSize`,可以使用此参数自定义分页参数                                                                                                                                                                 | `object`                                                   | `{page:'page',pageSize:'pageSize'}`             | 否       |
+| `searchSlot`v0.1.25  | 自定义的表单插槽默认作用于 [PlusTable](/components/table.html)， 当`searchSlot`位`true`时， 自定义的表单插槽作用于 [PlusSearch](/components/search.html) 组件 。                                                                           | `boo `                                                                                                                         | `false`                                         | 否       |
 
 ## Page Events
 
@@ -4495,7 +4550,7 @@ page/crud
 
 ::: tip 提示
 支持 [PlusSearch](/components/search.html) 和
-[PlusTable](/components/table.html) 的所有事件，如 [PlusSearch](/components/search.html) 的`search`, PlusTable 的`row-click`等，如下示例
+[PlusTable](/components/table.html) 的所有事件，如 [PlusSearch](/components/search.html) 的`search`, [PlusTable](/components/table.html) 的`row-click`等，如下示例
 :::
 
 示例：
@@ -4506,41 +4561,44 @@ page/crud
 
 ## Page Slots
 
-| 插槽名                                        | 说明                                                                                                                                                                     | 作用域插槽参数                                                                              |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
-| `table-title`                                 | [PlusTable](/components/table.html) 表格标题                                                                                                                             |                                                                                             |
-| `table-toolbar`                               | [PlusTable](/components/table.html) 工具栏左侧                                                                                                                           |                                                                                             |
-| `table-expand`                                | [PlusTable](/components/table.html) 展开行                                                                                                                               |                                                                                             |
-| `table-append`                                | [PlusTable](/components/table.html)（el-table） 最后一行                                                                                                                 |                                                                                             |
-| `table-empty`                                 | [PlusTable](/components/table.html) （el-table）空状态                                                                                                                   |                                                                                             |
-| `search-footer`                               | [PlusSearch](/components/search.html) 的 footer                                                                                                                          |                                                                                             |
-| `pagination-left`v0.0.3      | [PlusTable](/components/table.html)分页器左侧内容 （默认生效，`align` 属性默认是 `right`）                                                                               |                                                                                             |
-| `pagination-right`v0.0.3     | [PlusTable](/components/table.html) 分页器右侧内容 （`align` 属性是 `left`时生效）                                                                                       |                                                                                             |
-| `action-bar-more-icon`v0.0.3 | [PlusTable](/components/table.html)操作栏更多傍边的 icon                                                                                                                 |                                                                                             |
-| `tooltip-icon`v0.0.3         | [PlusTable](/components/table.html) 表格表头 tooltip icon                                                                                                                |                                                                                             |
-| `drag-sort-icon`v0.0.3       | [PlusTable](/components/table.html)表格拖拽行 和 列设置里拖拽 icon                                                                                                       |                                                                                             |
-| `column-settings-icon`v0.0.3 | [PlusTable](/components/table.html)表格表头 列设置 icon                                                                                                                  |                                                                                             |
-| `density-icon`v0.0.3         | [PlusTable](/components/table.html)表格表头 密度 icon                                                                                                                    |                                                                                             |
-| `edit-icon`v0.1.4            | [PlusTable](/components/table.html) 表格处于编辑状态时的 icon                                                                                                            |                                                                                             |
-| `extra`v0.1.5                | 表格和搜索中间位置的插槽                                                                                                                                                 |                                                                                             |
-| `plus-cell-*`                                 | 自定义表格项，组件会自动根据配置项的 prop 生成对应的插槽                                                                                                                 | `object`  |
-| `plus-header-*`                               | 自定义表格项 header，组件会自动根据配置项的 prop 生成对应的插槽                                                                                                          | `object`            |
-| `plus-field-*`                                | [PlusForm](/components/form.html#form-slots) 的自定义表单项，组件会自动根据配置项的 prop 生成对应的插槽 ，需要开启属性 [PlusColumn\['editable'\]](/components/config.html) | `object`        |
+| 插槽名                                        | 说明                                                                                                                                                                                                                                                        | 作用域插槽参数                                                                              |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `table-title`                                 | [PlusTable](/components/table.html) 表格标题                                                                                                                                                                                                                |                                                                                             |
+| `table-toolbar`                               | [PlusTable](/components/table.html) 工具栏左侧                                                                                                                                                                                                              |                                                                                             |
+| `table-expand`                                | [PlusTable](/components/table.html) 展开行                                                                                                                                                                                                                  |                                                                                             |
+| `table-append`                                | [PlusTable](/components/table.html)（el-table） 最后一行                                                                                                                                                                                                    |                                                                                             |
+| `table-empty`                                 | [PlusTable](/components/table.html) （el-table）空状态                                                                                                                                                                                                      |                                                                                             |
+| `search-footer`                               | [PlusSearch](/components/search.html) 的 footer                                                                                                                                                                                                             |                                                                                             |
+| `pagination-left`v0.0.3      | [PlusTable](/components/table.html)分页器左侧内容 （默认生效，`align` 属性默认是 `right`）                                                                                                                                                                  |                                                                                             |
+| `pagination-right`v0.0.3     | [PlusTable](/components/table.html) 分页器右侧内容 （`align` 属性是 `left`时生效）                                                                                                                                                                          |                                                                                             |
+| `action-bar-more-icon`v0.0.3 | [PlusTable](/components/table.html)操作栏更多傍边的 icon                                                                                                                                                                                                    |                                                                                             |
+| `tooltip-icon`v0.0.3         | [PlusTable](/components/table.html) 表格表头 tooltip icon                                                                                                                                                                                                   |                                                                                             |
+| `drag-sort-icon`v0.0.3       | [PlusTable](/components/table.html)表格拖拽行 和 列设置里拖拽 icon                                                                                                                                                                                          |                                                                                             |
+| `column-settings-icon`v0.0.3 | [PlusTable](/components/table.html)表格表头 列设置 icon                                                                                                                                                                                                     |                                                                                             |
+| `density-icon`v0.0.3         | [PlusTable](/components/table.html)表格表头 密度 icon                                                                                                                                                                                                       |                                                                                             |
+| `edit-icon`v0.1.4            | [PlusTable](/components/table.html) 表格处于编辑状态时的 icon                                                                                                                                                                                               |                                                                                             |
+| `extra`v0.1.5                | 表格和搜索中间位置的插槽                                                                                                                                                                                                                                    |                                                                                             |
+| `plus-cell-*`                                 | 自定义表格项，组件会自动根据配置项的 prop 生成对应的插槽                                                                                                                                                                                                    | `object`  |
+| `plus-header-*`                               | 自定义表格项 header，组件会自动根据配置项的 prop 生成对应的插槽                                                                                                                                                                                             | `object`            |
+| `plus-field-*`                                | [PlusForm](/components/form.html#form-slots) 的自定义表单项，组件会自动根据配置项的 prop 生成对应的插槽 ，表格需要开启属性 [PlusColumn\['editable'\]](/components/config.html)，搜索需要开启`searchSlot`                                                      | `object`        |
 |                                               |
+| `plus-label-*` v0.1.25       | 自定义**搜索**表单项 `label`，组件会自动根据配置项的 `prop` 生成对应的插槽 ，**此插槽只对搜索表单生效，搜索需要开启`searchSlot`**                                                                                                                           | `{prop,label,fieldProps,valueType,column}`                                                  |
+| `plus-extra-*` v0.1.25       | 自定义表单渲染[el-form-item](https://element-plus.org/zh-CN/component/form.html#formitem-api) 下一行额外的内容，组件会自动根据配置项的 `prop` 生成对应的插槽 ，表格需要开启属性 [PlusColumn\['editable'\]](/components/config.html)，搜索需要开启`searchSlot` | `{column}`                                                                                  |
+| `plus-previous-*` v0.1.25    | 自定义表单渲染[el-form-item](https://element-plus.org/zh-CN/component/form.html#formitem-api) 上一行额外的内容，组件会自动根据配置项的 `prop` 生成对应的插槽 ，表格需要开启属性 [PlusColumn\['editable'\]](/components/config.html)，搜索需要开启`searchSlot` | `{column}`                                                                                  |
 
 ## Page Exposes
 
-| 名称                                                                                          | 说明                                                                              | 类型                                                                                         |
-| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| `plusSearchInstance`                                                                          | [PlusSearch](/components/table.html)的实例                                        | `object`  |
-| `plusTableInstance`                                                                           | [PlusTable](/components/table.html)的实例                                         | `object`   |
-| `getList`                                                                                     | 获取数据方法，可以用来重新加载数据                                                | `function`                                         |
-|  `handleRest`  deprecated v0.1.14 | 重置搜索数据，并将 page 置为 1 ，然后重新加载 getList                             | `function`                                         |
-| `handleReset`v0.1.14                                                         | 重置搜索数据，并将 page 置为 1 ，然后重新加载 getList                             | `function`                                         |
-| `setSearchFieldsValue`v0.1.17                                                | 手动设置搜索值 ，传入一个对象参数，只会修改对象参数中对应值。                     | `function`                         |
+| 名称                                                                                          | 说明                                                                            | 类型                                                                                         |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `plusSearchInstance`                                                                          | [PlusSearch](/components/table.html)的实例                                      | `object`  |
+| `plusTableInstance`                                                                           | [PlusTable](/components/table.html)的实例                                       | `object`   |
+| `getList`                                                                                     | 获取数据方法，可以用来重新加载数据                                              | `function`                                         |
+|  `handleRest`  deprecated v0.1.14 | 重置搜索数据，并将 page 置为 1 ，然后重新加载 getList                           | `function`                                         |
+| `handleReset`v0.1.14                                                         | 重置搜索数据，并将 page 置为 1 ，然后重新加载 getList                           | `function`                                         |
+| `setSearchFieldsValue`v0.1.17                                                | 手动设置搜索值 ，传入一个对象参数，只会修改对象参数中对应值。                   | `function`                         |
 | `getSearchFieldsValue`v0.1.17                                                | 手动获取搜索值 ，传入一个字段`key`则获取的是字段`key`对应的值，默认返回所有值。 | `function`  |
-| `clearSearchFieldsValue`v0.1.17                                              | 手动清空搜索值                                                                    | `function`                                         |
-| `setTableData`v0.1.23                                                        | 手动设置表格数据和分页总数。不给参数会清空表格数据。                              | `function`      |
+| `clearSearchFieldsValue`v0.1.17                                              | 手动清空搜索值                                                                  | `function`                                         |
+| `setTableData`v0.1.23                                                        | 手动设置表格数据和分页总数。不给参数会清空表格数据。                            | `function`      |
 
 ---
 
@@ -5813,6 +5871,28 @@ table/icon-slot
 
 :::
 
+## 自定义表格默认插槽内容
+
+v0.1.24
+
+表格的默认`default`插槽为内置`PlusTableColumn`渲染组件，支持文档中描述的所有功能，由于内置组件功能较多，数据量大时可能会存在性能问题，可自定义表格内容，自定义表格默认插槽内容后，表格任然支持以下功能
+
+* `单选`
+* `多选`
+* `序号栏`
+* `拖拽行`
+* `展开行`
+* `操作栏`
+* `分页`
+
+其他功能不再支持，包括`valueType`，`render*`渲染函数,`plus-*-*`插槽等。
+
+:::demo
+
+table/custom-content
+
+:::
+
 ## 表格显示格式化
 
 表格显示可通过以下三种方式格式化
@@ -5836,28 +5916,6 @@ table/formatter
 :::demo
 
 table/advanced
-
-:::
-
-## 自定义表格默认插槽内容
-
-v0.1.24
-
-表格的默认`default`插槽为内置`PlusTableColumn`渲染组件，支持文档中描述的所有功能，由于内置组件功能较多，数据量大时可能会存在性能问题，可自定义表格内容，自定义表格默认插槽内容后，表格任然支持以下功能
-
-* `单选`
-* `多选`
-* `序号栏`
-* `拖拽行`
-* `展开行`
-* `操作栏`
-* `分页`
-
-其他功能不再支持，包括`valueType`，`render*`渲染函数,`plus-*-*`插槽等。
-
-:::demo
-
-table/custom-content
 
 :::
 
@@ -5987,6 +6045,129 @@ el-table 的其他插槽 如 `append`,`empty`。 **v0.1.7 开始支持 `default`
 ::: tip 提示
 如 `clearSelection`,`getSelectionRows`等
 :::
+
+---
+
+---
+url: /api\utils/storage.md
+---
+## setStorage
+
+设置 `localStorage`
+
+```ts
+/**
+ * 设置 localStorage
+ * @returns storage
+ */
+declare function setToken(key: string, token: string): string
+```
+
+使用示例
+
+```ts
+import { setStorage } from '@plus-pro-components/utils'
+
+setStorage('key', { data: { username: 'name' } })
+```
+
+## getStorage
+
+获取 `localStorage`
+
+```ts
+/**
+ * 获取 localStorage
+ * @returns storage
+ */
+declare function getToken(key: string): string
+```
+
+使用示例
+
+```ts
+import { getStorage } from '@plus-pro-components/utils'
+
+getStorage('key') // { data: { username: "name" } }
+```
+
+## removeStorage
+
+移除 `localStorage`
+
+```ts
+/**
+ * 移除storage
+ */
+declare function removeToken(key: string): void
+```
+
+使用示例
+
+```ts
+import { removeStorage } from '@plus-pro-components/utils'
+
+removeStorage('key')
+```
+
+## setToken
+
+设置 token 带 AES 加密 （存储在 `localStorage`）
+
+```ts
+/**
+ * 设置token 带AES加密
+ * @returns token
+ */
+declare function setToken(key: string, token: string): string
+```
+
+使用示例
+
+```ts
+import { setToken } from '@plus-pro-components/utils'
+
+setToken('tokenKey', 'token')
+```
+
+## getToken
+
+获取 token 带 AES 解密 （获取的是 `localStorage` 的值）
+
+```ts
+/**
+ * 获取token  带AES解密
+ * @returns token
+ */
+declare function getToken(key: string): string
+```
+
+使用示例
+
+```ts
+import { getToken } from '@plus-pro-components/utils'
+
+getToken('tokenKey') //  'token'
+```
+
+## removeToken
+
+移除 token （移除的是 `localStorage` 的值）
+
+```ts
+/**
+ * 移除token
+ */
+declare function removeToken(key: string): void
+```
+
+使用示例
+
+```ts
+import { removeToken } from '@plus-pro-components/utils'
+
+removeToken('tokenKey')
+```
 
 ---
 
@@ -6297,342 +6478,72 @@ isIOS() // false
 ---
 
 ---
-url: /api\utils/storage.md
+url: /api\utils/number.md
 ---
-## setStorage
+## formatMoney
 
-设置 `localStorage`
+格式化金钱
 
 ```ts
 /**
- * 设置 localStorage
- * @returns storage
+ * 格式化金钱  ￥12,345,678.00
+ * @param val
+ * @param format 默认 '￥'
+ * @returns
  */
-declare function setToken(key: string, token: string): string
+declare function formatMoney(val: string | number, format?: string): string
 ```
 
 使用示例
 
 ```ts
-import { setStorage } from '@plus-pro-components/utils'
+import { formatMoney } from '@plus-pro-components/utils'
 
-setStorage('key', { data: { username: 'name' } })
+formatMoney('100') // ￥100.00
 ```
 
-## getStorage
+## formatNumber
 
-获取 `localStorage`
+格式化数字
 
 ```ts
 /**
- * 获取 localStorage
- * @returns storage
+ * 格式化数字
+ * @param number
+ * @param  format  默认格式 '0.00'
+ * @returns
  */
-declare function getToken(key: string): string
+declare function formatNumber(number: number | string, format?: string): string
 ```
 
 使用示例
 
 ```ts
-import { getStorage } from '@plus-pro-components/utils'
+import { formatNumber } from '@plus-pro-components/utils'
 
-getStorage('key') // { data: { username: "name" } }
+formatNumber('100') // 100.00
 ```
 
-## removeStorage
+## formatNumberFixed
 
-移除 `localStorage`
+格式化数字保留几位小数，不会四舍五入
 
 ```ts
 /**
- * 移除storage
+ * 格式化数字保留几位小数
+ * @param value
+ * @param decimal 默认2位小数
+ * @returns x.xx
  */
-declare function removeToken(key: string): void
+declare function formatNumberFixed(value: string, decimal?: number): string
 ```
 
 使用示例
 
 ```ts
-import { removeStorage } from '@plus-pro-components/utils'
+import { formatNumberFixed } from '@plus-pro-components/utils'
 
-removeStorage('key')
-```
-
-## setToken
-
-设置 token 带 AES 加密 （存储在 `localStorage`）
-
-```ts
-/**
- * 设置token 带AES加密
- * @returns token
- */
-declare function setToken(key: string, token: string): string
-```
-
-使用示例
-
-```ts
-import { setToken } from '@plus-pro-components/utils'
-
-setToken('tokenKey', 'token')
-```
-
-## getToken
-
-获取 token 带 AES 解密 （获取的是 `localStorage` 的值）
-
-```ts
-/**
- * 获取token  带AES解密
- * @returns token
- */
-declare function getToken(key: string): string
-```
-
-使用示例
-
-```ts
-import { getToken } from '@plus-pro-components/utils'
-
-getToken('tokenKey') //  'token'
-```
-
-## removeToken
-
-移除 token （移除的是 `localStorage` 的值）
-
-```ts
-/**
- * 移除token
- */
-declare function removeToken(key: string): void
-```
-
-使用示例
-
-```ts
-import { removeToken } from '@plus-pro-components/utils'
-
-removeToken('tokenKey')
-```
-
----
-
----
-url: /api\utils/file.md
----
-## download
-
-下载文件
-
-```ts
-import type { FileSaverOptions } from 'file-saver'
-
-interface Download<T = Blob | string> {
-  (data: T, filename: string, options?: FileSaverOptions): Promise<T>
-}
-
-/**
- * @description 下载文件
- * @param {Blob | string} data  文件 Blob
- * @param  {string} filename 文件名称
- * @param  {object} options 可选参数
- */
-declare const download: Download
-```
-
-使用示例
-
-```ts
-import { download } from '@plus-pro-components/utils'
-
-const handleDownload = async () => {
-  await download('data', 'test.txt')
-}
-
-handleDownload()
-```
-
-## isLegalFile
-
-判断文件类型是否符合预期
-
-```ts
-/**
- *
- * @desc 限制文件类型
- * @param {File|Blob} file 源文件
- * "默认限制图"片
- * @return 合法文件返回true否则返回false
- */
-declare const isLegalFile: (file: File | Blob, types: string[]) => boolean
-```
-
-使用示例
-
-```ts
-import { isLegalFile } from '@plus-pro-components/utils'
-
-const file = new File(['data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-isLegalFile(file, ['.txt', '.cad', '.bom', '.dwg', '.job', '.lib']) // true
-```
-
-## isMaxFileSize
-
-判断文件文件上传大小是否符合预期
-
-```ts
-/**
- * @desc 限制文件上传大小
- * @param {File|Blob} file 源文件
- * @param {number} fileMaxSize  文件大小单位（MB）
- * @return 在限制内返回true否则返回false
- */
-declare const isMaxFileSize: (file: File | Blob, fileMaxSize?: number) => boolean
-```
-
-使用示例
-
-```ts
-import { isMaxFileSize } from '@plus-pro-components/utils'
-
-const file = new File(['data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-isMaxFileSize(file, 1) // true
-```
-
-## fileToDataURL
-
-读取文件为 DataURL 文件格式 （base64）
-
-```ts
-/**
- *
- * @desc 读取文件为DataURL文件格式 （base64）
- * @param {file|Blob} file 源文件
- * @return 返回DataURL文件 （base64）
- */
-declare const fileToDataURL: (file: File | Blob) => Promise<string>
-```
-
-使用示例
-
-```ts
-import { fileToDataURL } from '@plus-pro-components/utils'
-
-const file = new File(['data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-const handleFileToDataURL = async () => {
-  const data = await fileToDataURL(file) // data:text/plain;base64,ZGF0YQ==
-}
-
-handleFileToDataURL()
-```
-
-## fileToText
-
-读取文件为 text 文件格式
-
-```ts
-/**
- * @desc 读取文件为text文件格式
- * @param {file} file 源文件
- * @return 返回text文件
- */
-declare const fileToText: (file: File | Blob) => Promise<string>
-```
-
-使用示例
-
-```ts
-import { fileToText } from '@plus-pro-components/utils'
-
-const file = new File(['hello-data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-const handleFileToText = async () => {
-  const data = await fileToText(file) // hello-data
-}
-
-handleFileToText()
-```
-
-## loadImage
-
-加载图片
-
-```ts
-/**
- * @desc 加载真实图片，读取成功返回图片真实宽高和图片本身对象 ag: { width: 100,height: 100,image: '' }
- * @param {string} src  图片地址
- * @return `{ width: ,height: , image:  }`
- */
-declare const loadImage: (src: string) => Promise<{
-  width: number
-  height: number
-  image: HTMLImageElement
-}>
-```
-
-使用示例
-
-```ts
-import { loadImage } from '@plus-pro-components/utils'
-
-const handleLoadImage = async () => {
-  const url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-  const data = await loadImage(url) //  {width: 800, height: 572, image: img}
-}
-
-handleLoadImage()
-```
-
-## isLegalResolutionRatio
-
-判断图片文件的分辨率是否在限定范围之内
-
-```ts
-/**
- * @desc  判断图片文件的分辨率是否在限定范围之内，分辨率不在限定范围之内则抛出异常
- * @param {File | Blob} file 源文件
- * @param {object} props   文件分辨率的宽和高   ag: props={width:100, height :100}
- */
-declare const isLegalResolutionRatio: (
-  file: File | Blob,
-  props: {
-    width: number
-    height: number
-  }
-) => Promise<boolean>
-```
-
-使用示例
-
-```ts
-import { isLegalResolutionRatio } from '@plus-pro-components/utils'
-
-const file = new File(['image'], 'test.jpeg', {
-  type: 'image/jpeg'
-})
-
-const handleIsLegalResolutionRatio = async () => {
-  try {
-    await isLegalResolutionRatio(file, { width: 100, height: 100 })
-  } catch (error) {
-    console.log(error) // false
-  }
-}
-
-handleIsLegalResolutionRatio()
+formatNumberFixed('100.12555') // 100.12
 ```
 
 ---
@@ -6903,72 +6814,342 @@ isEmptyObject([]) // false
 ---
 
 ---
-url: /api\utils/number.md
+url: /api\utils/file.md
 ---
-## formatMoney
+## download
 
-格式化金钱
+下载文件
+
+```ts
+import type { FileSaverOptions } from 'file-saver'
+
+interface Download<T = Blob | string> {
+  (data: T, filename: string, options?: FileSaverOptions): Promise<T>
+}
+
+/**
+ * @description 下载文件
+ * @param {Blob | string} data  文件 Blob
+ * @param  {string} filename 文件名称
+ * @param  {object} options 可选参数
+ */
+declare const download: Download
+```
+
+使用示例
+
+```ts
+import { download } from '@plus-pro-components/utils'
+
+const handleDownload = async () => {
+  await download('data', 'test.txt')
+}
+
+handleDownload()
+```
+
+## isLegalFile
+
+判断文件类型是否符合预期
 
 ```ts
 /**
- * 格式化金钱  ￥12,345,678.00
- * @param val
- * @param format 默认 '￥'
+ *
+ * @desc 限制文件类型
+ * @param {File|Blob} file 源文件
+ * "默认限制图"片
+ * @return 合法文件返回true否则返回false
+ */
+declare const isLegalFile: (file: File | Blob, types: string[]) => boolean
+```
+
+使用示例
+
+```ts
+import { isLegalFile } from '@plus-pro-components/utils'
+
+const file = new File(['data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+isLegalFile(file, ['.txt', '.cad', '.bom', '.dwg', '.job', '.lib']) // true
+```
+
+## isMaxFileSize
+
+判断文件文件上传大小是否符合预期
+
+```ts
+/**
+ * @desc 限制文件上传大小
+ * @param {File|Blob} file 源文件
+ * @param {number} fileMaxSize  文件大小单位（MB）
+ * @return 在限制内返回true否则返回false
+ */
+declare const isMaxFileSize: (file: File | Blob, fileMaxSize?: number) => boolean
+```
+
+使用示例
+
+```ts
+import { isMaxFileSize } from '@plus-pro-components/utils'
+
+const file = new File(['data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+isMaxFileSize(file, 1) // true
+```
+
+## fileToDataURL
+
+读取文件为 DataURL 文件格式 （base64）
+
+```ts
+/**
+ *
+ * @desc 读取文件为DataURL文件格式 （base64）
+ * @param {file|Blob} file 源文件
+ * @return 返回DataURL文件 （base64）
+ */
+declare const fileToDataURL: (file: File | Blob) => Promise<string>
+```
+
+使用示例
+
+```ts
+import { fileToDataURL } from '@plus-pro-components/utils'
+
+const file = new File(['data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+const handleFileToDataURL = async () => {
+  const data = await fileToDataURL(file) // data:text/plain;base64,ZGF0YQ==
+}
+
+handleFileToDataURL()
+```
+
+## fileToText
+
+读取文件为 text 文件格式
+
+```ts
+/**
+ * @desc 读取文件为text文件格式
+ * @param {file} file 源文件
+ * @return 返回text文件
+ */
+declare const fileToText: (file: File | Blob) => Promise<string>
+```
+
+使用示例
+
+```ts
+import { fileToText } from '@plus-pro-components/utils'
+
+const file = new File(['hello-data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+const handleFileToText = async () => {
+  const data = await fileToText(file) // hello-data
+}
+
+handleFileToText()
+```
+
+## loadImage
+
+加载图片
+
+```ts
+/**
+ * @desc 加载真实图片，读取成功返回图片真实宽高和图片本身对象 ag: { width: 100,height: 100,image: '' }
+ * @param {string} src  图片地址
+ * @return `{ width: ,height: , image:  }`
+ */
+declare const loadImage: (src: string) => Promise<{
+  width: number
+  height: number
+  image: HTMLImageElement
+}>
+```
+
+使用示例
+
+```ts
+import { loadImage } from '@plus-pro-components/utils'
+
+const handleLoadImage = async () => {
+  const url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+  const data = await loadImage(url) //  {width: 800, height: 572, image: img}
+}
+
+handleLoadImage()
+```
+
+## isLegalResolutionRatio
+
+判断图片文件的分辨率是否在限定范围之内
+
+```ts
+/**
+ * @desc  判断图片文件的分辨率是否在限定范围之内，分辨率不在限定范围之内则抛出异常
+ * @param {File | Blob} file 源文件
+ * @param {object} props   文件分辨率的宽和高   ag: props={width:100, height :100}
+ */
+declare const isLegalResolutionRatio: (
+  file: File | Blob,
+  props: {
+    width: number
+    height: number
+  }
+) => Promise<boolean>
+```
+
+使用示例
+
+```ts
+import { isLegalResolutionRatio } from '@plus-pro-components/utils'
+
+const file = new File(['image'], 'test.jpeg', {
+  type: 'image/jpeg'
+})
+
+const handleIsLegalResolutionRatio = async () => {
+  try {
+    await isLegalResolutionRatio(file, { width: 100, height: 100 })
+  } catch (error) {
+    console.log(error) // false
+  }
+}
+
+handleIsLegalResolutionRatio()
+```
+
+---
+
+---
+url: /api\utils/encrypt.md
+---
+## encrypt
+
+AES 加密
+
+```ts
+import CryptoJS from 'crypto-js'
+
+/**
+ * AES加密
+ * @param key
+ * @param data
  * @returns
  */
-declare function formatMoney(val: string | number, format?: string): string
+declare function encrypt(
+  key: string | CryptoJS.lib.WordArray,
+  data: string | CryptoJS.lib.WordArray
+): string
 ```
 
 使用示例
 
 ```ts
-import { formatMoney } from '@plus-pro-components/utils'
+import { encrypt } from '@plus-pro-components/utils'
 
-formatMoney('100') // ￥100.00
+encrypt('key', 'message') // U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=
 ```
 
-## formatNumber
+## decrypt
 
-格式化数字
+AES 解密
 
 ```ts
+import CryptoJS from 'crypto-js'
+
 /**
- * 格式化数字
- * @param number
- * @param  format  默认格式 '0.00'
+ * AES 解密
+ * @param key
+ * @param encrypted
  * @returns
  */
-declare function formatNumber(number: number | string, format?: string): string
+declare function decrypt(
+  key: string | CryptoJS.lib.WordArray,
+  encrypted: string | CryptoJS.lib.CipherParams
+): string
 ```
 
 使用示例
 
 ```ts
-import { formatNumber } from '@plus-pro-components/utils'
+import { decrypt } from '@plus-pro-components/utils'
 
-formatNumber('100') // 100.00
+decrypt('key', 'U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=') // message
 ```
 
-## formatNumberFixed
+---
 
-格式化数字保留几位小数，不会四舍五入
+---
+url: /api\utils/cookie.md
+---
+## setCookie
+
+设置 cookie
 
 ```ts
 /**
- * 格式化数字保留几位小数
- * @param value
- * @param decimal 默认2位小数
- * @returns x.xx
+ * 设置 cookie
+ * @returns
  */
-declare function formatNumberFixed(value: string, decimal?: number): string
+declare function setCookie(key: string, data: any): string | undefined
 ```
 
 使用示例
 
 ```ts
-import { formatNumberFixed } from '@plus-pro-components/utils'
+import { setCookie } from '@plus-pro-components/utils'
 
-formatNumberFixed('100.12555') // 100.12
+setCookie('username', 'name')
+```
+
+## getCookie
+
+获取 cookie
+
+```ts
+/**
+ * 获取 cookie
+ * @returns
+ */
+declare function getCookie(key: string): string | undefined
+```
+
+使用示例
+
+```ts
+import { getCookie } from '@plus-pro-components/utils'
+
+getCookie('username') // name
+```
+
+## removeCookie
+
+移除 cookie
+
+```ts
+/**
+ * 移除 cookie
+ */
+declare function removeCookie(key: string): void
+```
+
+使用示例
+
+```ts
+import { removeCookie } from '@plus-pro-components/utils'
+
+removeCookie('username')
 ```
 
 ---
@@ -7090,129 +7271,6 @@ declare function diffDateFromCurrent(date: number): string
 import { diffDateFromCurrent } from '@plus-pro-components/utils'
 
 diffDateFromCurrent(61) // 1秒前
-```
-
----
-
----
-url: /api\utils/cookie.md
----
-## setCookie
-
-设置 cookie
-
-```ts
-/**
- * 设置 cookie
- * @returns
- */
-declare function setCookie(key: string, data: any): string | undefined
-```
-
-使用示例
-
-```ts
-import { setCookie } from '@plus-pro-components/utils'
-
-setCookie('username', 'name')
-```
-
-## getCookie
-
-获取 cookie
-
-```ts
-/**
- * 获取 cookie
- * @returns
- */
-declare function getCookie(key: string): string | undefined
-```
-
-使用示例
-
-```ts
-import { getCookie } from '@plus-pro-components/utils'
-
-getCookie('username') // name
-```
-
-## removeCookie
-
-移除 cookie
-
-```ts
-/**
- * 移除 cookie
- */
-declare function removeCookie(key: string): void
-```
-
-使用示例
-
-```ts
-import { removeCookie } from '@plus-pro-components/utils'
-
-removeCookie('username')
-```
-
----
-
----
-url: /api\utils/encrypt.md
----
-## encrypt
-
-AES 加密
-
-```ts
-import CryptoJS from 'crypto-js'
-
-/**
- * AES加密
- * @param key
- * @param data
- * @returns
- */
-declare function encrypt(
-  key: string | CryptoJS.lib.WordArray,
-  data: string | CryptoJS.lib.WordArray
-): string
-```
-
-使用示例
-
-```ts
-import { encrypt } from '@plus-pro-components/utils'
-
-encrypt('key', 'message') // U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=
-```
-
-## decrypt
-
-AES 解密
-
-```ts
-import CryptoJS from 'crypto-js'
-
-/**
- * AES 解密
- * @param key
- * @param encrypted
- * @returns
- */
-declare function decrypt(
-  key: string | CryptoJS.lib.WordArray,
-  encrypted: string | CryptoJS.lib.CipherParams
-): string
-```
-
-使用示例
-
-```ts
-import { decrypt } from '@plus-pro-components/utils'
-
-decrypt('key', 'U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=') // message
 ```
 
 ---

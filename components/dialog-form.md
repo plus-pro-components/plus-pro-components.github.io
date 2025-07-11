@@ -60,25 +60,27 @@ dialog-form/custom-footer
 
 ## DialogForm Events
 
-| 名称                                  | 说明                             | 类型                                                                                        |
-| ------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------- |
-| `confirm`                             | 点击确定按钮触发的事件           | `function`                     |
-| `change`                              | 表单变化触发的事件               | `function`  |
-| `cancel`                              | 点击取消按钮触发的事件           | `function`                                        |
-| `submitError`v0.0.10 | 点击提交按钮校验不通过触发的事件 | `function`                               |
+| 名称                                  | 说明                                                                                       | 类型                                                                                        |
+| ------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| `confirm`                             | 点击确定按钮触发的事件                                                                     | `function`                     |
+| `change`                              | 表单变化触发的事件                                                                         | `function`  |
+| `cancel`                              | 点击取消按钮触发的事件                                                                     | `function`                                        |
+| `close` v0.1.25      | [el-dialog](https://element-plus.org/zh-CN/component/dialog.html#attributes) 的`close`事件 | `function`                                        |
+| `submitError`v0.0.10 | 点击提交按钮校验不通过触发的事件                                                           | `function`                               |
 
 ## DialogForm Slots
 
-| 插槽名                                | 说明                                                                                                                               | 作用域插槽参数                                                     |
-| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| `dialog-header`                       | [PlusDialog](/components/dialog.html#dialog-slots) 的 header slot                                                                  |                                                                    |
-| `dialog-footer`                       | [PlusDialog](/components/dialog.html#dialog-slots) 的 header slot                                                                  | `{handleConfirm,handleCancel}` 弹窗表单默认的**确定**,**取消**方法 |
-| `form-footer`                         | [PlusForm](/components/form.html#form-slots) 的 footer slot， 配置属性 `:form="{hasFooter:true}"` 生效                             | `{handleSubmit,handleReset} ` 表单默认的**提交**，**重置**方法     |
-| `tooltip-icon`v0.0.3 | [PlusForm](/components/form.html#form-slots) 的 tooltip icon                                                                       |                                                                    |
-| `form-group-header`                   | [PlusForm](/components/form.html#form-slots) 的 group-header slot                                                                  | `{title,columns,icon}`                                             |
-| `plus-field-*`                        | [PlusForm](/components/form.html#form-slots) 的自定义表单项，组件会自动根据配置项的 prop 生成对应的插槽                            | `{prop,label,fieldProps,valueType,column}`                         |
-| `plus-label-*`                        | [PlusForm](/components/form.html#form-slots) 的自定义表单项 label，组件会自动根据配置项的 prop 生成对应的插槽                      | `{prop,label,fieldProps,valueType,column}`                         |
-| `plus-extra-*`                        | [PlusForm](/components/form.html#form-slots)的自定义渲染 el-form-item 下一行额外的内容，组件会自动根据配置项的 prop 生成对应的插槽 | `{column}`                                                         |
+| 插槽名                                     | 说明                                                                                                                                                     | 作用域插槽参数                                                     |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `dialog-header`                            | [PlusDialog](/components/dialog.html#dialog-slots) 的 header slot                                                                                        |                                                                    |
+| `dialog-footer`                            | [PlusDialog](/components/dialog.html#dialog-slots) 的 header slot                                                                                        | `{handleConfirm,handleCancel}` 弹窗表单默认的**确定**,**取消**方法 |
+| `form-footer`                              | [PlusForm](/components/form.html#form-slots) 的 footer slot， 配置属性 `:form="{hasFooter:true}"` 生效                                                   | `{handleSubmit,handleReset} ` 表单默认的**提交**，**重置**方法     |
+| `tooltip-icon`v0.0.3      | [PlusForm](/components/form.html#form-slots) 的 tooltip icon                                                                                             |                                                                    |
+| `form-group-header`                        | [PlusForm](/components/form.html#form-slots) 的 group-header slot                                                                                        | `{title,columns,icon}`                                             |
+| `plus-field-*`                             | [PlusForm](/components/form.html#form-slots) 的自定义表单项，组件会自动根据配置项的 prop 生成对应的插槽                                                  | `{prop,label,fieldProps,valueType,column}`                         |
+| `plus-label-*`                             | [PlusForm](/components/form.html#form-slots) 的自定义表单项 label，组件会自动根据配置项的 prop 生成对应的插槽                                            | `{prop,label,fieldProps,valueType,column}`                         |
+| `plus-extra-*`                             | [PlusForm](/components/form.html#form-slots)的自定义渲染 el-form-item 下一行额外的内容，组件会自动根据配置项的 prop 生成对应的插槽                       | `{column}`                                                         |
+| `plus-previous-*` v0.1.25 | 自定义渲染[el-form-item](https://element-plus.org/zh-CN/component/form.html#formitem-api) 上一行额外的内容，组件会自动根据配置项的 `prop` 生成对应的插槽 | `{column}`                                                         |
 
 ## Exposes
 
