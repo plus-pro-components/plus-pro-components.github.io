@@ -6540,65 +6540,6 @@ isIOS() // false
 ---
 
 ---
-url: /api\utils/encrypt.md
----
-## encrypt
-
-AES 加密
-
-```ts
-import CryptoJS from 'crypto-js'
-
-/**
- * AES加密
- * @param key
- * @param data
- * @returns
- */
-declare function encrypt(
-  key: string | CryptoJS.lib.WordArray,
-  data: string | CryptoJS.lib.WordArray
-): string
-```
-
-使用示例
-
-```ts
-import { encrypt } from '@plus-pro-components/utils'
-
-encrypt('key', 'message') // U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=
-```
-
-## decrypt
-
-AES 解密
-
-```ts
-import CryptoJS from 'crypto-js'
-
-/**
- * AES 解密
- * @param key
- * @param encrypted
- * @returns
- */
-declare function decrypt(
-  key: string | CryptoJS.lib.WordArray,
-  encrypted: string | CryptoJS.lib.CipherParams
-): string
-```
-
-使用示例
-
-```ts
-import { decrypt } from '@plus-pro-components/utils'
-
-decrypt('key', 'U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=') // message
-```
-
----
-
----
 url: /api\utils/number.md
 ---
 ## formatMoney
@@ -6935,6 +6876,127 @@ isEmptyObject([]) // false
 ---
 
 ---
+url: /api\utils/day.md
+---
+## formatDate
+
+格式化时间
+
+```ts
+import type { ConfigType } from 'dayjs'
+/**
+ * 格式化时间
+ * @param {string | number | Date | Dayjs | null | undefined} date
+ * @param format 默认YYYY-MM-DD HH:mm:ss
+ * @returns YYYY-MM-DD HH:mm:ss
+ */
+declare function formatDate(date?: ConfigType, format?: string): string
+```
+
+使用示例
+
+```ts
+import { formatDate } from '@plus-pro-components/utils'
+
+formatDate(new Date()) //  2023-01-01 01:01:01
+```
+
+## formatDateToDay
+
+格式化时间到天
+
+```ts
+import type { ConfigType } from 'dayjs'
+/**
+ * 格式化时间到天
+ * @param {string | number | Date | Dayjs | null | undefined} date
+ * @returns YYYY-MM-DD
+ */
+declare const formatDateToDay: (date: ConfigType) => string
+```
+
+使用示例
+
+```ts
+import { formatDateToDay } from '@plus-pro-components/utils'
+
+formatDateToDay(new Date()) //  2023-01-01
+```
+
+## formatDateToMinute
+
+格式化时间到分钟
+
+```ts
+import type { ConfigType } from 'dayjs'
+/**
+ * 格式化时间到分钟
+ * @param {string | number | Date | Dayjs | null | undefined} date
+ * @returns YYYY-MM-DD HH:mm
+ */
+declare const formatDateToMinute: (date: ConfigType) => string
+```
+
+使用示例
+
+```ts
+import { formatDateToMinute } from '@plus-pro-components/utils'
+
+formatDateToDay(new Date()) // 2023-01-01 01:01
+```
+
+## diffDate
+
+获取两个 Dayjs 对象的时间差，默认秒。
+
+```ts
+import type { QUnitType, OpUnitType, ConfigType } from 'dayjs'
+/**
+ * 获取两个 Dayjs 对象的时间差，默认秒。
+ * @param date1
+ * @param date2
+ * @param format  默认 'second'
+ * @returns
+ */
+declare function diffDate(
+  date1: ConfigType,
+  date2?: ConfigType,
+  format?: QUnitType | OpUnitType
+): number | string | undefined
+```
+
+使用示例
+
+```ts
+import { diffDate } from '@plus-pro-components/utils'
+
+diffDate(new Date(), '2023-01-01 01:01:01') // 18014030
+```
+
+## diffDateFromCurrent
+
+获取距离当前时间差 返回多少年（月/天/小时/分钟/秒）前
+
+```ts
+/**
+ * @desc 获取距离当前时间差
+ * @param date 时间秒数
+ * @returns
+ */
+declare function diffDateFromCurrent(date: number): string
+```
+
+使用示例
+
+```ts
+import { diffDateFromCurrent } from '@plus-pro-components/utils'
+
+diffDateFromCurrent(61) // 1秒前
+```
+
+---
+
+---
 url: /api\utils/file.md
 ---
 ## download
@@ -7153,122 +7215,60 @@ handleIsLegalResolutionRatio()
 ---
 
 ---
-url: /api\utils/day.md
+url: /api\utils/encrypt.md
 ---
-## formatDate
+## encrypt
 
-格式化时间
+AES 加密
 
 ```ts
-import type { ConfigType } from 'dayjs'
+import CryptoJS from 'crypto-js'
+
 /**
- * 格式化时间
- * @param {string | number | Date | Dayjs | null | undefined} date
- * @param format 默认YYYY-MM-DD HH:mm:ss
- * @returns YYYY-MM-DD HH:mm:ss
- */
-declare function formatDate(date?: ConfigType, format?: string): string
-```
-
-使用示例
-
-```ts
-import { formatDate } from '@plus-pro-components/utils'
-
-formatDate(new Date()) //  2023-01-01 01:01:01
-```
-
-## formatDateToDay
-
-格式化时间到天
-
-```ts
-import type { ConfigType } from 'dayjs'
-/**
- * 格式化时间到天
- * @param {string | number | Date | Dayjs | null | undefined} date
- * @returns YYYY-MM-DD
- */
-declare const formatDateToDay: (date: ConfigType) => string
-```
-
-使用示例
-
-```ts
-import { formatDateToDay } from '@plus-pro-components/utils'
-
-formatDateToDay(new Date()) //  2023-01-01
-```
-
-## formatDateToMinute
-
-格式化时间到分钟
-
-```ts
-import type { ConfigType } from 'dayjs'
-/**
- * 格式化时间到分钟
- * @param {string | number | Date | Dayjs | null | undefined} date
- * @returns YYYY-MM-DD HH:mm
- */
-declare const formatDateToMinute: (date: ConfigType) => string
-```
-
-使用示例
-
-```ts
-import { formatDateToMinute } from '@plus-pro-components/utils'
-
-formatDateToDay(new Date()) // 2023-01-01 01:01
-```
-
-## diffDate
-
-获取两个 Dayjs 对象的时间差，默认秒。
-
-```ts
-import type { QUnitType, OpUnitType, ConfigType } from 'dayjs'
-/**
- * 获取两个 Dayjs 对象的时间差，默认秒。
- * @param date1
- * @param date2
- * @param format  默认 'second'
+ * AES加密
+ * @param key
+ * @param data
  * @returns
  */
-declare function diffDate(
-  date1: ConfigType,
-  date2?: ConfigType,
-  format?: QUnitType | OpUnitType
-): number | string | undefined
+declare function encrypt(
+  key: string | CryptoJS.lib.WordArray,
+  data: string | CryptoJS.lib.WordArray
+): string
 ```
 
 使用示例
 
 ```ts
-import { diffDate } from '@plus-pro-components/utils'
+import { encrypt } from '@plus-pro-components/utils'
 
-diffDate(new Date(), '2023-01-01 01:01:01') // 18014030
+encrypt('key', 'message') // U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=
 ```
 
-## diffDateFromCurrent
+## decrypt
 
-获取距离当前时间差 返回多少年（月/天/小时/分钟/秒）前
+AES 解密
 
 ```ts
+import CryptoJS from 'crypto-js'
+
 /**
- * @desc 获取距离当前时间差
- * @param date 时间秒数
+ * AES 解密
+ * @param key
+ * @param encrypted
  * @returns
  */
-declare function diffDateFromCurrent(date: number): string
+declare function decrypt(
+  key: string | CryptoJS.lib.WordArray,
+  encrypted: string | CryptoJS.lib.CipherParams
+): string
 ```
 
 使用示例
 
 ```ts
-import { diffDateFromCurrent } from '@plus-pro-components/utils'
+import { decrypt } from '@plus-pro-components/utils'
 
-diffDateFromCurrent(61) // 1秒前
+decrypt('key', 'U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=') // message
 ```
 
 ---
@@ -7373,25 +7373,26 @@ url: /donate.md
 
 非常感谢您们的赞助！
 
-| 赞助人   | 金额     | 赞助人备注           | 作者的回复             |
-| -------- | -------- | -------------------- | ---------------------- |
-| \*伞     | ￥ 50    | 棒\*\*\*\*           | 感谢支持 ❤️            |
-| \*儿     | ￥ 20    | \*\*\*\*很方便       | 感谢支持 ❤️            |
-| \*蒙     | ￥ 18.8  | 感谢\*\*\*\*无私开源 | 感谢支持 ❤️            |
-| \*z6     | ￥ 100   | 感谢 \*\*\*\*指导    | 感谢支持 ❤️            |
-| \*锋     | ￥ 20    | \*\*\*\*感谢开源     | 感谢支持 ❤️            |
-| \*锋     | ￥ 20    | 多谢 \*\*\*\*指教    | 共同探讨， 感谢支持 ❤️ |
-| \*娜     | ￥ 2     | \*\*\*\*             | 感谢支持 ❤️            |
-| \*下     | ￥ 8.8   | 谢谢\*\*开源         | 感谢支持 ❤️            |
-| \*泽     | ￥ 66.66 | \*\*\*\*             | 感谢支持 ❤️            |
-| \*\*连连 | ￥ 9.9   | 喝杯\*\*             | 感谢支持 ❤️            |
-| \*\*连连 | ￥ 9.9   | 大\*\*               | 感谢支持 ❤️            |
-| \*\*连连 | ￥ 9.9   | \*\*\*\*             | 感谢支持 ❤️            |
-| \*       | ￥ 18.8  |                      | 感谢支持 ❤️            |
-| \*浩     | ￥ 30    | 给\*\*递茶           | 感谢支持 ❤️            |
-| C\*o     | ￥ 101   | 成为你的榜一\*\*     | 感谢老铁支持 ❤️        |
-| F\*s     | ￥ 30    |                      | 感谢支持 ❤️            |
-| \*天     | ￥ 1     | 分布表单问题\*\*     | 感谢支持 ❤️            |
+| 赞助人      | 金额     | 赞助人备注           | 作者的回复              |
+| ----------- | -------- | -------------------- | ----------------------- |
+| \*伞        | ￥ 50    | 棒\*\*\*\*           | 感谢支持 ❤️             |
+| \*儿        | ￥ 20    | \*\*\*\*很方便       | 感谢支持 ❤️             |
+| \*蒙        | ￥ 18.8  | 感谢\*\*\*\*无私开源 | 感谢支持 ❤️             |
+| \*z6        | ￥ 100   | 感谢 \*\*\*\*指导    | 感谢支持 ❤️             |
+| \*锋        | ￥ 20    | \*\*\*\*感谢开源     | 感谢支持 ❤️             |
+| \*锋        | ￥ 20    | 多谢 \*\*\*\*指教    | 共同探讨， 感谢支持 ❤️  |
+| \*娜        | ￥ 2     | \*\*\*\*             | 感谢支持 ❤️             |
+| \*下        | ￥ 8.8   | 谢谢\*\*开源         | 感谢支持 ❤️             |
+| \*泽        | ￥ 66.66 | \*\*\*\*             | 感谢支持 ❤️             |
+| \*\*连连    | ￥ 9.9   | 喝杯\*\*             | 感谢支持 ❤️             |
+| \*\*连连    | ￥ 9.9   | 大\*\*               | 感谢支持 ❤️             |
+| \*\*连连    | ￥ 9.9   | \*\*\*\*             | 感谢支持 ❤️             |
+| \*          | ￥ 18.8  |                      | 感谢支持 ❤️             |
+| \*浩        | ￥ 30    | 给\*\*递茶           | 感谢支持 ❤️             |
+| C\*o        | ￥ 101   | 成为你的榜一\*\*     | 感谢老铁支持 ❤️         |
+| F\*s        | ￥ 30    |                      | 感谢支持 ❤️             |
+| \*天        | ￥ 1     | 分布表单问题\*\*     | 感谢支持 ❤️             |
+| \*橙/\*\*GE | ￥ 20    | 真不错的\*\*学习     | 有收获就行，感谢支持 ❤️ |
 
 ---
 
