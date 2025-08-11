@@ -795,6 +795,146 @@ const columns: PlusColumn[] = [
 </script>
 ```
 
+## PlusTable 设置了 adaptive 属性，在搜索栏没有展开表格内容是可以自适应的 展开后表格高度还是之前的怎么办？
+
+在 [PlusSearch](/components/search.html#search-events) 的事件 [collapse](/components/search.html#search-events) 中主动触发 [PlusTable](/components/table.html) 的 `resize` 方法
+
+```vue {2,127-132}
+<template>
+  <PlusSearch v-model="state" :columns="columns" :show-number="2" @collapse="handleCollapse" />
+
+  <div class="adaptive-table-wrapper">
+    <PlusTable
+      ref="plusTableInstance"
+      :columns="columns"
+      :table-data="tableData"
+      :pagination="{
+        total: 10
+      }"
+      adaptive
+    />
+  </div>
+</template>
+
+<script lang="ts" setup>
+import type { PlusColumn, PlusTableInstance } from 'plus-pro-components'
+import { useTable } from 'plus-pro-components'
+import { ref } from 'vue'
+
+interface TableRow {
+  id: number
+  name: string
+  status: string
+  rate: number
+  switch: boolean
+  time: string
+  tag: string
+}
+
+const TestServe = {
+  getList: async () => {
+    const data = Array.from({ length: 10 }).map((item, index) => {
+      return {
+        id: index,
+        name: index < 2 ? '' : index + 'name',
+        status: String(index % 3),
+        rate: index > 3 ? 2 : 3.5,
+        switch: index % 2 === 0 ? true : false,
+        time: index < 2 ? '' : new Date(),
+        tag: index === 1 ? 'success' : index === 2 ? 'warning' : index === 3 ? 'info' : ''
+      }
+    })
+
+    return { data: data as TableRow[] }
+  }
+}
+const { tableData } = useTable<TableRow[]>()
+const state = ref({})
+
+const plusTableInstance = ref<PlusTableInstance | null>(null)
+
+const columns = ref<PlusColumn[]>([
+  {
+    label: '名称',
+    prop: 'name',
+    width: 120
+  },
+  {
+    label: '状态',
+    prop: 'status',
+    valueType: 'select',
+    options: [
+      {
+        label: '未解决',
+        value: '0',
+        color: 'red'
+      },
+      {
+        label: '已解决',
+        value: '1',
+        color: 'blue'
+      },
+      {
+        label: '解决中',
+        value: '2',
+        color: 'yellow'
+      },
+      {
+        label: '失败',
+        value: '3',
+        color: 'red'
+      }
+    ]
+  },
+  {
+    label: '评分',
+    width: 200,
+    prop: 'rate',
+    valueType: 'rate'
+  },
+  {
+    label: '标签',
+    width: 200,
+    prop: 'tag',
+    valueType: 'tag'
+  },
+  {
+    label: '开关',
+    width: 100,
+    prop: 'switch',
+    valueType: 'switch'
+  },
+  {
+    label: '日期',
+    prop: 'time',
+    valueType: 'date-picker',
+    width: 250,
+    fieldProps: {
+      type: 'date',
+      placeholder: '请选择日期',
+      format: 'YYYY-MM-DD',
+      valueFormat: 'YYYY-MM-DD'
+    }
+  }
+])
+
+const getList = async () => {
+  try {
+    const { data } = await TestServe.getList()
+    tableData.value = data.map(item => ({ ...item }))
+  } catch (error) {}
+}
+getList()
+
+const handleCollapse = () => {
+  // 延时是为了拿到最新的位置
+  setTimeout(() => {
+    window.dispatchEvent(new Event('resize'))
+  }, 160)
+}
+</script>
+```
+
 ---
 
 ---
@@ -5374,6 +5514,10 @@ boolean | {
 表格设置`height`属性后， `adaptive`属性将**不在生效**。
 :::
 
+::: tip 提示
+在和 搜索栏一起使用时，可能存在高度未更新情况，请参考[QA](/components/QA.html#plustable-设置了-adaptive-属性-在搜索栏没有展开表格内容是可以自适应的-展开后表格高度还是之前的怎么办)。
+:::
+
 :::demo
 table/height-adaptive
 :::
@@ -6540,77 +6684,6 @@ isIOS() // false
 ---
 
 ---
-url: /api\utils/number.md
----
-## formatMoney
-
-格式化金钱
-
-```ts
-/**
- * 格式化金钱  ￥12,345,678.00
- * @param val
- * @param format 默认 '￥'
- * @returns
- */
-declare function formatMoney(val: string | number, format?: string): string
-```
-
-使用示例
-
-```ts
-import { formatMoney } from '@plus-pro-components/utils'
-
-formatMoney('100') // ￥100.00
-```
-
-## formatNumber
-
-格式化数字
-
-```ts
-/**
- * 格式化数字
- * @param number
- * @param  format  默认格式 '0.00'
- * @returns
- */
-declare function formatNumber(number: number | string, format?: string): string
-```
-
-使用示例
-
-```ts
-import { formatNumber } from '@plus-pro-components/utils'
-
-formatNumber('100') // 100.00
-```
-
-## formatNumberFixed
-
-格式化数字保留几位小数，不会四舍五入
-
-```ts
-/**
- * 格式化数字保留几位小数
- * @param value
- * @param decimal 默认2位小数
- * @returns x.xx
- */
-declare function formatNumberFixed(value: string, decimal?: number): string
-```
-
-使用示例
-
-```ts
-import { formatNumberFixed } from '@plus-pro-components/utils'
-
-formatNumberFixed('100.12555') // 100.12
-```
-
----
-
----
 url: /api\utils/is.md
 ---
 ## isArray
@@ -6871,6 +6944,77 @@ import { isEmptyObject } from '@plus-pro-components/utils'
 isEmptyObject({}) // true
 isEmptyObject({ data: 'data' }) // false
 isEmptyObject([]) // false
+```
+
+---
+
+---
+url: /api\utils/number.md
+---
+## formatMoney
+
+格式化金钱
+
+```ts
+/**
+ * 格式化金钱  ￥12,345,678.00
+ * @param val
+ * @param format 默认 '￥'
+ * @returns
+ */
+declare function formatMoney(val: string | number, format?: string): string
+```
+
+使用示例
+
+```ts
+import { formatMoney } from '@plus-pro-components/utils'
+
+formatMoney('100') // ￥100.00
+```
+
+## formatNumber
+
+格式化数字
+
+```ts
+/**
+ * 格式化数字
+ * @param number
+ * @param  format  默认格式 '0.00'
+ * @returns
+ */
+declare function formatNumber(number: number | string, format?: string): string
+```
+
+使用示例
+
+```ts
+import { formatNumber } from '@plus-pro-components/utils'
+
+formatNumber('100') // 100.00
+```
+
+## formatNumberFixed
+
+格式化数字保留几位小数，不会四舍五入
+
+```ts
+/**
+ * 格式化数字保留几位小数
+ * @param value
+ * @param decimal 默认2位小数
+ * @returns x.xx
+ */
+declare function formatNumberFixed(value: string, decimal?: number): string
+```
+
+使用示例
+
+```ts
+import { formatNumberFixed } from '@plus-pro-components/utils'
+
+formatNumberFixed('100.12555') // 100.12
 ```
 
 ---
@@ -7153,6 +7297,70 @@ decrypt('key', 'U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=') // message
 ---
 
 ---
+url: /api\utils/cookie.md
+---
+## setCookie
+
+设置 cookie
+
+```ts
+/**
+ * 设置 cookie
+ * @returns
+ */
+declare function setCookie(key: string, data: any): string | undefined
+```
+
+使用示例
+
+```ts
+import { setCookie } from '@plus-pro-components/utils'
+
+setCookie('username', 'name')
+```
+
+## getCookie
+
+获取 cookie
+
+```ts
+/**
+ * 获取 cookie
+ * @returns
+ */
+declare function getCookie(key: string): string | undefined
+```
+
+使用示例
+
+```ts
+import { getCookie } from '@plus-pro-components/utils'
+
+getCookie('username') // name
+```
+
+## removeCookie
+
+移除 cookie
+
+```ts
+/**
+ * 移除 cookie
+ */
+declare function removeCookie(key: string): void
+```
+
+使用示例
+
+```ts
+import { removeCookie } from '@plus-pro-components/utils'
+
+removeCookie('username')
+```
+
+---
+
+---
 url: /api\utils/day.md
 ---
 ## formatDate
@@ -7269,70 +7477,6 @@ declare function diffDateFromCurrent(date: number): string
 import { diffDateFromCurrent } from '@plus-pro-components/utils'
 
 diffDateFromCurrent(61) // 1秒前
-```
-
----
-
----
-url: /api\utils/cookie.md
----
-## setCookie
-
-设置 cookie
-
-```ts
-/**
- * 设置 cookie
- * @returns
- */
-declare function setCookie(key: string, data: any): string | undefined
-```
-
-使用示例
-
-```ts
-import { setCookie } from '@plus-pro-components/utils'
-
-setCookie('username', 'name')
-```
-
-## getCookie
-
-获取 cookie
-
-```ts
-/**
- * 获取 cookie
- * @returns
- */
-declare function getCookie(key: string): string | undefined
-```
-
-使用示例
-
-```ts
-import { getCookie } from '@plus-pro-components/utils'
-
-getCookie('username') // name
-```
-
-## removeCookie
-
-移除 cookie
-
-```ts
-/**
- * 移除 cookie
- */
-declare function removeCookie(key: string): void
-```
-
-使用示例
-
-```ts
-import { removeCookie } from '@plus-pro-components/utils'
-
-removeCookie('username')
 ```
 
 ---
