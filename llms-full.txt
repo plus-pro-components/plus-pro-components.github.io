@@ -1474,6 +1474,13 @@ export interface ActionBarProps {
    * @version v0.1.17
    */
   confirmType?: 'messageBox' | 'popconfirm'
+
+  /**
+   * 更多按钮的显示类型，text 显示文字和图标，icon 只显示图标
+   * @default 'text'
+   * @version v0.1.28
+   */
+  moreType?: 'text' | 'icon'
 }
 ```
 
@@ -1828,6 +1835,10 @@ export interface OptionsRow<T = undefined> {
    * 子选项，仅valueType 为 `cascader` 时生效
    */
   children?: OptionsRow[]
+  /**
+   * @version 0.1.28 当 valueType 为 select 时，将选项进行分组显示
+   */
+  options?: OptionsRow[]
 }
 ```
 
@@ -4773,7 +4784,7 @@ page/crud
 | `search-footer`                               | [PlusSearch](/components/search.html) 的 footer                                                                                                                                                                                                             |                                                                                             |
 | `pagination-left`v0.0.3      | [PlusTable](/components/table.html)分页器左侧内容 （默认生效，`align` 属性默认是 `right`）                                                                                                                                                                  |                                                                                             |
 | `pagination-right`v0.0.3     | [PlusTable](/components/table.html) 分页器右侧内容 （`align` 属性是 `left`时生效）                                                                                                                                                                          |                                                                                             |
-| `action-bar-more-icon`v0.0.3 | [PlusTable](/components/table.html)操作栏更多傍边的 icon                                                                                                                                                                                                    |                                                                                             |
+| `action-bar-more-icon`v0.0.3 | [PlusTable](/components/table.html)操作栏更多旁边的 icon                                                                                                                                                                                                    |                                                                                             |
 | `tooltip-icon`v0.0.3         | [PlusTable](/components/table.html) 表格表头 tooltip icon                                                                                                                                                                                                   |                                                                                             |
 | `drag-sort-icon`v0.0.3       | [PlusTable](/components/table.html)表格拖拽行 和 列设置里拖拽 icon                                                                                                                                                                                          |                                                                                             |
 | `column-settings-icon`v0.0.3 | [PlusTable](/components/table.html)表格表头 列设置 icon                                                                                                                                                                                                     |                                                                                             |
@@ -4817,11 +4828,24 @@ pagination/basic
 
 :::
 
+## 对齐方式
+
+支持 `left`、`right`、`center`(v0.1.28新增) 三种对齐方式。
+
+:::demo
+
+pagination/align
+
+:::
+
 ## 左右侧内容 自定义
 
 v0.0.2
 
 `align` 属性默认是 `right`，插槽 `pagination-left` 默认生效。要使用`pagination-right` 插槽，需要设置`align` 属性为 `left`。
+
+v0.1.28
+设置 `align` 为 `center` 时分页器将居中显示，且左右两个插槽都可使用。
 :::demo
 
 pagination/slot
@@ -4832,13 +4856,13 @@ pagination/slot
 
 ## Pagination Attributes
 
-| 名称                    | 说明     | 类型                                                      | 默认值                                          | 是否必须 |
-| ----------------------- | -------- | --------------------------------------------------------- | ----------------------------------------------- | -------- |
-| `align`                 | 对齐方式 | `string`  | `right`                                         | 否       |
-| `model-value / v-model` | 分页值   | `object` [PageInfo](/components/type.html#pageinfo)       | `{  page: 1,pageSize: 10}`                      | 否       |
-| `total`                 | 总数     | `number`                                                  | `0`                                             | 否       |
-| `pageSizeList`          | 分页列表 | `array`           | `[10, 20, 30, 40, 50, 100, 200, 300, 400, 500]` | 否       |
-| ...                     | ...      | ...                                                       | ...                                             | ...      |
+| 名称                    | 说明     | 类型                                                                                                           | 默认值                                          | 是否必须 |
+| ----------------------- | -------- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | -------- |
+| `align`                 | 对齐方式 | `string`  （`center`v0.1.28 新增） | `right`                                         | 否       |
+| `model-value / v-model` | 分页值   | `object` [PageInfo](/components/type.html#pageinfo)                                                            | `{  page: 1,pageSize: 10}`                      | 否       |
+| `total`                 | 总数     | `number`                                                                                                       | `0`                                             | 否       |
+| `pageSizeList`          | 分页列表 | `array`                                                                | `[10, 20, 30, 40, 50, 100, 200, 300, 400, 500]` | 否       |
+| ...                     | ...      | ...                                                                                                            | ...                                             | ...      |
 
 :::tip 提示
 **`...`表示同时支持所有 [el-pagination](https://element-plus.org/zh-CN/component/pagination.html#%E5%B1%9E%E6%80%A7) Attributes**
@@ -4861,10 +4885,10 @@ el-pagination 的其他事件的支持写法 如 prev-click，如下示例
 
 ## Pagination Slots
 
-| 插槽名                                    | 说明                                                    |
-| ----------------------------------------- | ------------------------------------------------------- |
-| `pagination-left`v0.0.2  | 分页器左侧内容 （默认生效，`align` 属性默认是 `right`） |
-| `pagination-right`v0.0.2 | 分页器右侧内容 （`align` 属性是 `left`时生效）          |
+| 插槽名                                    | 说明                                                                                              |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `pagination-left`v0.0.2  | 分页器左侧内容 ，`align` 为 `right` 或 `center`（v0.1.28 新增） 时生效。 |
+| `pagination-right`v0.0.2 | 分页器右侧内容 ，`align` 为 `left` 或 `center`（v0.1.28 新增） 时生效。  |
 
 ---
 
@@ -6255,6 +6279,116 @@ el-table 的其他插槽 如 `append`,`empty`。 **v0.1.7 开始支持 `default`
 ---
 
 ---
+url: /api\utils/validate.md
+---
+## validateRegexUrl
+
+校验链接地址
+
+```ts
+/**
+ * @desc 校验链接地址
+ * @param url
+ * @returns
+ */
+declare function validateRegexUrl(url: string): boolean
+```
+
+使用示例
+
+```ts
+import { validateRegexUrl } from '@plus-pro-components/utils'
+
+validateRegexUrl('https://www.api.com') // true
+```
+
+## validatePhone
+
+检验电话
+
+```ts
+/**
+ * @desc 检验电话
+ * @param phone
+ * @returns
+ */
+declare const validatePhone: (phone: string) => boolean
+```
+
+使用示例
+
+```ts
+import { validatePhone } from '@plus-pro-components/utils'
+
+validatePhone('18888888888') // true
+```
+
+## validateLocalPhone
+
+检验固定电话
+
+```ts
+/**
+ * @desc 检验固定电话
+ * @param localPhone
+ * @returns
+ */
+declare const validateLocalPhone: (localPhone: string) => boolean
+```
+
+使用示例
+
+```ts
+import { validateLocalPhone } from '@plus-pro-components/utils'
+
+validateLocalPhone('010-88568888-6603') // true
+```
+
+## validateEmail
+
+检验邮箱
+
+```ts
+/**
+ * @desc 检验邮箱
+ * @param mail
+ * @returns
+ */
+declare const validateEmail: (mail: string) => boolean
+```
+
+使用示例
+
+```ts
+import { validateEmail } from '@plus-pro-components/utils'
+
+validateEmail('8888@qq.com') // true
+```
+
+## validateExternal
+
+判断是否是可跳转 URL
+
+```ts
+/**
+ * @desc 判断是否是可跳转URL
+ * @param {string} path
+ * @returns
+ */
+declare const validateExternal: (path: string) => boolean
+```
+
+使用示例
+
+```ts
+import { validateExternal } from '@plus-pro-components/utils'
+
+validateExternal('http://www.api.com') // true
+```
+
+---
+
+---
 url: /api\utils/storage.md
 ---
 ## setStorage
@@ -6574,6 +6708,191 @@ isIOS() // false
 ---
 
 ---
+url: /api\utils/cookie.md
+---
+## setCookie
+
+设置 cookie
+
+```ts
+/**
+ * 设置 cookie
+ * @returns
+ */
+declare function setCookie(key: string, data: any): string | undefined
+```
+
+使用示例
+
+```ts
+import { setCookie } from '@plus-pro-components/utils'
+
+setCookie('username', 'name')
+```
+
+## getCookie
+
+获取 cookie
+
+```ts
+/**
+ * 获取 cookie
+ * @returns
+ */
+declare function getCookie(key: string): string | undefined
+```
+
+使用示例
+
+```ts
+import { getCookie } from '@plus-pro-components/utils'
+
+getCookie('username') // name
+```
+
+## removeCookie
+
+移除 cookie
+
+```ts
+/**
+ * 移除 cookie
+ */
+declare function removeCookie(key: string): void
+```
+
+使用示例
+
+```ts
+import { removeCookie } from '@plus-pro-components/utils'
+
+removeCookie('username')
+```
+
+---
+
+---
+url: /api\utils/day.md
+---
+## formatDate
+
+格式化时间
+
+```ts
+import type { ConfigType } from 'dayjs'
+/**
+ * 格式化时间
+ * @param {string | number | Date | Dayjs | null | undefined} date
+ * @param format 默认YYYY-MM-DD HH:mm:ss
+ * @returns YYYY-MM-DD HH:mm:ss
+ */
+declare function formatDate(date?: ConfigType, format?: string): string
+```
+
+使用示例
+
+```ts
+import { formatDate } from '@plus-pro-components/utils'
+
+formatDate(new Date()) //  2023-01-01 01:01:01
+```
+
+## formatDateToDay
+
+格式化时间到天
+
+```ts
+import type { ConfigType } from 'dayjs'
+/**
+ * 格式化时间到天
+ * @param {string | number | Date | Dayjs | null | undefined} date
+ * @returns YYYY-MM-DD
+ */
+declare const formatDateToDay: (date: ConfigType) => string
+```
+
+使用示例
+
+```ts
+import { formatDateToDay } from '@plus-pro-components/utils'
+
+formatDateToDay(new Date()) //  2023-01-01
+```
+
+## formatDateToMinute
+
+格式化时间到分钟
+
+```ts
+import type { ConfigType } from 'dayjs'
+/**
+ * 格式化时间到分钟
+ * @param {string | number | Date | Dayjs | null | undefined} date
+ * @returns YYYY-MM-DD HH:mm
+ */
+declare const formatDateToMinute: (date: ConfigType) => string
+```
+
+使用示例
+
+```ts
+import { formatDateToMinute } from '@plus-pro-components/utils'
+
+formatDateToDay(new Date()) // 2023-01-01 01:01
+```
+
+## diffDate
+
+获取两个 Dayjs 对象的时间差，默认秒。
+
+```ts
+import type { QUnitType, OpUnitType, ConfigType } from 'dayjs'
+/**
+ * 获取两个 Dayjs 对象的时间差，默认秒。
+ * @param date1
+ * @param date2
+ * @param format  默认 'second'
+ * @returns
+ */
+declare function diffDate(
+  date1: ConfigType,
+  date2?: ConfigType,
+  format?: QUnitType | OpUnitType
+): number | string | undefined
+```
+
+使用示例
+
+```ts
+import { diffDate } from '@plus-pro-components/utils'
+
+diffDate(new Date(), '2023-01-01 01:01:01') // 18014030
+```
+
+## diffDateFromCurrent
+
+获取距离当前时间差 返回多少年（月/天/小时/分钟/秒）前
+
+```ts
+/**
+ * @desc 获取距离当前时间差
+ * @param date 时间秒数
+ * @returns
+ */
+declare function diffDateFromCurrent(date: number): string
+```
+
+使用示例
+
+```ts
+import { diffDateFromCurrent } from '@plus-pro-components/utils'
+
+diffDateFromCurrent(61) // 1秒前
+```
+
+---
+
+---
 url: /api\utils/number.md
 ---
 ## formatMoney
@@ -6640,65 +6959,6 @@ declare function formatNumberFixed(value: string, decimal?: number): string
 import { formatNumberFixed } from '@plus-pro-components/utils'
 
 formatNumberFixed('100.12555') // 100.12
-```
-
----
-
----
-url: /api\utils/encrypt.md
----
-## encrypt
-
-AES 加密
-
-```ts
-import CryptoJS from 'crypto-js'
-
-/**
- * AES加密
- * @param key
- * @param data
- * @returns
- */
-declare function encrypt(
-  key: string | CryptoJS.lib.WordArray,
-  data: string | CryptoJS.lib.WordArray
-): string
-```
-
-使用示例
-
-```ts
-import { encrypt } from '@plus-pro-components/utils'
-
-encrypt('key', 'message') // U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=
-```
-
-## decrypt
-
-AES 解密
-
-```ts
-import CryptoJS from 'crypto-js'
-
-/**
- * AES 解密
- * @param key
- * @param encrypted
- * @returns
- */
-declare function decrypt(
-  key: string | CryptoJS.lib.WordArray,
-  encrypted: string | CryptoJS.lib.CipherParams
-): string
-```
-
-使用示例
-
-```ts
-import { decrypt } from '@plus-pro-components/utils'
-
-decrypt('key', 'U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=') // message
 ```
 
 ---
@@ -6969,6 +7229,65 @@ isEmptyObject([]) // false
 ---
 
 ---
+url: /api\utils/encrypt.md
+---
+## encrypt
+
+AES 加密
+
+```ts
+import CryptoJS from 'crypto-js'
+
+/**
+ * AES加密
+ * @param key
+ * @param data
+ * @returns
+ */
+declare function encrypt(
+  key: string | CryptoJS.lib.WordArray,
+  data: string | CryptoJS.lib.WordArray
+): string
+```
+
+使用示例
+
+```ts
+import { encrypt } from '@plus-pro-components/utils'
+
+encrypt('key', 'message') // U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=
+```
+
+## decrypt
+
+AES 解密
+
+```ts
+import CryptoJS from 'crypto-js'
+
+/**
+ * AES 解密
+ * @param key
+ * @param encrypted
+ * @returns
+ */
+declare function decrypt(
+  key: string | CryptoJS.lib.WordArray,
+  encrypted: string | CryptoJS.lib.CipherParams
+): string
+```
+
+使用示例
+
+```ts
+import { decrypt } from '@plus-pro-components/utils'
+
+decrypt('key', 'U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=') // message
+```
+
+---
+
+---
 url: /api\utils/file.md
 ---
 ## download
@@ -7182,301 +7501,6 @@ const handleIsLegalResolutionRatio = async () => {
 }
 
 handleIsLegalResolutionRatio()
-```
-
----
-
----
-url: /api\utils/day.md
----
-## formatDate
-
-格式化时间
-
-```ts
-import type { ConfigType } from 'dayjs'
-/**
- * 格式化时间
- * @param {string | number | Date | Dayjs | null | undefined} date
- * @param format 默认YYYY-MM-DD HH:mm:ss
- * @returns YYYY-MM-DD HH:mm:ss
- */
-declare function formatDate(date?: ConfigType, format?: string): string
-```
-
-使用示例
-
-```ts
-import { formatDate } from '@plus-pro-components/utils'
-
-formatDate(new Date()) //  2023-01-01 01:01:01
-```
-
-## formatDateToDay
-
-格式化时间到天
-
-```ts
-import type { ConfigType } from 'dayjs'
-/**
- * 格式化时间到天
- * @param {string | number | Date | Dayjs | null | undefined} date
- * @returns YYYY-MM-DD
- */
-declare const formatDateToDay: (date: ConfigType) => string
-```
-
-使用示例
-
-```ts
-import { formatDateToDay } from '@plus-pro-components/utils'
-
-formatDateToDay(new Date()) //  2023-01-01
-```
-
-## formatDateToMinute
-
-格式化时间到分钟
-
-```ts
-import type { ConfigType } from 'dayjs'
-/**
- * 格式化时间到分钟
- * @param {string | number | Date | Dayjs | null | undefined} date
- * @returns YYYY-MM-DD HH:mm
- */
-declare const formatDateToMinute: (date: ConfigType) => string
-```
-
-使用示例
-
-```ts
-import { formatDateToMinute } from '@plus-pro-components/utils'
-
-formatDateToDay(new Date()) // 2023-01-01 01:01
-```
-
-## diffDate
-
-获取两个 Dayjs 对象的时间差，默认秒。
-
-```ts
-import type { QUnitType, OpUnitType, ConfigType } from 'dayjs'
-/**
- * 获取两个 Dayjs 对象的时间差，默认秒。
- * @param date1
- * @param date2
- * @param format  默认 'second'
- * @returns
- */
-declare function diffDate(
-  date1: ConfigType,
-  date2?: ConfigType,
-  format?: QUnitType | OpUnitType
-): number | string | undefined
-```
-
-使用示例
-
-```ts
-import { diffDate } from '@plus-pro-components/utils'
-
-diffDate(new Date(), '2023-01-01 01:01:01') // 18014030
-```
-
-## diffDateFromCurrent
-
-获取距离当前时间差 返回多少年（月/天/小时/分钟/秒）前
-
-```ts
-/**
- * @desc 获取距离当前时间差
- * @param date 时间秒数
- * @returns
- */
-declare function diffDateFromCurrent(date: number): string
-```
-
-使用示例
-
-```ts
-import { diffDateFromCurrent } from '@plus-pro-components/utils'
-
-diffDateFromCurrent(61) // 1秒前
-```
-
----
-
----
-url: /api\utils/cookie.md
----
-## setCookie
-
-设置 cookie
-
-```ts
-/**
- * 设置 cookie
- * @returns
- */
-declare function setCookie(key: string, data: any): string | undefined
-```
-
-使用示例
-
-```ts
-import { setCookie } from '@plus-pro-components/utils'
-
-setCookie('username', 'name')
-```
-
-## getCookie
-
-获取 cookie
-
-```ts
-/**
- * 获取 cookie
- * @returns
- */
-declare function getCookie(key: string): string | undefined
-```
-
-使用示例
-
-```ts
-import { getCookie } from '@plus-pro-components/utils'
-
-getCookie('username') // name
-```
-
-## removeCookie
-
-移除 cookie
-
-```ts
-/**
- * 移除 cookie
- */
-declare function removeCookie(key: string): void
-```
-
-使用示例
-
-```ts
-import { removeCookie } from '@plus-pro-components/utils'
-
-removeCookie('username')
-```
-
----
-
----
-url: /api\utils/validate.md
----
-## validateRegexUrl
-
-校验链接地址
-
-```ts
-/**
- * @desc 校验链接地址
- * @param url
- * @returns
- */
-declare function validateRegexUrl(url: string): boolean
-```
-
-使用示例
-
-```ts
-import { validateRegexUrl } from '@plus-pro-components/utils'
-
-validateRegexUrl('https://www.api.com') // true
-```
-
-## validatePhone
-
-检验电话
-
-```ts
-/**
- * @desc 检验电话
- * @param phone
- * @returns
- */
-declare const validatePhone: (phone: string) => boolean
-```
-
-使用示例
-
-```ts
-import { validatePhone } from '@plus-pro-components/utils'
-
-validatePhone('18888888888') // true
-```
-
-## validateLocalPhone
-
-检验固定电话
-
-```ts
-/**
- * @desc 检验固定电话
- * @param localPhone
- * @returns
- */
-declare const validateLocalPhone: (localPhone: string) => boolean
-```
-
-使用示例
-
-```ts
-import { validateLocalPhone } from '@plus-pro-components/utils'
-
-validateLocalPhone('010-88568888-6603') // true
-```
-
-## validateEmail
-
-检验邮箱
-
-```ts
-/**
- * @desc 检验邮箱
- * @param mail
- * @returns
- */
-declare const validateEmail: (mail: string) => boolean
-```
-
-使用示例
-
-```ts
-import { validateEmail } from '@plus-pro-components/utils'
-
-validateEmail('8888@qq.com') // true
-```
-
-## validateExternal
-
-判断是否是可跳转 URL
-
-```ts
-/**
- * @desc 判断是否是可跳转URL
- * @param {string} path
- * @returns
- */
-declare const validateExternal: (path: string) => boolean
-```
-
-使用示例
-
-```ts
-import { validateExternal } from '@plus-pro-components/utils'
-
-validateExternal('http://www.api.com') // true
 ```
 
 ---

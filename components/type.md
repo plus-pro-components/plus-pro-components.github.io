@@ -296,6 +296,13 @@ export interface ActionBarProps {
    * @version v0.1.17
    */
   confirmType?: 'messageBox' | 'popconfirm'
+
+  /**
+   * 更多按钮的显示类型，text 显示文字和图标，icon 只显示图标
+   * @default 'text'
+   * @version v0.1.28
+   */
+  moreType?: 'text' | 'icon'
 }
 ```
 
@@ -650,6 +657,10 @@ export interface OptionsRow<T = undefined> {
    * 子选项，仅valueType 为 `cascader` 时生效
    */
   children?: OptionsRow[]
+  /**
+   * @version 0.1.28 当 valueType 为 select 时，将选项进行分组显示
+   */
+  options?: OptionsRow[]
 }
 ```
 
