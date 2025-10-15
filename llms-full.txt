@@ -6389,129 +6389,6 @@ validateExternal('http://www.api.com') // true
 ---
 
 ---
-url: /api\utils/storage.md
----
-## setStorage
-
-设置 `localStorage`
-
-```ts
-/**
- * 设置 localStorage
- * @returns storage
- */
-declare function setToken(key: string, token: string): string
-```
-
-使用示例
-
-```ts
-import { setStorage } from '@plus-pro-components/utils'
-
-setStorage('key', { data: { username: 'name' } })
-```
-
-## getStorage
-
-获取 `localStorage`
-
-```ts
-/**
- * 获取 localStorage
- * @returns storage
- */
-declare function getToken(key: string): string
-```
-
-使用示例
-
-```ts
-import { getStorage } from '@plus-pro-components/utils'
-
-getStorage('key') // { data: { username: "name" } }
-```
-
-## removeStorage
-
-移除 `localStorage`
-
-```ts
-/**
- * 移除storage
- */
-declare function removeToken(key: string): void
-```
-
-使用示例
-
-```ts
-import { removeStorage } from '@plus-pro-components/utils'
-
-removeStorage('key')
-```
-
-## setToken
-
-设置 token 带 AES 加密 （存储在 `localStorage`）
-
-```ts
-/**
- * 设置token 带AES加密
- * @returns token
- */
-declare function setToken(key: string, token: string): string
-```
-
-使用示例
-
-```ts
-import { setToken } from '@plus-pro-components/utils'
-
-setToken('tokenKey', 'token')
-```
-
-## getToken
-
-获取 token 带 AES 解密 （获取的是 `localStorage` 的值）
-
-```ts
-/**
- * 获取token  带AES解密
- * @returns token
- */
-declare function getToken(key: string): string
-```
-
-使用示例
-
-```ts
-import { getToken } from '@plus-pro-components/utils'
-
-getToken('tokenKey') //  'token'
-```
-
-## removeToken
-
-移除 token （移除的是 `localStorage` 的值）
-
-```ts
-/**
- * 移除token
- */
-declare function removeToken(key: string): void
-```
-
-使用示例
-
-```ts
-import { removeToken } from '@plus-pro-components/utils'
-
-removeToken('tokenKey')
-```
-
----
-
----
 url: /api\utils/other.md
 ---
 ## getBigLetter
@@ -6708,186 +6585,124 @@ isIOS() // false
 ---
 
 ---
-url: /api\utils/cookie.md
+url: /api\utils/storage.md
 ---
-## setCookie
+## setStorage
 
-设置 cookie
+设置 `localStorage`
 
 ```ts
 /**
- * 设置 cookie
- * @returns
+ * 设置 localStorage
+ * @returns storage
  */
-declare function setCookie(key: string, data: any): string | undefined
+declare function setToken(key: string, token: string): string
 ```
 
 使用示例
 
 ```ts
-import { setCookie } from '@plus-pro-components/utils'
+import { setStorage } from '@plus-pro-components/utils'
 
-setCookie('username', 'name')
+setStorage('key', { data: { username: 'name' } })
 ```
 
-## getCookie
+## getStorage
 
-获取 cookie
+获取 `localStorage`
 
 ```ts
 /**
- * 获取 cookie
- * @returns
+ * 获取 localStorage
+ * @returns storage
  */
-declare function getCookie(key: string): string | undefined
+declare function getToken(key: string): string
 ```
 
 使用示例
 
 ```ts
-import { getCookie } from '@plus-pro-components/utils'
+import { getStorage } from '@plus-pro-components/utils'
 
-getCookie('username') // name
+getStorage('key') // { data: { username: "name" } }
 ```
 
-## removeCookie
+## removeStorage
 
-移除 cookie
+移除 `localStorage`
 
 ```ts
 /**
- * 移除 cookie
+ * 移除storage
  */
-declare function removeCookie(key: string): void
+declare function removeToken(key: string): void
 ```
 
 使用示例
 
 ```ts
-import { removeCookie } from '@plus-pro-components/utils'
+import { removeStorage } from '@plus-pro-components/utils'
 
-removeCookie('username')
+removeStorage('key')
 ```
 
----
+## setToken
 
----
-url: /api\utils/day.md
----
-## formatDate
-
-格式化时间
+设置 token 带 AES 加密 （存储在 `localStorage`）
 
 ```ts
-import type { ConfigType } from 'dayjs'
 /**
- * 格式化时间
- * @param {string | number | Date | Dayjs | null | undefined} date
- * @param format 默认YYYY-MM-DD HH:mm:ss
- * @returns YYYY-MM-DD HH:mm:ss
+ * 设置token 带AES加密
+ * @returns token
  */
-declare function formatDate(date?: ConfigType, format?: string): string
+declare function setToken(key: string, token: string): string
 ```
 
 使用示例
 
 ```ts
-import { formatDate } from '@plus-pro-components/utils'
+import { setToken } from '@plus-pro-components/utils'
 
-formatDate(new Date()) //  2023-01-01 01:01:01
+setToken('tokenKey', 'token')
 ```
 
-## formatDateToDay
+## getToken
 
-格式化时间到天
+获取 token 带 AES 解密 （获取的是 `localStorage` 的值）
 
 ```ts
-import type { ConfigType } from 'dayjs'
 /**
- * 格式化时间到天
- * @param {string | number | Date | Dayjs | null | undefined} date
- * @returns YYYY-MM-DD
+ * 获取token  带AES解密
+ * @returns token
  */
-declare const formatDateToDay: (date: ConfigType) => string
+declare function getToken(key: string): string
 ```
 
 使用示例
 
 ```ts
-import { formatDateToDay } from '@plus-pro-components/utils'
+import { getToken } from '@plus-pro-components/utils'
 
-formatDateToDay(new Date()) //  2023-01-01
+getToken('tokenKey') //  'token'
 ```
 
-## formatDateToMinute
+## removeToken
 
-格式化时间到分钟
+移除 token （移除的是 `localStorage` 的值）
 
 ```ts
-import type { ConfigType } from 'dayjs'
 /**
- * 格式化时间到分钟
- * @param {string | number | Date | Dayjs | null | undefined} date
- * @returns YYYY-MM-DD HH:mm
+ * 移除token
  */
-declare const formatDateToMinute: (date: ConfigType) => string
+declare function removeToken(key: string): void
 ```
 
 使用示例
 
 ```ts
-import { formatDateToMinute } from '@plus-pro-components/utils'
+import { removeToken } from '@plus-pro-components/utils'
 
-formatDateToDay(new Date()) // 2023-01-01 01:01
-```
-
-## diffDate
-
-获取两个 Dayjs 对象的时间差，默认秒。
-
-```ts
-import type { QUnitType, OpUnitType, ConfigType } from 'dayjs'
-/**
- * 获取两个 Dayjs 对象的时间差，默认秒。
- * @param date1
- * @param date2
- * @param format  默认 'second'
- * @returns
- */
-declare function diffDate(
-  date1: ConfigType,
-  date2?: ConfigType,
-  format?: QUnitType | OpUnitType
-): number | string | undefined
-```
-
-使用示例
-
-```ts
-import { diffDate } from '@plus-pro-components/utils'
-
-diffDate(new Date(), '2023-01-01 01:01:01') // 18014030
-```
-
-## diffDateFromCurrent
-
-获取距离当前时间差 返回多少年（月/天/小时/分钟/秒）前
-
-```ts
-/**
- * @desc 获取距离当前时间差
- * @param date 时间秒数
- * @returns
- */
-declare function diffDateFromCurrent(date: number): string
-```
-
-使用示例
-
-```ts
-import { diffDateFromCurrent } from '@plus-pro-components/utils'
-
-diffDateFromCurrent(61) // 1秒前
+removeToken('tokenKey')
 ```
 
 ---
@@ -6959,6 +6774,224 @@ declare function formatNumberFixed(value: string, decimal?: number): string
 import { formatNumberFixed } from '@plus-pro-components/utils'
 
 formatNumberFixed('100.12555') // 100.12
+```
+
+---
+
+---
+url: /api\utils/file.md
+---
+## download
+
+下载文件
+
+```ts
+import type { FileSaverOptions } from 'file-saver'
+
+interface Download<T = Blob | string> {
+  (data: T, filename: string, options?: FileSaverOptions): Promise<T>
+}
+
+/**
+ * @description 下载文件
+ * @param {Blob | string} data  文件 Blob
+ * @param  {string} filename 文件名称
+ * @param  {object} options 可选参数
+ */
+declare const download: Download
+```
+
+使用示例
+
+```ts
+import { download } from '@plus-pro-components/utils'
+
+const handleDownload = async () => {
+  await download('data', 'test.txt')
+}
+
+handleDownload()
+```
+
+## isLegalFile
+
+判断文件类型是否符合预期
+
+```ts
+/**
+ *
+ * @desc 限制文件类型
+ * @param {File|Blob} file 源文件
+ * "默认限制图"片
+ * @return 合法文件返回true否则返回false
+ */
+declare const isLegalFile: (file: File | Blob, types: string[]) => boolean
+```
+
+使用示例
+
+```ts
+import { isLegalFile } from '@plus-pro-components/utils'
+
+const file = new File(['data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+isLegalFile(file, ['.txt', '.cad', '.bom', '.dwg', '.job', '.lib']) // true
+```
+
+## isMaxFileSize
+
+判断文件文件上传大小是否符合预期
+
+```ts
+/**
+ * @desc 限制文件上传大小
+ * @param {File|Blob} file 源文件
+ * @param {number} fileMaxSize  文件大小单位（MB）
+ * @return 在限制内返回true否则返回false
+ */
+declare const isMaxFileSize: (file: File | Blob, fileMaxSize?: number) => boolean
+```
+
+使用示例
+
+```ts
+import { isMaxFileSize } from '@plus-pro-components/utils'
+
+const file = new File(['data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+isMaxFileSize(file, 1) // true
+```
+
+## fileToDataURL
+
+读取文件为 DataURL 文件格式 （base64）
+
+```ts
+/**
+ *
+ * @desc 读取文件为DataURL文件格式 （base64）
+ * @param {file|Blob} file 源文件
+ * @return 返回DataURL文件 （base64）
+ */
+declare const fileToDataURL: (file: File | Blob) => Promise<string>
+```
+
+使用示例
+
+```ts
+import { fileToDataURL } from '@plus-pro-components/utils'
+
+const file = new File(['data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+const handleFileToDataURL = async () => {
+  const data = await fileToDataURL(file) // data:text/plain;base64,ZGF0YQ==
+}
+
+handleFileToDataURL()
+```
+
+## fileToText
+
+读取文件为 text 文件格式
+
+```ts
+/**
+ * @desc 读取文件为text文件格式
+ * @param {file} file 源文件
+ * @return 返回text文件
+ */
+declare const fileToText: (file: File | Blob) => Promise<string>
+```
+
+使用示例
+
+```ts
+import { fileToText } from '@plus-pro-components/utils'
+
+const file = new File(['hello-data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+const handleFileToText = async () => {
+  const data = await fileToText(file) // hello-data
+}
+
+handleFileToText()
+```
+
+## loadImage
+
+加载图片
+
+```ts
+/**
+ * @desc 加载真实图片，读取成功返回图片真实宽高和图片本身对象 ag: { width: 100,height: 100,image: '' }
+ * @param {string} src  图片地址
+ * @return `{ width: ,height: , image:  }`
+ */
+declare const loadImage: (src: string) => Promise<{
+  width: number
+  height: number
+  image: HTMLImageElement
+}>
+```
+
+使用示例
+
+```ts
+import { loadImage } from '@plus-pro-components/utils'
+
+const handleLoadImage = async () => {
+  const url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+  const data = await loadImage(url) //  {width: 800, height: 572, image: img}
+}
+
+handleLoadImage()
+```
+
+## isLegalResolutionRatio
+
+判断图片文件的分辨率是否在限定范围之内
+
+```ts
+/**
+ * @desc  判断图片文件的分辨率是否在限定范围之内，分辨率不在限定范围之内则抛出异常
+ * @param {File | Blob} file 源文件
+ * @param {object} props   文件分辨率的宽和高   ag: props={width:100, height :100}
+ */
+declare const isLegalResolutionRatio: (
+  file: File | Blob,
+  props: {
+    width: number
+    height: number
+  }
+) => Promise<boolean>
+```
+
+使用示例
+
+```ts
+import { isLegalResolutionRatio } from '@plus-pro-components/utils'
+
+const file = new File(['image'], 'test.jpeg', {
+  type: 'image/jpeg'
+})
+
+const handleIsLegalResolutionRatio = async () => {
+  try {
+    await isLegalResolutionRatio(file, { width: 100, height: 100 })
+  } catch (error) {
+    console.log(error) // false
+  }
+}
+
+handleIsLegalResolutionRatio()
 ```
 
 ---
@@ -7288,220 +7321,194 @@ decrypt('key', 'U2FsdGVkX19GcnbMMQplTX7ZrBomhN24tzbA5Nlc1dw=') // message
 ---
 
 ---
-url: /api\utils/file.md
+url: /api\utils/day.md
 ---
-## download
+## formatDate
 
-下载文件
+格式化时间
 
 ```ts
-import type { FileSaverOptions } from 'file-saver'
-
-interface Download<T = Blob | string> {
-  (data: T, filename: string, options?: FileSaverOptions): Promise<T>
-}
-
+import type { ConfigType } from 'dayjs'
 /**
- * @description 下载文件
- * @param {Blob | string} data  文件 Blob
- * @param  {string} filename 文件名称
- * @param  {object} options 可选参数
+ * 格式化时间
+ * @param {string | number | Date | Dayjs | null | undefined} date
+ * @param format 默认YYYY-MM-DD HH:mm:ss
+ * @returns YYYY-MM-DD HH:mm:ss
  */
-declare const download: Download
+declare function formatDate(date?: ConfigType, format?: string): string
 ```
 
 使用示例
 
 ```ts
-import { download } from '@plus-pro-components/utils'
+import { formatDate } from '@plus-pro-components/utils'
 
-const handleDownload = async () => {
-  await download('data', 'test.txt')
-}
-
-handleDownload()
+formatDate(new Date()) //  2023-01-01 01:01:01
 ```
 
-## isLegalFile
+## formatDateToDay
 
-判断文件类型是否符合预期
+格式化时间到天
 
 ```ts
+import type { ConfigType } from 'dayjs'
 /**
- *
- * @desc 限制文件类型
- * @param {File|Blob} file 源文件
- * "默认限制图"片
- * @return 合法文件返回true否则返回false
+ * 格式化时间到天
+ * @param {string | number | Date | Dayjs | null | undefined} date
+ * @returns YYYY-MM-DD
  */
-declare const isLegalFile: (file: File | Blob, types: string[]) => boolean
+declare const formatDateToDay: (date: ConfigType) => string
 ```
 
 使用示例
 
 ```ts
-import { isLegalFile } from '@plus-pro-components/utils'
+import { formatDateToDay } from '@plus-pro-components/utils'
 
-const file = new File(['data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-isLegalFile(file, ['.txt', '.cad', '.bom', '.dwg', '.job', '.lib']) // true
+formatDateToDay(new Date()) //  2023-01-01
 ```
 
-## isMaxFileSize
+## formatDateToMinute
 
-判断文件文件上传大小是否符合预期
+格式化时间到分钟
 
 ```ts
+import type { ConfigType } from 'dayjs'
 /**
- * @desc 限制文件上传大小
- * @param {File|Blob} file 源文件
- * @param {number} fileMaxSize  文件大小单位（MB）
- * @return 在限制内返回true否则返回false
+ * 格式化时间到分钟
+ * @param {string | number | Date | Dayjs | null | undefined} date
+ * @returns YYYY-MM-DD HH:mm
  */
-declare const isMaxFileSize: (file: File | Blob, fileMaxSize?: number) => boolean
+declare const formatDateToMinute: (date: ConfigType) => string
 ```
 
 使用示例
 
 ```ts
-import { isMaxFileSize } from '@plus-pro-components/utils'
+import { formatDateToMinute } from '@plus-pro-components/utils'
 
-const file = new File(['data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-isMaxFileSize(file, 1) // true
+formatDateToDay(new Date()) // 2023-01-01 01:01
 ```
 
-## fileToDataURL
+## diffDate
 
-读取文件为 DataURL 文件格式 （base64）
+获取两个 Dayjs 对象的时间差，默认秒。
 
 ```ts
+import type { QUnitType, OpUnitType, ConfigType } from 'dayjs'
 /**
- *
- * @desc 读取文件为DataURL文件格式 （base64）
- * @param {file|Blob} file 源文件
- * @return 返回DataURL文件 （base64）
+ * 获取两个 Dayjs 对象的时间差，默认秒。
+ * @param date1
+ * @param date2
+ * @param format  默认 'second'
+ * @returns
  */
-declare const fileToDataURL: (file: File | Blob) => Promise<string>
+declare function diffDate(
+  date1: ConfigType,
+  date2?: ConfigType,
+  format?: QUnitType | OpUnitType
+): number | string | undefined
 ```
 
 使用示例
 
 ```ts
-import { fileToDataURL } from '@plus-pro-components/utils'
+import { diffDate } from '@plus-pro-components/utils'
 
-const file = new File(['data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-const handleFileToDataURL = async () => {
-  const data = await fileToDataURL(file) // data:text/plain;base64,ZGF0YQ==
-}
-
-handleFileToDataURL()
+diffDate(new Date(), '2023-01-01 01:01:01') // 18014030
 ```
 
-## fileToText
+## diffDateFromCurrent
 
-读取文件为 text 文件格式
+获取距离当前时间差 返回多少年（月/天/小时/分钟/秒）前
 
 ```ts
 /**
- * @desc 读取文件为text文件格式
- * @param {file} file 源文件
- * @return 返回text文件
+ * @desc 获取距离当前时间差
+ * @param date 时间秒数
+ * @returns
  */
-declare const fileToText: (file: File | Blob) => Promise<string>
+declare function diffDateFromCurrent(date: number): string
 ```
 
 使用示例
 
 ```ts
-import { fileToText } from '@plus-pro-components/utils'
+import { diffDateFromCurrent } from '@plus-pro-components/utils'
 
-const file = new File(['hello-data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-const handleFileToText = async () => {
-  const data = await fileToText(file) // hello-data
-}
-
-handleFileToText()
+diffDateFromCurrent(61) // 1秒前
 ```
 
-## loadImage
+---
 
-加载图片
+---
+url: /api\utils/cookie.md
+---
+## setCookie
+
+设置 cookie
 
 ```ts
 /**
- * @desc 加载真实图片，读取成功返回图片真实宽高和图片本身对象 ag: { width: 100,height: 100,image: '' }
- * @param {string} src  图片地址
- * @return `{ width: ,height: , image:  }`
+ * 设置 cookie
+ * @returns
  */
-declare const loadImage: (src: string) => Promise<{
-  width: number
-  height: number
-  image: HTMLImageElement
-}>
+declare function setCookie(key: string, data: any): string | undefined
 ```
 
 使用示例
 
 ```ts
-import { loadImage } from '@plus-pro-components/utils'
+import { setCookie } from '@plus-pro-components/utils'
 
-const handleLoadImage = async () => {
-  const url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-  const data = await loadImage(url) //  {width: 800, height: 572, image: img}
-}
-
-handleLoadImage()
+setCookie('username', 'name')
 ```
 
-## isLegalResolutionRatio
+## getCookie
 
-判断图片文件的分辨率是否在限定范围之内
+获取 cookie
 
 ```ts
 /**
- * @desc  判断图片文件的分辨率是否在限定范围之内，分辨率不在限定范围之内则抛出异常
- * @param {File | Blob} file 源文件
- * @param {object} props   文件分辨率的宽和高   ag: props={width:100, height :100}
+ * 获取 cookie
+ * @returns
  */
-declare const isLegalResolutionRatio: (
-  file: File | Blob,
-  props: {
-    width: number
-    height: number
-  }
-) => Promise<boolean>
+declare function getCookie(key: string): string | undefined
 ```
 
 使用示例
 
 ```ts
-import { isLegalResolutionRatio } from '@plus-pro-components/utils'
+import { getCookie } from '@plus-pro-components/utils'
 
-const file = new File(['image'], 'test.jpeg', {
-  type: 'image/jpeg'
-})
-
-const handleIsLegalResolutionRatio = async () => {
-  try {
-    await isLegalResolutionRatio(file, { width: 100, height: 100 })
-  } catch (error) {
-    console.log(error) // false
-  }
-}
-
-handleIsLegalResolutionRatio()
+getCookie('username') // name
 ```
+
+## removeCookie
+
+移除 cookie
+
+```ts
+/**
+ * 移除 cookie
+ */
+declare function removeCookie(key: string): void
+```
+
+使用示例
+
+```ts
+import { removeCookie } from '@plus-pro-components/utils'
+
+removeCookie('username')
+```
+
+---
+
+---
+url: /index.md
+---
+
 
 ---
 
@@ -7562,10 +7569,3 @@ url: /donate.md
 | \*天       | ￥ 1     | 分布表单问题\*\*     | 感谢支持 ❤️             |
 | \*橙\*\*GE | ￥ 20    | 真不错的\*\*学习     | 有收获就行，感谢支持 ❤️ |
 | \*杨       | ￥ 9.9   |                      | 感谢支持 ❤️             |
-
----
-
----
-url: /index.md
----
-
