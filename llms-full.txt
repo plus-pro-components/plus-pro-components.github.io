@@ -2644,7 +2644,7 @@ TS 类型 `PlusColumn`
 | `renderExtra`                                                                                | 自定义渲染 [ el-form-item](https://element-plus.org/zh-CN/component/form.html#formitem-attributes) 下一行额外的内容                                                                                                                                                                                   | `function`                                                                                                                       |                                    | 否                                       |
 | `renderPrevious`v0.1.25                                                     | 自定义渲染 [ el-form-item](https://element-plus.org/zh-CN/component/form.html#formitem-attributes) 上一行的内容                                                                                                                                                                                       | `function`                                                                                                                       |                                    | 否                                       |
 | `renderErrorMessage` v0.1.23                                                | 自定义渲染 [ el-form-item ](https://element-plus.org/zh-CN/component/form.html#formitem-slots) `error`插槽的内容                                                                                                                                                                                      | `function`                                                        |                                    | 否                                       |
-| `colProps`                                                                                   | [ el-col](https://element-plus.org/zh-CN/component/layout.html#col-attributes) 的 props。[支持事件透传](/components/attrs.html)                                                                                                                                                                       | `object` [ColProps](https://element-plus.org/zh-CN/component/layout.html#col-attributes)                                                                                                                   |                                    | 否                                       |
+| `colProps`                                                                                   | [ el-col](https://element-plus.org/zh-CN/component/layout.html#col-attributes) 的 props。[支持事件透传](/components/attrs.html)                                                                                                                                                                       | `object` [ColProps](https://element-plus.org/zh-CN/component/layout.html#col-attributes) | `ComputedRef<object>`(  v0.1.30 新增)                                                         |                                    | 否                                       |
 | `order` v0.1.4                                                              | [PlusSearch](/components/search.html) 查询表单中的权重，权重大排序靠前，在 [PlusPage](/components/page.html) 组件中非常有用                                                                                                                                                                           | `number`                                                                                                                                     | `0`                                | 否                                       |
 | `hideInDescriptions`                                                                         | 在 [PlusDescriptions](/components/descriptions.html) 组件中 隐藏                                                                                                                                                                                                                                      | `boolean`                                                                                                                  | `false`                            | 否                                       |
 | `hideInForm`                                                                                 | 在 [PlusForm](/components/form.html) 组件中 隐藏                                                                                                                                                                                                                                                      | `boolean`                                                                                                                  | `false`                            | 否                                       |
@@ -6389,202 +6389,6 @@ validateExternal('http://www.api.com') // true
 ---
 
 ---
-url: /api\utils/other.md
----
-## getBigLetter
-
-生成大写字母
-
-```ts
-/**
- * @desc 生成大写字母
- * @returns
- */
-declare const getBigLetter: () => string[]
-```
-
-使用示例
-
-```ts
-import { getBigLetter } from '@plus-pro-components/utils'
-
-getBigLetter() // ["A","B","C", "D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-```
-
-## getSmallLetter
-
-生成小写字母
-
-```ts
-/**
- * @desc 生成小写字母
- * @returns
- */
-declare const getSmallLetter: () => string[]
-```
-
-使用示例
-
-```ts
-import { getSmallLetter } from '@plus-pro-components/utils'
-
-getSmallLetter() // ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-```
-
-## WS
-
-WebSocket 支持自动重连，心跳检测
-
-```ts
-/**
- * setTimeout 类型
- */
-type Timeout = ReturnType<typeof setTimeout>
-/**
- * setInterval 类型
- */
-type Interval = ReturnType<typeof setInterval>
-/**
- * 允许null的泛型
- */
-type Nullable<T> = T | null
-type AutoReconnect = {
-  /**
-   *重连尝试次数 默认 3
-   */
-  reconnectMaxCount?: number
-}
-type Heartbeat = {
-  /**
-   * 心跳信息 默认`ping`
-   */
-  message: string
-  /**
-   * 心跳间隔时间 默认 `3000` 毫秒
-   */
-  interval: number
-}
-interface WSOptions {
-  /**
-   * 是否自动重连 默认`true`
-   */
-  autoReconnect: boolean | AutoReconnect
-  /**
-   * 心跳 默认`false`
-   */
-  heartbeat: boolean | Heartbeat
-  /**
-   * url 携带的参数
-   */
-  query: Record<string, string>
-}
-declare class WS {
-  url: string
-  socket: WebSocket | null
-  reconnectCount: number
-  delay: Nullable<Timeout>
-  timer: Nullable<Interval>
-  autoReconnect: WSOptions['autoReconnect']
-  heartbeat: WSOptions['heartbeat']
-  query: WSOptions['query']
-  constructor(url?: string, options?: WSOptions)
-  /**
-   * 连接
-   */
-  connect(): void
-  /**
-   * 监听连接
-   */
-  onOpen(): void
-  /**
-   * 开启心跳
-   */
-  startHeartbeat(): void
-  /**
-   * 监听错误
-   */
-  onError(): void
-  /**
-   * 关闭连接
-   */
-  close(): void
-  /**
-   *  监听消息
-   * @param callback
-   */
-  onMessage(callback: (...data: any[]) => any): void
-  /**
-   * 发送消息
-   * @param data
-   */
-  send(data: string | ArrayBufferLike | Blob | ArrayBufferView): void
-}
-```
-
-使用示例
-
-```ts
-import { WS } from '@plus-pro-components/utils'
-
-const ws = new WS('ws://domain.com')
-ws.onMessage(data => {
-  console.log(data)
-})
-```
-
-## openExe
-
-打开电脑本地软件
-
-```ts
-/**
- * @description 打开电脑本地软件
- * @param protocol  本地软件协议， 如 vscode 的协议 `vscode://`
- * @param event  点击按钮事件， `el-button` 或者原生 `button`
- * @param timeout 默认`1000`ms，没响应则认为打开失败
- */
-declare const openExe: (protocol: string, event: Event, timeout?: number) => Promise<FocusEvent>
-```
-
-使用示例
-
-```html
-<button @click="handleClick">打开vscode</button>
-```
-
-```ts
-import { openExe } from '@plus-pro-components/utils'
-
-const url = 'vscode://'
-
-const handleClick = async (event: MouseEvent) => {
-  await openExe(url, event)
-}
-```
-
-## isIOS
-
-是否是 ios
-
-```ts
-/**
- * 是否是ios
- * @returns {boolean}
- */
-declare function isIOS(): boolean
-```
-
-使用示例
-
-```ts
-import { isIOS } from '@plus-pro-components/utils'
-
-isIOS() // false
-```
-
----
-
----
 url: /api\utils/storage.md
 ---
 ## setStorage
@@ -6779,219 +6583,197 @@ formatNumberFixed('100.12555') // 100.12
 ---
 
 ---
-url: /api\utils/file.md
+url: /api\utils/other.md
 ---
-## download
+## getBigLetter
 
-下载文件
+生成大写字母
 
 ```ts
-import type { FileSaverOptions } from 'file-saver'
-
-interface Download<T = Blob | string> {
-  (data: T, filename: string, options?: FileSaverOptions): Promise<T>
-}
-
 /**
- * @description 下载文件
- * @param {Blob | string} data  文件 Blob
- * @param  {string} filename 文件名称
- * @param  {object} options 可选参数
+ * @desc 生成大写字母
+ * @returns
  */
-declare const download: Download
+declare const getBigLetter: () => string[]
 ```
 
 使用示例
 
 ```ts
-import { download } from '@plus-pro-components/utils'
+import { getBigLetter } from '@plus-pro-components/utils'
 
-const handleDownload = async () => {
-  await download('data', 'test.txt')
-}
-
-handleDownload()
+getBigLetter() // ["A","B","C", "D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 ```
 
-## isLegalFile
+## getSmallLetter
 
-判断文件类型是否符合预期
+生成小写字母
 
 ```ts
 /**
- *
- * @desc 限制文件类型
- * @param {File|Blob} file 源文件
- * "默认限制图"片
- * @return 合法文件返回true否则返回false
+ * @desc 生成小写字母
+ * @returns
  */
-declare const isLegalFile: (file: File | Blob, types: string[]) => boolean
+declare const getSmallLetter: () => string[]
 ```
 
 使用示例
 
 ```ts
-import { isLegalFile } from '@plus-pro-components/utils'
+import { getSmallLetter } from '@plus-pro-components/utils'
 
-const file = new File(['data'], 'test.txt', {
-  type: 'text/plain'
+getSmallLetter() // ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+```
+
+## WS
+
+WebSocket 支持自动重连，心跳检测
+
+```ts
+/**
+ * setTimeout 类型
+ */
+type Timeout = ReturnType<typeof setTimeout>
+/**
+ * setInterval 类型
+ */
+type Interval = ReturnType<typeof setInterval>
+/**
+ * 允许null的泛型
+ */
+type Nullable<T> = T | null
+type AutoReconnect = {
+  /**
+   *重连尝试次数 默认 3
+   */
+  reconnectMaxCount?: number
+}
+type Heartbeat = {
+  /**
+   * 心跳信息 默认`ping`
+   */
+  message: string
+  /**
+   * 心跳间隔时间 默认 `3000` 毫秒
+   */
+  interval: number
+}
+interface WSOptions {
+  /**
+   * 是否自动重连 默认`true`
+   */
+  autoReconnect: boolean | AutoReconnect
+  /**
+   * 心跳 默认`false`
+   */
+  heartbeat: boolean | Heartbeat
+  /**
+   * url 携带的参数
+   */
+  query: Record<string, string>
+}
+declare class WS {
+  url: string
+  socket: WebSocket | null
+  reconnectCount: number
+  delay: Nullable<Timeout>
+  timer: Nullable<Interval>
+  autoReconnect: WSOptions['autoReconnect']
+  heartbeat: WSOptions['heartbeat']
+  query: WSOptions['query']
+  constructor(url?: string, options?: WSOptions)
+  /**
+   * 连接
+   */
+  connect(): void
+  /**
+   * 监听连接
+   */
+  onOpen(): void
+  /**
+   * 开启心跳
+   */
+  startHeartbeat(): void
+  /**
+   * 监听错误
+   */
+  onError(): void
+  /**
+   * 关闭连接
+   */
+  close(): void
+  /**
+   *  监听消息
+   * @param callback
+   */
+  onMessage(callback: (...data: any[]) => any): void
+  /**
+   * 发送消息
+   * @param data
+   */
+  send(data: string | ArrayBufferLike | Blob | ArrayBufferView): void
+}
+```
+
+使用示例
+
+```ts
+import { WS } from '@plus-pro-components/utils'
+
+const ws = new WS('ws://domain.com')
+ws.onMessage(data => {
+  console.log(data)
 })
-
-isLegalFile(file, ['.txt', '.cad', '.bom', '.dwg', '.job', '.lib']) // true
 ```
 
-## isMaxFileSize
+## openExe
 
-判断文件文件上传大小是否符合预期
+打开电脑本地软件
 
 ```ts
 /**
- * @desc 限制文件上传大小
- * @param {File|Blob} file 源文件
- * @param {number} fileMaxSize  文件大小单位（MB）
- * @return 在限制内返回true否则返回false
+ * @description 打开电脑本地软件
+ * @param protocol  本地软件协议， 如 vscode 的协议 `vscode://`
+ * @param event  点击按钮事件， `el-button` 或者原生 `button`
+ * @param timeout 默认`1000`ms，没响应则认为打开失败
  */
-declare const isMaxFileSize: (file: File | Blob, fileMaxSize?: number) => boolean
+declare const openExe: (protocol: string, event: Event, timeout?: number) => Promise<FocusEvent>
 ```
 
 使用示例
 
-```ts
-import { isMaxFileSize } from '@plus-pro-components/utils'
-
-const file = new File(['data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-isMaxFileSize(file, 1) // true
+```html
+<button @click="handleClick">打开vscode</button>
 ```
 
-## fileToDataURL
-
-读取文件为 DataURL 文件格式 （base64）
-
 ```ts
-/**
- *
- * @desc 读取文件为DataURL文件格式 （base64）
- * @param {file|Blob} file 源文件
- * @return 返回DataURL文件 （base64）
- */
-declare const fileToDataURL: (file: File | Blob) => Promise<string>
-```
+import { openExe } from '@plus-pro-components/utils'
 
-使用示例
+const url = 'vscode://'
 
-```ts
-import { fileToDataURL } from '@plus-pro-components/utils'
-
-const file = new File(['data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-const handleFileToDataURL = async () => {
-  const data = await fileToDataURL(file) // data:text/plain;base64,ZGF0YQ==
+const handleClick = async (event: MouseEvent) => {
+  await openExe(url, event)
 }
-
-handleFileToDataURL()
 ```
 
-## fileToText
+## isIOS
 
-读取文件为 text 文件格式
+是否是 ios
 
 ```ts
 /**
- * @desc 读取文件为text文件格式
- * @param {file} file 源文件
- * @return 返回text文件
+ * 是否是ios
+ * @returns {boolean}
  */
-declare const fileToText: (file: File | Blob) => Promise<string>
+declare function isIOS(): boolean
 ```
 
 使用示例
 
 ```ts
-import { fileToText } from '@plus-pro-components/utils'
+import { isIOS } from '@plus-pro-components/utils'
 
-const file = new File(['hello-data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-const handleFileToText = async () => {
-  const data = await fileToText(file) // hello-data
-}
-
-handleFileToText()
-```
-
-## loadImage
-
-加载图片
-
-```ts
-/**
- * @desc 加载真实图片，读取成功返回图片真实宽高和图片本身对象 ag: { width: 100,height: 100,image: '' }
- * @param {string} src  图片地址
- * @return `{ width: ,height: , image:  }`
- */
-declare const loadImage: (src: string) => Promise<{
-  width: number
-  height: number
-  image: HTMLImageElement
-}>
-```
-
-使用示例
-
-```ts
-import { loadImage } from '@plus-pro-components/utils'
-
-const handleLoadImage = async () => {
-  const url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-  const data = await loadImage(url) //  {width: 800, height: 572, image: img}
-}
-
-handleLoadImage()
-```
-
-## isLegalResolutionRatio
-
-判断图片文件的分辨率是否在限定范围之内
-
-```ts
-/**
- * @desc  判断图片文件的分辨率是否在限定范围之内，分辨率不在限定范围之内则抛出异常
- * @param {File | Blob} file 源文件
- * @param {object} props   文件分辨率的宽和高   ag: props={width:100, height :100}
- */
-declare const isLegalResolutionRatio: (
-  file: File | Blob,
-  props: {
-    width: number
-    height: number
-  }
-) => Promise<boolean>
-```
-
-使用示例
-
-```ts
-import { isLegalResolutionRatio } from '@plus-pro-components/utils'
-
-const file = new File(['image'], 'test.jpeg', {
-  type: 'image/jpeg'
-})
-
-const handleIsLegalResolutionRatio = async () => {
-  try {
-    await isLegalResolutionRatio(file, { width: 100, height: 100 })
-  } catch (error) {
-    console.log(error) // false
-  }
-}
-
-handleIsLegalResolutionRatio()
+isIOS() // false
 ```
 
 ---
@@ -7262,6 +7044,224 @@ isEmptyObject([]) // false
 ---
 
 ---
+url: /api\utils/file.md
+---
+## download
+
+下载文件
+
+```ts
+import type { FileSaverOptions } from 'file-saver'
+
+interface Download<T = Blob | string> {
+  (data: T, filename: string, options?: FileSaverOptions): Promise<T>
+}
+
+/**
+ * @description 下载文件
+ * @param {Blob | string} data  文件 Blob
+ * @param  {string} filename 文件名称
+ * @param  {object} options 可选参数
+ */
+declare const download: Download
+```
+
+使用示例
+
+```ts
+import { download } from '@plus-pro-components/utils'
+
+const handleDownload = async () => {
+  await download('data', 'test.txt')
+}
+
+handleDownload()
+```
+
+## isLegalFile
+
+判断文件类型是否符合预期
+
+```ts
+/**
+ *
+ * @desc 限制文件类型
+ * @param {File|Blob} file 源文件
+ * "默认限制图"片
+ * @return 合法文件返回true否则返回false
+ */
+declare const isLegalFile: (file: File | Blob, types: string[]) => boolean
+```
+
+使用示例
+
+```ts
+import { isLegalFile } from '@plus-pro-components/utils'
+
+const file = new File(['data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+isLegalFile(file, ['.txt', '.cad', '.bom', '.dwg', '.job', '.lib']) // true
+```
+
+## isMaxFileSize
+
+判断文件文件上传大小是否符合预期
+
+```ts
+/**
+ * @desc 限制文件上传大小
+ * @param {File|Blob} file 源文件
+ * @param {number} fileMaxSize  文件大小单位（MB）
+ * @return 在限制内返回true否则返回false
+ */
+declare const isMaxFileSize: (file: File | Blob, fileMaxSize?: number) => boolean
+```
+
+使用示例
+
+```ts
+import { isMaxFileSize } from '@plus-pro-components/utils'
+
+const file = new File(['data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+isMaxFileSize(file, 1) // true
+```
+
+## fileToDataURL
+
+读取文件为 DataURL 文件格式 （base64）
+
+```ts
+/**
+ *
+ * @desc 读取文件为DataURL文件格式 （base64）
+ * @param {file|Blob} file 源文件
+ * @return 返回DataURL文件 （base64）
+ */
+declare const fileToDataURL: (file: File | Blob) => Promise<string>
+```
+
+使用示例
+
+```ts
+import { fileToDataURL } from '@plus-pro-components/utils'
+
+const file = new File(['data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+const handleFileToDataURL = async () => {
+  const data = await fileToDataURL(file) // data:text/plain;base64,ZGF0YQ==
+}
+
+handleFileToDataURL()
+```
+
+## fileToText
+
+读取文件为 text 文件格式
+
+```ts
+/**
+ * @desc 读取文件为text文件格式
+ * @param {file} file 源文件
+ * @return 返回text文件
+ */
+declare const fileToText: (file: File | Blob) => Promise<string>
+```
+
+使用示例
+
+```ts
+import { fileToText } from '@plus-pro-components/utils'
+
+const file = new File(['hello-data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+const handleFileToText = async () => {
+  const data = await fileToText(file) // hello-data
+}
+
+handleFileToText()
+```
+
+## loadImage
+
+加载图片
+
+```ts
+/**
+ * @desc 加载真实图片，读取成功返回图片真实宽高和图片本身对象 ag: { width: 100,height: 100,image: '' }
+ * @param {string} src  图片地址
+ * @return `{ width: ,height: , image:  }`
+ */
+declare const loadImage: (src: string) => Promise<{
+  width: number
+  height: number
+  image: HTMLImageElement
+}>
+```
+
+使用示例
+
+```ts
+import { loadImage } from '@plus-pro-components/utils'
+
+const handleLoadImage = async () => {
+  const url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+  const data = await loadImage(url) //  {width: 800, height: 572, image: img}
+}
+
+handleLoadImage()
+```
+
+## isLegalResolutionRatio
+
+判断图片文件的分辨率是否在限定范围之内
+
+```ts
+/**
+ * @desc  判断图片文件的分辨率是否在限定范围之内，分辨率不在限定范围之内则抛出异常
+ * @param {File | Blob} file 源文件
+ * @param {object} props   文件分辨率的宽和高   ag: props={width:100, height :100}
+ */
+declare const isLegalResolutionRatio: (
+  file: File | Blob,
+  props: {
+    width: number
+    height: number
+  }
+) => Promise<boolean>
+```
+
+使用示例
+
+```ts
+import { isLegalResolutionRatio } from '@plus-pro-components/utils'
+
+const file = new File(['image'], 'test.jpeg', {
+  type: 'image/jpeg'
+})
+
+const handleIsLegalResolutionRatio = async () => {
+  try {
+    await isLegalResolutionRatio(file, { width: 100, height: 100 })
+  } catch (error) {
+    console.log(error) // false
+  }
+}
+
+handleIsLegalResolutionRatio()
+```
+
+---
+
+---
 url: /api\utils/encrypt.md
 ---
 ## encrypt
@@ -7506,13 +7506,6 @@ removeCookie('username')
 ---
 
 ---
-url: /index.md
----
-
-
----
-
----
 url: /donate.md
 ---
 ## 简介
@@ -7568,4 +7561,13 @@ url: /donate.md
 | F\*s       | ￥ 30    |                      | 感谢支持 ❤️             |
 | \*天       | ￥ 1     | 分布表单问题\*\*     | 感谢支持 ❤️             |
 | \*橙\*\*GE | ￥ 20    | 真不错的\*\*学习     | 有收获就行，感谢支持 ❤️ |
-| \*杨       | ￥ 9.9   |                      | 感谢支持 ❤️             |
+| \*杨       | ￥ 9.9   | 超级好用的\*\*\*     | 感谢支持 ❤️             |
+| \*人       | ￥ 9.9   | pluspro，点\*        | 感谢支持 ❤️             |
+| \*泽       | ￥ 20    | 请\*\*喝奶茶         | 感谢支持 ❤️             |
+
+---
+
+---
+url: /index.md
+---
+
