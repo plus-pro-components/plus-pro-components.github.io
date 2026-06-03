@@ -1159,8 +1159,9 @@ Element Plus 的所有语言包全局名称都是以 `ElementPlusLocale` 开头 
 * 简体中文(zh-cn)
 * American English (en)
 * 日语 (ja) v0.1.4 感谢 [@maojunkun](https://github.com/plus-pro-components/plus-pro-components/commit/8888ce5eb411ac47f2de796529181662022566c1) 贡献
-* 繁体中文 (zh-tw) v0.1.**14** 感谢 [@xiaoxian521](https://github.com/plus-pro-components/plus-pro-components/commit/213f67233b8bb51b00e9854f3ea74be95607eee1) 贡献
-* 韩语 (ko) v0.1.**14** 感谢 [@xiaoxian521](https://github.com/plus-pro-components/plus-pro-components/commit/25a0ddd7e2e687583c54ef1798e4156c0670fffa) 贡献
+* 繁体中文 (zh-tw) v0.1.14 感谢 [@xiaoxian521](https://github.com/plus-pro-components/plus-pro-components/commit/213f67233b8bb51b00e9854f3ea74be95607eee1) 贡献
+* 韩语 (ko) v0.1.14 感谢 [@xiaoxian521](https://github.com/plus-pro-components/plus-pro-components/commit/25a0ddd7e2e687583c54ef1798e4156c0670fffa) 贡献
+* 繁体中文 (zh-hk) v0.1.31 感谢 [@bryqiu](https://github.com/plus-pro-components/plus-pro-components/commit/5f6f613dbc23cd13b5b710d197cf9717e6be1ad7) 贡献
 
 如果你需要使用其他的语言，欢迎贡献 [PR](https://github.com/plus-pro-components/plus-pro-components/pulls)，只需在[这里](https://github.com/plus-pro-components/plus-pro-components/tree/dev/packages/locale/lang)添加一个语言配置文件即可。
 
@@ -2650,33 +2651,35 @@ TS 类型 `PlusColumn`
 | `hideInForm`                                                                                 | 在 [PlusForm](/components/form.html) 组件中 隐藏                                                                                                                                                                                                                                                      | `boolean`                                                                                                                  | `false`                            | 否                                       |
 | `hideInTable`                                                                                | 在 [PlusPage](/components/page.html) 组件中 隐藏                                                                                                                                                                                                                                                      | `boolean`                                                                                                                  | `false`                            | 否                                       |
 | `hideInSearch`                                                                               | 在 [PlusSearch](/components/search.html) 组件中 隐藏                                                                                                                                                                                                                                                  | `boolean`                                                                                                                  | `false`                            | 否                                       |
+| `emptyValue` v0.1.31                                                        | 获取到的值为空（`null`,`undefined`,`''`）时返回的的默认值，优先级高于表格的 `emptyValue`值，column.formatter存在时不生效。                                                                                                                                                                                                            | `string` | `number`                                                                                                                                  |                                    | 否                                       |
 
 ## valueType 可选的表单值
 
-| valueType 表单值                      | 对应 element-plus 的表单组件                                                             | 对应 plus-pro-components 的组件                  | 对应的表格显示                                                                                                                                                          |
-| ------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `autocomplete`                        | [el-autocomplete](https://element-plus.org/zh-CN/component/autocomplete.html)            |                                                  | 文本显示                                                                                                                                                                |
-| `cascader`                            | [el-cascader](https://element-plus.org/zh-CN/component/cascader.html)                    |                                                  | 文本显示                                                                                                                                                                |
-| `checkbox`                            | [el-checkbox-group,el-checkbox ](https://element-plus.org/zh-CN/component/checkbox.html) |                                                  | 显示值对应`options`的 `label`                                                                                                                                           |
-| `color-picker`                        | [el-color-picker](https://element-plus.org/zh-CN/component/color-picker.html)            |                                                  | 文本显示                                                                                                                                                                |
-| `date-picker`                         | [el-date-picker](https://element-plus.org/zh-CN/component/date-picker.html)              |                                                  | 文本显示 默认格式化成` YYYY-MM-DD HH:mm:ss`； v0.1.6 新增 如果 fieldProps 中有`format`(优先)或`valueFormat`，则以`format`或`valueFormat`的格式显示时间 |
-| `input-number`                        | [el-input-number](https://element-plus.org/zh-CN/component/input-number.html)            |                                                  | 文本显示                                                                                                                                                                |
-| `radio`                               | [el-radio-radio,el-radio](https://element-plus.org/zh-CN/component/radio.html)           |                                                  | 显示值对应`options`的 `label`                                                                                                                                           |
-| `rate`                                | [el-rate](https://element-plus.org/zh-CN/component/rate.html)                            |                                                  | 文本显示                                                                                                                                                                |
-| `select`                              | [el-select](https://element-plus.org/zh-CN/component/select.html)                        |                                                  | 显示值对应`options`的 `label`                                                                                                                                           |
-| `slider`                              | [el-slider](https://element-plus.org/zh-CN/component/slider.html)                        |                                                  | 文本显示                                                                                                                                                                |
-| `switch`                              | [el-switch](https://element-plus.org/zh-CN/component/switch.html)                        |                                                  | 文本显示                                                                                                                                                                |
-| `time-picker`                         | [el-time-picker](https://element-plus.org/zh-CN/component/time-picker.html)              |                                                  | 文本显示                                                                                                                                                                |
-| `time-select`                         | [el-time-select](https://element-plus.org/zh-CN/component/time-select.html)              |                                                  | 文本显示                                                                                                                                                                |
-| `textarea`                            | [el-input ](https://element-plus.org/zh-CN/component/input.html#文本域) (type=textarea)  |                                                  | 文本显示                                                                                                                                                                |
-| `input`（默认值）                     | [el-input](https://element-plus.org/zh-CN/component/input.html) 表单默认值               |                                                  | 文本显示                                                                                                                                                                |
-| `text`                                | [el-text ](https://element-plus.org/zh-CN/component/text.html)                           |                                                  | 文本显示                                                                                                                                                                |
-| `transfer` v0.1.0    | [el-transfer](https://element-plus.org/zh-CN/component/transfer.html) 穿梭框             |                                                  | 文本显示                                                                                                                                                                |
-| `tree-select` v0.1.1 | [el-tree-select](https://element-plus.org/zh-CN/component/tree-select.html) 树形选择     |                                                  | 文本显示                                                                                                                                                                |
-| `select-v2` v0.1.21  | [el-select-v2](https://element-plus.org/zh-CN/component/select-v2.html) 虚拟化选择器     |                                                  | 文本显示                                                                                                                                                                |
-| `plus-radio`                          |                                                                                          | [ plus-radio](/components/radio.html)            | 显示值对应`options`的 `label`                                                                                                                                           |
-| `plus-date-picker`                    |                                                                                          | [plus-date-picker](/components/date-picker.html) | 文本显示                                                                                                                                                                |
-| `plus-input-tag`                      |                                                                                          | [plus-input-tag](/components/input-tag.html)     | 文本显示                                                                                                                                                                |
+| valueType 表单值                         | 对应 element-plus 的表单组件                                                             | 对应 plus-pro-components 的组件                  | 对应的表格显示                                                                                                                                                          |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `autocomplete`                           | [el-autocomplete](https://element-plus.org/zh-CN/component/autocomplete.html)            |                                                  | 文本显示                                                                                                                                                                |
+| `cascader`                               | [el-cascader](https://element-plus.org/zh-CN/component/cascader.html)                    |                                                  | 文本显示                                                                                                                                                                |
+| `checkbox`                               | [el-checkbox-group,el-checkbox ](https://element-plus.org/zh-CN/component/checkbox.html) |                                                  | 显示值对应`options`的 `label`                                                                                                                                           |
+| `color-picker`                           | [el-color-picker](https://element-plus.org/zh-CN/component/color-picker.html)            |                                                  | 文本显示                                                                                                                                                                |
+| `date-picker`                            | [el-date-picker](https://element-plus.org/zh-CN/component/date-picker.html)              |                                                  | 文本显示 默认格式化成` YYYY-MM-DD HH:mm:ss`； v0.1.6 新增 如果 fieldProps 中有`format`(优先)或`valueFormat`，则以`format`或`valueFormat`的格式显示时间 |
+| `input-number`                           | [el-input-number](https://element-plus.org/zh-CN/component/input-number.html)            |                                                  | 文本显示                                                                                                                                                                |
+| `radio`                                  | [el-radio-group,el-radio](https://element-plus.org/zh-CN/component/radio.html)           |                                                  | 显示值对应`options`的 `label`                                                                                                                                           |
+| `radio-button` v0.1.31  | [el-radio-group,el-radio-button](https://element-plus.org/zh-CN/component/radio.html)    |                                                  | 显示值对应`options`的 `label`                                                                                                                                           |
+| `rate`                                   | [el-rate](https://element-plus.org/zh-CN/component/rate.html)                            |                                                  | 文本显示                                                                                                                                                                |
+| `select`                                 | [el-select](https://element-plus.org/zh-CN/component/select.html)                        |                                                  | 显示值对应`options`的 `label`                                                                                                                                           |
+| `slider`                                 | [el-slider](https://element-plus.org/zh-CN/component/slider.html)                        |                                                  | 文本显示                                                                                                                                                                |
+| `switch`                                 | [el-switch](https://element-plus.org/zh-CN/component/switch.html)                        |                                                  | 文本显示                                                                                                                                                                |
+| `time-picker`                            | [el-time-picker](https://element-plus.org/zh-CN/component/time-picker.html)              |                                                  | 文本显示                                                                                                                                                                |
+| `time-select`                            | [el-time-select](https://element-plus.org/zh-CN/component/time-select.html)              |                                                  | 文本显示                                                                                                                                                                |
+| `textarea`                               | [el-input ](https://element-plus.org/zh-CN/component/input.html#文本域) (type=textarea)  |                                                  | 文本显示                                                                                                                                                                |
+| `input`（默认值）                        | [el-input](https://element-plus.org/zh-CN/component/input.html) 表单默认值               |                                                  | 文本显示                                                                                                                                                                |
+| `text`                                   | [el-text ](https://element-plus.org/zh-CN/component/text.html)                           |                                                  | 文本显示                                                                                                                                                                |
+| `transfer` v0.1.0       | [el-transfer](https://element-plus.org/zh-CN/component/transfer.html) 穿梭框             |                                                  | 文本显示                                                                                                                                                                |
+| `tree-select` v0.1.1    | [el-tree-select](https://element-plus.org/zh-CN/component/tree-select.html) 树形选择     |                                                  | 文本显示                                                                                                                                                                |
+| `select-v2` v0.1.21     | [el-select-v2](https://element-plus.org/zh-CN/component/select-v2.html) 虚拟化选择器     |                                                  | 文本显示                                                                                                                                                                |
+| `plus-radio`                             |                                                                                          | [ plus-radio](/components/radio.html)            | 显示值对应`options`的 `label`                                                                                                                                           |
+| `plus-date-picker`                       |                                                                                          | [plus-date-picker](/components/date-picker.html) | 文本显示                                                                                                                                                                |
+| `plus-input-tag`                         |                                                                                          | [plus-input-tag](/components/input-tag.html)     | 文本显示                                                                                                                                                                |
 
 ## valueType 可选的显示值
 
@@ -4637,6 +4640,18 @@ page/basic
 
 :::
 
+## 搜索值响应（v-model:search-values）
+
+v0.1.31
+
+通过 `v-model:search-values` 绑定搜索表单的值，当搜索表单中任意字段发生变化时，绑定的值会实时更新。同时支持 `searchChange` 事件，可以获取变化的字段信息。
+
+:::demo
+
+page/model-value
+
+:::
+
 ## 手动控制搜索值
 
 v0.1.17
@@ -4731,35 +4746,38 @@ page/crud
 
 ## Page Attributes
 
-| 名称                                  | 说明                                                                                                                                                                                                                                       | 类型                                                                                                                           | 默认值                                          | 是否必须 |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------- | -------- |
-| `columns`                             | 配置信息                                                                                                                                                                                                                                   | `array`[PlusColumn\[\]](/components/config.html)                                                                                 | `[]`                                            | 是       |
-| `request`                             | request 是 Page 最重要的 API，request 会接收一个对象。对象中必须要有 data，如果需要手动分页 total 也是必需的。request 会接管 loading 的设置，同时在查询表单查询和 params 参数发生修改时重新执行。同时 查询表单的值和 params 参数也会带入。 | `function` |                                                 | 是       |
-| `search`                              | [PlusSearch](/components/search.html) 的 props，不包含`model-value / v-model`,`columns`，`searchLoading`属性。                                                                                                                             | `false` / (`object`[PlusSearchProps](/components/search.html#search-attributes) )                                              | `{}`                                            | 否       |
-| `table`                               | [PlusTable](/components/table.html) 的 props，不包含`tableData`,`columns`，`loadingStatus`,`pagination`属性。                                                                                                                              | `object`[PlusTableProps](/components/table.html#table-attributes)                                                              | `{}`                                            | 否       |
-| `params`                              | request 的 params 其他参数，默认会带 pageSize，page 和 [PlusSearch](/components/search.html)组件中的值，它的优先级高于其他配置。                                                                                                           | `object`                                                                                                                       | `{}`                                            | 否       |
-| `postData`                            | 对通过 request 获取的数据进行处理                                                                                                                                                                                                          | `function`                                                          |                                                 | 否       |
-| `beforeSearchSubmit`                  | 搜索之前进行一些修改                                                                                                                                                                                                                       | `function`                                                            |                                                 | 否       |
-| `defaultPageInfo`                     | 默认分页参数                                                                                                                                                                                                                               | `object` [PageInfo](/components/type.html#pageinfo)                                                                            | `{page:1, pageSize:10}`                         | 否       |
-| `defaultPageSizeList`                 | 默认分页列表                                                                                                                                                                                                                               | `array`                                                                                | `[10, 20, 30, 40, 50, 100, 200, 300, 400, 500]` | 否       |
-| `pagination`                          | 分页组件[PlusPagination](/components/pagination.html) 的 props，不包含`total`，`modelValue`，`pageSizeList`。不需要分页可以给`false`(v0.1.0 新增)。                                                                       | `object`[PlusPagination Props](/components/pagination.html#pagination-attributes) | `false`( v0.1.0 新增)    |                                                 | 否       |
-| `isCard`                              | 表格和搜索是否需要 el-card 包裹                                                                                                                                                                                                            | `boolean`                                                                                                                      | `true`                                          |
-| `dividerProps`v0.1.0 | [el-divider](https://element-plus.org/zh-CN/component/divider.html#attributes) 的 props                                                                                                                                                    | `object`[ElDividerProps ](https://element-plus.org/zh-CN/component/divider.html#attributes) | `false`                         | `false`                                         | 否       |
-| `searchCardProps`                     | 搜索外层的 [el-card](https://element-plus.org/zh-CN/component/card.html#attributes) 的 props ，当 isCard 为 true 时生效                                                                                                                    | `object`[ElCardProps](https://element-plus.org/zh-CN/component/card.html#attributes)                                           | `{}`                                            | 否       |
-| `tableCardProps`                      | 表格外层的 [el-card](https://element-plus.org/zh-CN/component/card.html#attributes) 的 props ，当 isCard 为 true 时生效                                                                                                                    | `object`[ElCardProps](https://element-plus.org/zh-CN/component/card.html#attributes)                                           | `{}`                                            | 否       |
-| `immediate`v0.0.9    | 是否立即执行`request`获取表格数据,如为`false`,组件渲染完成后将不会主动调用`request`                                                                                                                                                        | `boolean`                                                                                                                      | `true`                                          | 否       |
-| `pageInfoMap`v0.1.0  | request 默认分页参数字段是 `page`, `pageSize`,可以使用此参数自定义分页参数                                                                                                                                                                 | `object`                                                   | `{page:'page',pageSize:'pageSize'}`             | 否       |
-| `searchSlot`v0.1.25  | 自定义的表单插槽默认作用于 [PlusTable](/components/table.html)， 当`searchSlot`位`true`时， 自定义的表单插槽作用于 [PlusSearch](/components/search.html) 组件 。                                                                           | `boo `                                                                                                                         | `false`                                         | 否       |
+| 名称                                                            | 说明                                                                                                                                                                                                                                       | 类型                                                                                                                           | 默认值                                          | 是否必须 |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------- | -------- |
+| `search-values / v-model:search-values`v0.1.31 | 搜索表单绑定值 （尽量使用 ref 定义绑定的值，以避免 reactive 带来的响应式丢失问题）                                                                                                                       | `object`[FieldValues](/components/type.html#fieldvalues)                                                                       |                                                 | 否       |
+| `columns`                                                       | 配置信息                                                                                                                                                                                                                                   | `array`[PlusColumn\[\]](/components/config.html)                                                                                 | `[]`                                            | 是       |
+| `request`                                                       | request 是 Page 最重要的 API，request 会接收一个对象。对象中必须要有 data，如果需要手动分页 total 也是必需的。request 会接管 loading 的设置，同时在查询表单查询和 params 参数发生修改时重新执行。同时 查询表单的值和 params 参数也会带入。 | `function` |                                                 | 是       |
+| `search`                                                        | [PlusSearch](/components/search.html) 的 props，不包含`model-value / v-model`，`columns`，`searchLoading`属性。                                                                                                                            | `false` / (`object`[PlusSearchProps](/components/search.html#search-attributes) )                                              | `{}`                                            | 否       |
+| `table`                                                         | [PlusTable](/components/table.html) 的 props，不包含`tableData`,`columns`，`loadingStatus`,`pagination`属性。                                                                                                                              | `object`[PlusTableProps](/components/table.html#table-attributes)                                                              | `{}`                                            | 否       |
+| `params`                                                        | request 的 params 其他参数，默认会带 pageSize，page 和 [PlusSearch](/components/search.html)组件中的值，它的优先级高于其他配置。                                                                                                           | `object`                                                                                                                       | `{}`                                            | 否       |
+| `postData`                                                      | 对通过 request 获取的数据进行处理                                                                                                                                                                                                          | `function`                                                          |                                                 | 否       |
+| `beforeSearchSubmit`                                            | 搜索之前进行一些修改                                                                                                                                                                                                                       | `function`                                                            |                                                 | 否       |
+| `defaultPageInfo`                                               | 默认分页参数                                                                                                                                                                                                                               | `object` [PageInfo](/components/type.html#pageinfo)                                                                            | `{page:1, pageSize:10}`                         | 否       |
+| `defaultPageSizeList`                                           | 默认分页列表                                                                                                                                                                                                                               | `array`                                                                                | `[10, 20, 30, 40, 50, 100, 200, 300, 400, 500]` | 否       |
+| `pagination`                                                    | 分页组件[PlusPagination](/components/pagination.html) 的 props，不包含`total`，`modelValue`，`pageSizeList`。不需要分页可以给`false`(v0.1.0 新增)。                                                                       | `object`[PlusPagination Props](/components/pagination.html#pagination-attributes) | `false`( v0.1.0 新增)    |                                                 | 否       |
+| `isCard`                                                        | 表格和搜索是否需要 el-card 包裹                                                                                                                                                                                                            | `boolean`                                                                                                                      | `true`                                          |
+| `dividerProps`v0.1.0                           | [el-divider](https://element-plus.org/zh-CN/component/divider.html#attributes) 的 props                                                                                                                                                    | `object`[ElDividerProps](https://element-plus.org/zh-CN/component/divider.html#attributes) | `false`                          | `false`                                         | 否       |
+| `searchCardProps`                                               | 搜索外层的 [el-card](https://element-plus.org/zh-CN/component/card.html#attributes) 的 props ，当 isCard 为 true 时生效                                                                                                                    | `object`[ElCardProps](https://element-plus.org/zh-CN/component/card.html#attributes)                                           | `{}`                                            | 否       |
+| `tableCardProps`                                                | 表格外层的 [el-card](https://element-plus.org/zh-CN/component/card.html#attributes) 的 props ，当 isCard 为 true 时生效                                                                                                                    | `object`[ElCardProps](https://element-plus.org/zh-CN/component/card.html#attributes)                                           | `{}`                                            | 否       |
+| `immediate`v0.0.9                              | 是否立即执行`request`获取表格数据,如为`false`,组件渲染完成后将不会主动调用`request`                                                                                                                                                        | `boolean`                                                                                                                      | `true`                                          | 否       |
+| `pageInfoMap`v0.1.0                            | request 默认分页参数字段是 `page`, `pageSize`,可以使用此参数自定义分页参数                                                                                                                                                                 | `object`                                                   | `{page:'page',pageSize:'pageSize'}`             | 否       |
+| `searchSlot`v0.1.25                            | 自定义的表单插槽默认作用于 [PlusTable](/components/table.html)， 当`searchSlot`位`true`时， 自定义的表单插槽作用于 [PlusSearch](/components/search.html) 组件 。                                                                           | `boolean`                                                                                                                      | `false`                                         | 否       |
+| `resetSearch` v0.1.31                          | 是否在重置后进行搜索                                                                                                                                                                                                                       | `boolean`                                                                                                                      | `true`                                          | 否       |
 
 ## Page Events
 
-| 名称                                     | 说明                                                                            | 类型                                                                    |
-| ---------------------------------------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `requestError`                           | 数据加载失败时触发                                                              | `function`          |
-| `requestComplete`v0.1.5 | 数据加载完成时触发                                                              | `function`    |
-| `search`                                 | 点击搜索按钮时触发，（并将 page 置为 1 ，然后重新加载v0.1.8 ） | `function`   |
-| `reset`                                  | 点击重置按钮时触发，并将 page 置为 1 ，然后重新加载                             | `function`   |
-| `paginationChange`                       | 分页改变时触发                                                                  | `function`  |
+| 名称                                     | 说明                                                                            | 类型                                                                                       |
+| ---------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `requestError`                           | 数据加载失败时触发                                                              | `function`                             |
+| `requestComplete`v0.1.5 | 数据加载完成时触发                                                              | `function`                       |
+| `search`                                 | 点击搜索按钮时触发，（并将 page 置为 1 ，然后重新加载v0.1.8 ） | `function`                      |
+| `reset`                                  | 点击重置按钮时触发，并将 page 置为 1 ，然后重新加载                             | `function`                      |
+| `searchChange`v0.1.31   | 搜索表单中任意字段值变化时触发                                                  | `function`  |
+| `paginationChange`                       | 分页改变时触发                                                                  | `function`                     |
 
 ::: tip 提示
 支持 [PlusSearch](/components/search.html) 和
@@ -5560,6 +5578,17 @@ table/multiple-level-display
 
 :::
 
+## 空值时的显示
+
+v0.1.31 \
+获取到的值为空（`null`,`undefined`,`''`）时返回的的默认值，column.formatter 存在时不生效。
+
+:::demo
+
+table/empty-value
+
+:::
+
 ## 自定义状态
 
 配置项中`valueType`为`select`、`radio`或`checkbox `时，
@@ -6153,33 +6182,34 @@ table/advanced
 
 ## Table Attributes
 
-| 名称                                               | 说明                                       | 类型                                                                                                                                                                          | 默认值                                               | 是否必须 |
-| -------------------------------------------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | -------- |
-| `columns`                                          | 表格配置信息                               | `array` [PlusColumn\[\]](/components/config.html)                                                                                                                               | `[]`                                                 | 是       |
-| `tableData`                                        | 表格数据                                   | `array`                                                                                                                                                                       | `[]`                                                 | 是       |
-| `defaultSize`                                      | 默认密度（size）                           | `string`                                                                                              | `'default'`                                          | 否       |
-| `pagination`                                       | 分页参数 （默认 `false` 给参数就显示）     | `false` / (`object` [PlusPaginationProps](/components/pagination.html#pagination-attributes) )                                                                                | `false`                                              | 否       |
-| `actionBar`                                        | 操作栏参数 （默认 `false` 给参数就显示）   | `false` / (`object`[ActionBarProps](/components/type.html#actionbarprops) )                                                                                                   | `false`                                              | 否       |
-| `titleBar`                                         | 标题栏                                     | `boolean`/ (`object`[TitleBar](/components/type.html#titlebar))                                                                                                               | `true`                                               | 否       |
-| `hasIndexColumn`                                   | 是否需要序号                               | `boolean`                                                                                                                                                                     | `false`                                              | 否       |
-| `isSelection`                                      | 是否是多选表格                             | `boolean`                                                                                                                                                                     | `false`                                              | 否       |
-| `isRadio` `<el-tag>v0.1.23</el-tag>                | 是否是单选表格                             | `boolean`                                                                                                                                                                    |`false`                                             | 否       |
-|`dragSortable`                                    | 表格拖拽配置 （默认`false`给参数就显示） |`false` / (`object`[SortableOptions](http://www.sortablejs.com/options.html) )                                                                                                | `false`                                             | 否       |
-|`hasExpand`                                       | 是否需要展开行                             |`boolean`                                                                                                                                                                    |`false`                                             | 否       |
-|`loadingStatus`                                   | 加载状态                                   |`boolean`                                                                                                                                                                    |`false`                                             | 否       |
-|`height`                                          | 表格高度                                   |`string`                                                                                                                                                                     |                                                      | 否       |
-|`editable`<el-tag>v0.1.4</el-tag>                  | 表格整体可编辑                             | `boolean`/`string`<docs-tip content="'click'\|'dblclick'"></docs-tip>                                                                                                      |`false`                                             | 否       |
-|`headerCellStyle`                                 | 表格表头样式                               |`object`[CSSProperties](https://cn.vuejs.org/api/utility-types.html#cssproperties)                                                                                           |`{'background-color': 'var(--el-fill-color-light)'}`| 否       |
-|`indexContentStyle`                                | 序号栏样式                                 | (`object`[CSSProperties](https://cn.vuejs.org/api/utility-types.html#cssproperties) ) /`function`<docs-tip content='(row: any, index: number) =>CSSProperties'></docs-tip> |`{}`                                                | 否       |
-|`dragSortableTableColumnProps`                    | 拖拽栏 el-table-column 的 props            |`object`[ElTableColumnProps](https://element-plus.org/zh-CN/component/table.html#table-column-%E5%B1%9E%E6%80%A7)                                                            |`{}`                                                | 否       |
-|`indexTableColumnProps`                           | 序号栏 el-table-column 的 props            |`object`[ElTableColumnProps](https://element-plus.org/zh-CN/component/table.html#table-column-%E5%B1%9E%E6%80%A7)                                                            |`{}`                                                | 否       |
-|`selectionTableColumnProps`                       | 选择栏 el-table-column 的 props            |`object`[ElTableColumnProps](https://element-plus.org/zh-CN/component/table.html#table-column-%E5%B1%9E%E6%80%A7)                                                            |`{width: 40}`                                       | 否       |
-|`expandTableColumnProps`                          | 展开栏 el-table-column 的 props            |`object`[ElTableColumnProps](https://element-plus.org/zh-CN/component/table.html#table-column-%E5%B1%9E%E6%80%A7)                                                            |`{}`                                                | 否       |
-|`radioTableColumnProps`<el-tag>v0.1.23</el-tag>   | 单选栏 el-table-column 的 props            |`object`[ElTableColumnProps](https://element-plus.org/zh-CN/component/table.html#table-column-%E5%B1%9E%E6%80%A7)                                                            |`                                                    | 否       |
-| `radioProps` v0.1.23              | 单选栏 plus-radio 的 props                 | `object` [PlusRadioProps](https://plus-pro-components.com/components/radio.html#radio-attributes)                                                                             | `                                                   | 否       |
-|`defaultSelectedRadioRow`<el-tag>v0.1.23</el-tag> | 单选栏默认选择的表格行数据                 |`object`\| `ComputedRef`                                                                                                                                                     |                                                      | 否       |
-|`adaptive`<el-tag>v0.1.17</el-tag>                | 表格高度自适应内容区域配置                 |`boolean`\|`object`<docs-tip content="{offsetBottom?: number;timeout?: number}"></docs-tip>                                                                                   | `false\`                                              | 否       |
-| ...                                                | ...                                        | ...                                                                                                                                                                           | ...                                                  | ...      |
+| 名称                                               | 说明                                                                                                                                    | 类型                                                                                                                                                                          | 默认值                                               | 是否必须 |
+| -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | -------- |
+| `columns`                                          | 表格配置信息                                                                                                                            | `array` [PlusColumn\[\]](/components/config.html)                                                                                                                               | `[]`                                                 | 是       |
+| `tableData`                                        | 表格数据                                                                                                                                | `array`                                                                                                                                                                       | `[]`                                                 | 是       |
+| `defaultSize`                                      | 默认密度（size）                                                                                                                        | `string`                                                                                              | `'default'`                                          | 否       |
+| `pagination`                                       | 分页参数 （默认 `false` 给参数就显示）                                                                                                  | `false` / (`object` [PlusPaginationProps](/components/pagination.html#pagination-attributes) )                                                                                | `false`                                              | 否       |
+| `actionBar`                                        | 操作栏参数 （默认 `false` 给参数就显示）                                                                                                | `false` / (`object`[ActionBarProps](/components/type.html#actionbarprops) )                                                                                                   | `false`                                              | 否       |
+| `titleBar`                                         | 标题栏                                                                                                                                  | `boolean`/ (`object`[TitleBar](/components/type.html#titlebar))                                                                                                               | `true`                                               | 否       |
+| `hasIndexColumn`                                   | 是否需要序号                                                                                                                            | `boolean`                                                                                                                                                                     | `false`                                              | 否       |
+| `isSelection`                                      | 是否是多选表格                                                                                                                          | `boolean`                                                                                                                                                                     | `false`                                              | 否       |
+| `isRadio` `<el-tag>v0.1.23</el-tag>                | 是否是单选表格                                                                                                                          | `boolean`                                                                                                                                                                    |`false`                                             | 否       |
+|`dragSortable`                                    | 表格拖拽配置 （默认`false`给参数就显示）                                                                                              |`false` / (`object`[SortableOptions](http://www.sortablejs.com/options.html) )                                                                                                | `false`                                             | 否       |
+|`hasExpand`                                       | 是否需要展开行                                                                                                                          |`boolean`                                                                                                                                                                    |`false`                                             | 否       |
+|`loadingStatus`                                   | 加载状态                                                                                                                                |`boolean`                                                                                                                                                                    |`false`                                             | 否       |
+|`height`                                          | 表格高度                                                                                                                                |`string`                                                                                                                                                                     |                                                      | 否       |
+|`editable`<el-tag>v0.1.4</el-tag>                  | 表格整体可编辑                                                                                                                          | `boolean`/`string`<docs-tip content="'click'\|'dblclick'"></docs-tip>                                                                                                      |`false`                                             | 否       |
+|`headerCellStyle`                                 | 表格表头样式                                                                                                                            |`object`[CSSProperties](https://cn.vuejs.org/api/utility-types.html#cssproperties)                                                                                           |`{'background-color': 'var(--el-fill-color-light)'}`| 否       |
+|`indexContentStyle`                                | 序号栏样式                                                                                                                              | (`object`[CSSProperties](https://cn.vuejs.org/api/utility-types.html#cssproperties) ) /`function`<docs-tip content='(row: any, index: number) =>CSSProperties'></docs-tip> |`{}`                                                | 否       |
+|`dragSortableTableColumnProps`                    | 拖拽栏 el-table-column 的 props                                                                                                         |`object`[ElTableColumnProps](https://element-plus.org/zh-CN/component/table.html#table-column-%E5%B1%9E%E6%80%A7)                                                            |`{}`                                                | 否       |
+|`indexTableColumnProps`                           | 序号栏 el-table-column 的 props                                                                                                         |`object`[ElTableColumnProps](https://element-plus.org/zh-CN/component/table.html#table-column-%E5%B1%9E%E6%80%A7)                                                            |`{}`                                                | 否       |
+|`selectionTableColumnProps`                       | 选择栏 el-table-column 的 props                                                                                                         |`object`[ElTableColumnProps](https://element-plus.org/zh-CN/component/table.html#table-column-%E5%B1%9E%E6%80%A7)                                                            |`{width: 40}`                                       | 否       |
+|`expandTableColumnProps`                          | 展开栏 el-table-column 的 props                                                                                                         |`object`[ElTableColumnProps](https://element-plus.org/zh-CN/component/table.html#table-column-%E5%B1%9E%E6%80%A7)                                                            |`{}`                                                | 否       |
+|`radioTableColumnProps`<el-tag>v0.1.23</el-tag>   | 单选栏 el-table-column 的 props                                                                                                         |`object`[ElTableColumnProps](https://element-plus.org/zh-CN/component/table.html#table-column-%E5%B1%9E%E6%80%A7)                                                            |`                                                    | 否       |
+| `radioProps` v0.1.23              | 单选栏 plus-radio 的 props                                                                                                              | `object` [PlusRadioProps](https://plus-pro-components.com/components/radio.html#radio-attributes)                                                                             | `                                                   | 否       |
+|`defaultSelectedRadioRow`<el-tag>v0.1.23</el-tag> | 单选栏默认选择的表格行数据                                                                                                              |`object`\| `ComputedRef`                                                                                                                                                     |                                                      | 否       |
+|`adaptive`<el-tag>v0.1.17</el-tag>                | 表格高度自适应内容区域配置                                                                                                              |`boolean`\|`object`<docs-tip content="{offsetBottom?: number;timeout?: number}"></docs-tip>                                                                                   | `false`                                             | 否       |
+|`emptyValue` <el-tag>v0.1.31 </el-tag>             | 获取到的值为空（`null`,`undefined`,`''`）时返回的的默认值，优先级低于每一项配置 column 的 `emptyValue`值，column.formatter 存在时不生效 | `string`\|`number\`            |                                                      | 否       |
+| ...                                                | ...                                                                                                                                     | ...                                                                                                                                                                           | ...                                                  | ...      |
 
 **`...`表示同时支持所有[ElTable Attributes](https://element-plus.org/zh-CN/component/table.html#table-%E5%B1%9E%E6%80%A7)**
 
@@ -6275,116 +6305,6 @@ el-table 的其他插槽 如 `append`,`empty`。 **v0.1.7 开始支持 `default`
 ::: tip 提示
 如 `clearSelection`,`getSelectionRows`等
 :::
-
----
-
----
-url: /api\utils/validate.md
----
-## validateRegexUrl
-
-校验链接地址
-
-```ts
-/**
- * @desc 校验链接地址
- * @param url
- * @returns
- */
-declare function validateRegexUrl(url: string): boolean
-```
-
-使用示例
-
-```ts
-import { validateRegexUrl } from '@plus-pro-components/utils'
-
-validateRegexUrl('https://www.api.com') // true
-```
-
-## validatePhone
-
-检验电话
-
-```ts
-/**
- * @desc 检验电话
- * @param phone
- * @returns
- */
-declare const validatePhone: (phone: string) => boolean
-```
-
-使用示例
-
-```ts
-import { validatePhone } from '@plus-pro-components/utils'
-
-validatePhone('18888888888') // true
-```
-
-## validateLocalPhone
-
-检验固定电话
-
-```ts
-/**
- * @desc 检验固定电话
- * @param localPhone
- * @returns
- */
-declare const validateLocalPhone: (localPhone: string) => boolean
-```
-
-使用示例
-
-```ts
-import { validateLocalPhone } from '@plus-pro-components/utils'
-
-validateLocalPhone('010-88568888-6603') // true
-```
-
-## validateEmail
-
-检验邮箱
-
-```ts
-/**
- * @desc 检验邮箱
- * @param mail
- * @returns
- */
-declare const validateEmail: (mail: string) => boolean
-```
-
-使用示例
-
-```ts
-import { validateEmail } from '@plus-pro-components/utils'
-
-validateEmail('8888@qq.com') // true
-```
-
-## validateExternal
-
-判断是否是可跳转 URL
-
-```ts
-/**
- * @desc 判断是否是可跳转URL
- * @param {string} path
- * @returns
- */
-declare const validateExternal: (path: string) => boolean
-```
-
-使用示例
-
-```ts
-import { validateExternal } from '@plus-pro-components/utils'
-
-validateExternal('http://www.api.com') // true
-```
 
 ---
 
@@ -6512,72 +6432,111 @@ removeToken('tokenKey')
 ---
 
 ---
-url: /api\utils/number.md
+url: /api\utils/validate.md
 ---
-## formatMoney
+## validateRegexUrl
 
-格式化金钱
+校验链接地址
 
 ```ts
 /**
- * 格式化金钱  ￥12,345,678.00
- * @param val
- * @param format 默认 '￥'
+ * @desc 校验链接地址
+ * @param url
  * @returns
  */
-declare function formatMoney(val: string | number, format?: string): string
+declare function validateRegexUrl(url: string): boolean
 ```
 
 使用示例
 
 ```ts
-import { formatMoney } from '@plus-pro-components/utils'
+import { validateRegexUrl } from '@plus-pro-components/utils'
 
-formatMoney('100') // ￥100.00
+validateRegexUrl('https://www.api.com') // true
 ```
 
-## formatNumber
+## validatePhone
 
-格式化数字
+检验电话
 
 ```ts
 /**
- * 格式化数字
- * @param number
- * @param  format  默认格式 '0.00'
+ * @desc 检验电话
+ * @param phone
  * @returns
  */
-declare function formatNumber(number: number | string, format?: string): string
+declare const validatePhone: (phone: string) => boolean
 ```
 
 使用示例
 
 ```ts
-import { formatNumber } from '@plus-pro-components/utils'
+import { validatePhone } from '@plus-pro-components/utils'
 
-formatNumber('100') // 100.00
+validatePhone('18888888888') // true
 ```
 
-## formatNumberFixed
+## validateLocalPhone
 
-格式化数字保留几位小数，不会四舍五入
+检验固定电话
 
 ```ts
 /**
- * 格式化数字保留几位小数
- * @param value
- * @param decimal 默认2位小数
- * @returns x.xx
+ * @desc 检验固定电话
+ * @param localPhone
+ * @returns
  */
-declare function formatNumberFixed(value: string, decimal?: number): string
+declare const validateLocalPhone: (localPhone: string) => boolean
 ```
 
 使用示例
 
 ```ts
-import { formatNumberFixed } from '@plus-pro-components/utils'
+import { validateLocalPhone } from '@plus-pro-components/utils'
 
-formatNumberFixed('100.12555') // 100.12
+validateLocalPhone('010-88568888-6603') // true
+```
+
+## validateEmail
+
+检验邮箱
+
+```ts
+/**
+ * @desc 检验邮箱
+ * @param mail
+ * @returns
+ */
+declare const validateEmail: (mail: string) => boolean
+```
+
+使用示例
+
+```ts
+import { validateEmail } from '@plus-pro-components/utils'
+
+validateEmail('8888@qq.com') // true
+```
+
+## validateExternal
+
+判断是否是可跳转 URL
+
+```ts
+/**
+ * @desc 判断是否是可跳转URL
+ * @param {string} path
+ * @returns
+ */
+declare const validateExternal: (path: string) => boolean
+```
+
+使用示例
+
+```ts
+import { validateExternal } from '@plus-pro-components/utils'
+
+validateExternal('http://www.api.com') // true
 ```
 
 ---
@@ -6774,6 +6733,224 @@ declare function isIOS(): boolean
 import { isIOS } from '@plus-pro-components/utils'
 
 isIOS() // false
+```
+
+---
+
+---
+url: /api\utils/file.md
+---
+## download
+
+下载文件
+
+```ts
+import type { FileSaverOptions } from 'file-saver'
+
+interface Download<T = Blob | string> {
+  (data: T, filename: string, options?: FileSaverOptions): Promise<T>
+}
+
+/**
+ * @description 下载文件
+ * @param {Blob | string} data  文件 Blob
+ * @param  {string} filename 文件名称
+ * @param  {object} options 可选参数
+ */
+declare const download: Download
+```
+
+使用示例
+
+```ts
+import { download } from '@plus-pro-components/utils'
+
+const handleDownload = async () => {
+  await download('data', 'test.txt')
+}
+
+handleDownload()
+```
+
+## isLegalFile
+
+判断文件类型是否符合预期
+
+```ts
+/**
+ *
+ * @desc 限制文件类型
+ * @param {File|Blob} file 源文件
+ * "默认限制图"片
+ * @return 合法文件返回true否则返回false
+ */
+declare const isLegalFile: (file: File | Blob, types: string[]) => boolean
+```
+
+使用示例
+
+```ts
+import { isLegalFile } from '@plus-pro-components/utils'
+
+const file = new File(['data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+isLegalFile(file, ['.txt', '.cad', '.bom', '.dwg', '.job', '.lib']) // true
+```
+
+## isMaxFileSize
+
+判断文件文件上传大小是否符合预期
+
+```ts
+/**
+ * @desc 限制文件上传大小
+ * @param {File|Blob} file 源文件
+ * @param {number} fileMaxSize  文件大小单位（MB）
+ * @return 在限制内返回true否则返回false
+ */
+declare const isMaxFileSize: (file: File | Blob, fileMaxSize?: number) => boolean
+```
+
+使用示例
+
+```ts
+import { isMaxFileSize } from '@plus-pro-components/utils'
+
+const file = new File(['data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+isMaxFileSize(file, 1) // true
+```
+
+## fileToDataURL
+
+读取文件为 DataURL 文件格式 （base64）
+
+```ts
+/**
+ *
+ * @desc 读取文件为DataURL文件格式 （base64）
+ * @param {file|Blob} file 源文件
+ * @return 返回DataURL文件 （base64）
+ */
+declare const fileToDataURL: (file: File | Blob) => Promise<string>
+```
+
+使用示例
+
+```ts
+import { fileToDataURL } from '@plus-pro-components/utils'
+
+const file = new File(['data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+const handleFileToDataURL = async () => {
+  const data = await fileToDataURL(file) // data:text/plain;base64,ZGF0YQ==
+}
+
+handleFileToDataURL()
+```
+
+## fileToText
+
+读取文件为 text 文件格式
+
+```ts
+/**
+ * @desc 读取文件为text文件格式
+ * @param {file} file 源文件
+ * @return 返回text文件
+ */
+declare const fileToText: (file: File | Blob) => Promise<string>
+```
+
+使用示例
+
+```ts
+import { fileToText } from '@plus-pro-components/utils'
+
+const file = new File(['hello-data'], 'test.txt', {
+  type: 'text/plain'
+})
+
+const handleFileToText = async () => {
+  const data = await fileToText(file) // hello-data
+}
+
+handleFileToText()
+```
+
+## loadImage
+
+加载图片
+
+```ts
+/**
+ * @desc 加载真实图片，读取成功返回图片真实宽高和图片本身对象 ag: { width: 100,height: 100,image: '' }
+ * @param {string} src  图片地址
+ * @return `{ width: ,height: , image:  }`
+ */
+declare const loadImage: (src: string) => Promise<{
+  width: number
+  height: number
+  image: HTMLImageElement
+}>
+```
+
+使用示例
+
+```ts
+import { loadImage } from '@plus-pro-components/utils'
+
+const handleLoadImage = async () => {
+  const url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+  const data = await loadImage(url) //  {width: 800, height: 572, image: img}
+}
+
+handleLoadImage()
+```
+
+## isLegalResolutionRatio
+
+判断图片文件的分辨率是否在限定范围之内
+
+```ts
+/**
+ * @desc  判断图片文件的分辨率是否在限定范围之内，分辨率不在限定范围之内则抛出异常
+ * @param {File | Blob} file 源文件
+ * @param {object} props   文件分辨率的宽和高   ag: props={width:100, height :100}
+ */
+declare const isLegalResolutionRatio: (
+  file: File | Blob,
+  props: {
+    width: number
+    height: number
+  }
+) => Promise<boolean>
+```
+
+使用示例
+
+```ts
+import { isLegalResolutionRatio } from '@plus-pro-components/utils'
+
+const file = new File(['image'], 'test.jpeg', {
+  type: 'image/jpeg'
+})
+
+const handleIsLegalResolutionRatio = async () => {
+  try {
+    await isLegalResolutionRatio(file, { width: 100, height: 100 })
+  } catch (error) {
+    console.log(error) // false
+  }
+}
+
+handleIsLegalResolutionRatio()
 ```
 
 ---
@@ -7044,219 +7221,136 @@ isEmptyObject([]) // false
 ---
 
 ---
-url: /api\utils/file.md
+url: /api\utils/number.md
 ---
-## download
+## formatMoney
 
-下载文件
+格式化金钱
 
 ```ts
-import type { FileSaverOptions } from 'file-saver'
-
-interface Download<T = Blob | string> {
-  (data: T, filename: string, options?: FileSaverOptions): Promise<T>
-}
-
 /**
- * @description 下载文件
- * @param {Blob | string} data  文件 Blob
- * @param  {string} filename 文件名称
- * @param  {object} options 可选参数
+ * 格式化金钱  ￥12,345,678.00
+ * @param val
+ * @param format 默认 '￥'
+ * @returns
  */
-declare const download: Download
+declare function formatMoney(val: string | number, format?: string): string
 ```
 
 使用示例
 
 ```ts
-import { download } from '@plus-pro-components/utils'
+import { formatMoney } from '@plus-pro-components/utils'
 
-const handleDownload = async () => {
-  await download('data', 'test.txt')
-}
-
-handleDownload()
+formatMoney('100') // ￥100.00
 ```
 
-## isLegalFile
+## formatNumber
 
-判断文件类型是否符合预期
+格式化数字
 
 ```ts
 /**
- *
- * @desc 限制文件类型
- * @param {File|Blob} file 源文件
- * "默认限制图"片
- * @return 合法文件返回true否则返回false
+ * 格式化数字
+ * @param number
+ * @param  format  默认格式 '0.00'
+ * @returns
  */
-declare const isLegalFile: (file: File | Blob, types: string[]) => boolean
+declare function formatNumber(number: number | string, format?: string): string
 ```
 
 使用示例
 
 ```ts
-import { isLegalFile } from '@plus-pro-components/utils'
+import { formatNumber } from '@plus-pro-components/utils'
 
-const file = new File(['data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-isLegalFile(file, ['.txt', '.cad', '.bom', '.dwg', '.job', '.lib']) // true
+formatNumber('100') // 100.00
 ```
 
-## isMaxFileSize
+## formatNumberFixed
 
-判断文件文件上传大小是否符合预期
+格式化数字保留几位小数，不会四舍五入
 
 ```ts
 /**
- * @desc 限制文件上传大小
- * @param {File|Blob} file 源文件
- * @param {number} fileMaxSize  文件大小单位（MB）
- * @return 在限制内返回true否则返回false
+ * 格式化数字保留几位小数
+ * @param value
+ * @param decimal 默认2位小数
+ * @returns x.xx
  */
-declare const isMaxFileSize: (file: File | Blob, fileMaxSize?: number) => boolean
+declare function formatNumberFixed(value: string, decimal?: number): string
 ```
 
 使用示例
 
 ```ts
-import { isMaxFileSize } from '@plus-pro-components/utils'
+import { formatNumberFixed } from '@plus-pro-components/utils'
 
-const file = new File(['data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-isMaxFileSize(file, 1) // true
+formatNumberFixed('100.12555') // 100.12
 ```
 
-## fileToDataURL
+---
 
-读取文件为 DataURL 文件格式 （base64）
+---
+url: /api\utils/cookie.md
+---
+## setCookie
+
+设置 cookie
 
 ```ts
 /**
- *
- * @desc 读取文件为DataURL文件格式 （base64）
- * @param {file|Blob} file 源文件
- * @return 返回DataURL文件 （base64）
+ * 设置 cookie
+ * @returns
  */
-declare const fileToDataURL: (file: File | Blob) => Promise<string>
+declare function setCookie(key: string, data: any): string | undefined
 ```
 
 使用示例
 
 ```ts
-import { fileToDataURL } from '@plus-pro-components/utils'
+import { setCookie } from '@plus-pro-components/utils'
 
-const file = new File(['data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-const handleFileToDataURL = async () => {
-  const data = await fileToDataURL(file) // data:text/plain;base64,ZGF0YQ==
-}
-
-handleFileToDataURL()
+setCookie('username', 'name')
 ```
 
-## fileToText
+## getCookie
 
-读取文件为 text 文件格式
+获取 cookie
 
 ```ts
 /**
- * @desc 读取文件为text文件格式
- * @param {file} file 源文件
- * @return 返回text文件
+ * 获取 cookie
+ * @returns
  */
-declare const fileToText: (file: File | Blob) => Promise<string>
+declare function getCookie(key: string): string | undefined
 ```
 
 使用示例
 
 ```ts
-import { fileToText } from '@plus-pro-components/utils'
+import { getCookie } from '@plus-pro-components/utils'
 
-const file = new File(['hello-data'], 'test.txt', {
-  type: 'text/plain'
-})
-
-const handleFileToText = async () => {
-  const data = await fileToText(file) // hello-data
-}
-
-handleFileToText()
+getCookie('username') // name
 ```
 
-## loadImage
+## removeCookie
 
-加载图片
+移除 cookie
 
 ```ts
 /**
- * @desc 加载真实图片，读取成功返回图片真实宽高和图片本身对象 ag: { width: 100,height: 100,image: '' }
- * @param {string} src  图片地址
- * @return `{ width: ,height: , image:  }`
+ * 移除 cookie
  */
-declare const loadImage: (src: string) => Promise<{
-  width: number
-  height: number
-  image: HTMLImageElement
-}>
+declare function removeCookie(key: string): void
 ```
 
 使用示例
 
 ```ts
-import { loadImage } from '@plus-pro-components/utils'
+import { removeCookie } from '@plus-pro-components/utils'
 
-const handleLoadImage = async () => {
-  const url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-  const data = await loadImage(url) //  {width: 800, height: 572, image: img}
-}
-
-handleLoadImage()
-```
-
-## isLegalResolutionRatio
-
-判断图片文件的分辨率是否在限定范围之内
-
-```ts
-/**
- * @desc  判断图片文件的分辨率是否在限定范围之内，分辨率不在限定范围之内则抛出异常
- * @param {File | Blob} file 源文件
- * @param {object} props   文件分辨率的宽和高   ag: props={width:100, height :100}
- */
-declare const isLegalResolutionRatio: (
-  file: File | Blob,
-  props: {
-    width: number
-    height: number
-  }
-) => Promise<boolean>
-```
-
-使用示例
-
-```ts
-import { isLegalResolutionRatio } from '@plus-pro-components/utils'
-
-const file = new File(['image'], 'test.jpeg', {
-  type: 'image/jpeg'
-})
-
-const handleIsLegalResolutionRatio = async () => {
-  try {
-    await isLegalResolutionRatio(file, { width: 100, height: 100 })
-  } catch (error) {
-    console.log(error) // false
-  }
-}
-
-handleIsLegalResolutionRatio()
+removeCookie('username')
 ```
 
 ---
@@ -7437,70 +7531,6 @@ declare function diffDateFromCurrent(date: number): string
 import { diffDateFromCurrent } from '@plus-pro-components/utils'
 
 diffDateFromCurrent(61) // 1秒前
-```
-
----
-
----
-url: /api\utils/cookie.md
----
-## setCookie
-
-设置 cookie
-
-```ts
-/**
- * 设置 cookie
- * @returns
- */
-declare function setCookie(key: string, data: any): string | undefined
-```
-
-使用示例
-
-```ts
-import { setCookie } from '@plus-pro-components/utils'
-
-setCookie('username', 'name')
-```
-
-## getCookie
-
-获取 cookie
-
-```ts
-/**
- * 获取 cookie
- * @returns
- */
-declare function getCookie(key: string): string | undefined
-```
-
-使用示例
-
-```ts
-import { getCookie } from '@plus-pro-components/utils'
-
-getCookie('username') // name
-```
-
-## removeCookie
-
-移除 cookie
-
-```ts
-/**
- * 移除 cookie
- */
-declare function removeCookie(key: string): void
-```
-
-使用示例
-
-```ts
-import { removeCookie } from '@plus-pro-components/utils'
-
-removeCookie('username')
 ```
 
 ---
